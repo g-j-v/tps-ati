@@ -22,6 +22,8 @@ public class Menu extends JMenuBar {
 	JMenuItem openImage;
 	JMenuItem saveImage;
 	JMenuItem setSize;
+
+	JMenuItem copySubImage;
 	JMenuItem getPixelColor;
 	JMenuItem setPixelColor;
 	JRadioButtonMenuItem renderTime;
@@ -113,20 +115,25 @@ public class Menu extends JMenuBar {
 		
 		//Display Options **************************************************
 		setSize = new JMenuItem("Set Image Size");
+		copySubImage = new JMenuItem("Copy Sub Image ");
 		setPixelColor = new JMenuItem("Set pixel color");
 		getPixelColor= new JMenuItem("Get pixel color");
 		setPixelColor.addActionListener(new Listener.setPixelColorListener());
+		copySubImage.addActionListener(new Listener.setCopySubImageListener());
 		setSize.addActionListener(new Listener.setSizeListener());
 		getPixelColor.addActionListener(new Listener.getPixelColorListener());
 		renderTime = new JRadioButtonMenuItem("Render Time");
 		renderTime.setSelected(true);
 		setPixelColor.setEnabled(false);
+		copySubImage.setEnabled(false);
 		setSize.setEnabled(false);
 		getPixelColor.setEnabled(false);
 		progress = new JRadioButtonMenuItem("Show progress");
 		progress.setSelected(true);
 		softShadows = new JRadioButtonMenuItem("Soft Shadows");
 		Options.add(setSize);
+		Options.add(copySubImage);
+
 		Options.add(getPixelColor);
 
 		Options.add(setPixelColor);
@@ -285,6 +292,10 @@ public class Menu extends JMenuBar {
 		return setSize;
 	}
 
+	public JMenuItem getCopySubImage() {
+		return copySubImage;
+	}
+	
 	public JMenuItem getPixelColor() {
 		return getPixelColor;
 	}

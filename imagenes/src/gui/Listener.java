@@ -350,6 +350,68 @@ public class Listener {
 		
 	}
 	
+	public static class setCopySubImageListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if(Main.getFrame().getButtons().isRendering())
+			{
+				Main.getFrame().ShowDialog("Cant change parameters while rendering! Press Stop!", "Rendering", AlertType.ERROR);
+				return;
+			}
+			JMenuItem pixelColor = Main.getFrame().getMenu().getSetPixelColor(); 
+			if(!pixelColor.isEnabled())
+				return;
+			JFrame frame = new JFrame("Set Pixel Color");
+			final JFormattedTextField fromx = new JFormattedTextField(NumberFormat.getNumberInstance());
+			final JFormattedTextField fromyy = new JFormattedTextField(NumberFormat.getNumberInstance());
+			final JFormattedTextField width = new JFormattedTextField(NumberFormat.getNumberInstance());
+			final JFormattedTextField height = new JFormattedTextField(NumberFormat.getNumberInstance());
+			fromx.setValue(0);
+			fromyy.setValue(0);
+			width.setValue(100);
+			height.setValue(100);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+						if(!Settings.isImageLoaded())
+							return;
+					
+						
+						  int w = Integer.valueOf( width.getValue().toString());
+						  int h = Integer.valueOf( height.getValue().toString());
+						  int X = Integer.valueOf( fromx.getValue().toString());
+						  int Y = Integer.valueOf( fromyy.getValue().toString());
+					
+						Main.image = Main.getImage().getSubimage(X, Y, w, h) ;
+						Main.update();
+						}
+					
+			});
+			fromx.setColumns(10);
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(4, 2));
+			panel.add(new JLabel("X:"));
+			panel.add(fromx);
+			panel.add(new JLabel("Y:"));
+			panel.add(fromyy);
+			panel.add(new JLabel("Width:"));
+			panel.add(width);
+			panel.add(new JLabel("Height:"));
+			panel.add(height);
+
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			
+		}
+		
+	}
+	
 	public static class setPixelColorListener implements ActionListener{
 
 		@Override
@@ -583,6 +645,7 @@ public class Listener {
 		Menu m = Main.getFrame().getMenu();
 		m.getSetPixelColor().setEnabled(true);
 		m.getPixelColor().setEnabled(true);
+		m.getCopySubImage().setEnabled(true);
 
 		m.getSetSize().setEnabled(true);
 		m.getRowOrder().setEnabled(true);
