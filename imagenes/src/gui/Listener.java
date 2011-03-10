@@ -52,19 +52,16 @@ public class Listener {
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
+		
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
+		
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			
@@ -89,7 +86,7 @@ public class Listener {
 					System.out.println(Main.getImage().getHeight() + " " + Main.getImage().getWidth());
 					JButton render = b.getRender();
 					//render.setIcon(new ImageIcon("TPE01/icons/stop.png"));
-					
+										
 					render.setIcon(new ImageIcon(ClassLoader.getSystemResource("stop.png")));
 					render.setText("Stop");
 					b.setRendering(true);
@@ -385,10 +382,9 @@ public class Listener {
 						  int X = Integer.valueOf( fromx.getValue().toString());
 						  int Y = Integer.valueOf( fromyy.getValue().toString());
 					    try {
-							
+					    	Main.image = Util.getSubimage(Main.getImage(), X, Y, w, h);  
 						} catch (IllegalArgumentException e) {
-							Main.image = Util.getSubimage(Main.getImage(), X, Y, w, h);  
-							
+
 						}
 						
 						Main.update();

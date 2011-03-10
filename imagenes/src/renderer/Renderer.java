@@ -29,7 +29,7 @@ import main.Main;
 public abstract class Renderer {
 
 	private Random r = new Random(System.currentTimeMillis());
-
+	protected Point2i res;
 	private static Camera cam = new Camera();
 	private static Thread[] threads;
 	private static boolean interrupt;
@@ -38,7 +38,8 @@ public abstract class Renderer {
 	
 	private static Collection<PixelRay> orderedPixelRays;
 	public void Render() throws InterruptedException {
-
+		res = Settings.getResolution();
+		
 		timer = null;
 		interrupt = false;
 
@@ -135,28 +136,7 @@ public abstract class Renderer {
 		interrupt = false;
 	}
 
-	public void RenderWithoutGUI() {
 
-		RenderThread[] renderThreads = createRendererThreads();
-		threads = new Thread[renderThreads.length];
-		logger.info("Starting render with " + renderThreads.length + " threads");
-		for (int i = 0; i < renderThreads.length; i++) {
-			threads[i] = new Thread(renderThreads[i]);
-			threads[i].start();
-
-		}
-
-		try {
-			for (int i = 0; i < renderThreads.length; i++)
-				threads[i].join();
-
-		} catch (InterruptedException e) {
-			interrupt = true;
-			e.printStackTrace();
-
-		}
-
-	}
 
 	class RenderThread implements Runnable {
 
