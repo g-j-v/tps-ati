@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
+
 import javax.vecmath.Point2i;
 
 import core.Settings;
@@ -613,22 +613,14 @@ public class Listener {
 				File file = fc.getSelectedFile();
 				
 				try {
-					logger.info("Loading Image!");
+					logger.info("Loading Image" + file.getAbsolutePath() + "!");
 					Main.image = Util.loadImage(file.getAbsolutePath());
 					Settings.setResolution(new Point2i(Main.getImage().getWidth(), Main.getImage().getHeight()));
-					//SunflowScene.startScene(file.getAbsolutePath());
 					logger.info("Image loaded");
 					tryToEnableRender();
 					enableSavingImage();
 					enableOptions();
-					SwingUtilities.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							Main.getFrame().getPanel().repaint();
-						}
-
-					});
+					Main.update();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 					logger.severe(e1.getMessage());

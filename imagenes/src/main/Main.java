@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.SwingUtilities;
+
 import core.Settings;
 
 import renderer.Renderer;
@@ -68,7 +70,14 @@ public class Main {
 	
 
 	public static void update(){
-		getFrame().getPanel().repaint();
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				Main.getFrame().getPanel().repaint();
+			}
+
+		});
 	}
 	
 }
