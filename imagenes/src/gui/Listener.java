@@ -384,8 +384,13 @@ public class Listener {
 						  int h = Integer.valueOf( height.getValue().toString());
 						  int X = Integer.valueOf( fromx.getValue().toString());
 						  int Y = Integer.valueOf( fromyy.getValue().toString());
-					
-						Main.image = Main.getImage().getSubimage(X, Y, w, h) ;
+					    try {
+							
+						} catch (IllegalArgumentException e) {
+							Main.image = Util.getSubimage(Main.getImage(), X, Y, w, h);  
+							
+						}
+						
 						Main.update();
 						}
 					

@@ -65,8 +65,8 @@ public class Util {
 	}
 	
 	public static void setPixel(int x, int y, int red, int green, int blue){
-		if(x < 0 || x > Settings.getResolution().x 
-				|| y < 0 || y > Settings.getResolution().y){
+		if(x < 0 || x >= Settings.getResolution().x 
+				|| y < 0 || y >= Settings.getResolution().y){
 			Main.getFrame().ShowDialog("Coordinates out of range!", "Rendering", AlertType.ERROR);
 			return;
 		}
@@ -78,6 +78,21 @@ public class Util {
 		
 		Main.getImage().setRGB(x, y, 0xFF000000 | (red << 16) | (green << 8) | blue );
 		
+	}
+
+	public static BufferedImage getSubimage(BufferedImage image, int x, int y, int w, int h) throws IllegalArgumentException {
+		if(x < 0 || x >= Settings.getResolution().x 
+				|| y < 0 || y >= Settings.getResolution().y){
+			Main.getFrame().ShowDialog("Coordinates out of range!", "Copying sub image", AlertType.ERROR);
+			throw new IllegalArgumentException();
+		}
+		
+		if(w < 0 || w + x >= Settings.getResolution().x 
+				|| h < 0 || h + y >= Settings.getResolution().y){
+			Main.getFrame().ShowDialog("Width or height out of range!", "Copying sub image", AlertType.ERROR);
+			throw new IllegalArgumentException();
+		}
+			return image.getSubimage(x, y, w, h);
 	}
 	
 	
