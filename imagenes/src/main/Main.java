@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
+import javax.vecmath.Point2i;
 
 import core.Settings;
 
@@ -57,7 +58,10 @@ public class Main {
 	}
 
 	public static void setImage(BufferedImage image) {
+		if(image != null)
+			Settings.setResolution(new Point2i(image.getWidth(), image.getHeight()));
 		Main.image = image;
+		update();
 	}
 
 	public static Frame getFrame() {
