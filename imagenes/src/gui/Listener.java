@@ -33,11 +33,16 @@ import renderer.BinaryImage;
 import renderer.ColorGradientGenerator;
 import renderer.GrayScaleGenerator;
 import renderer.Renderer;
+import renderer.filters.ContrastFilter;
+import renderer.filters.NegateFilter;
+import renderer.filters.histogramFilter;
 import util.Util;
 
 import main.Main;
 
 public class Listener {
+
+
 
 	private static SwingWorker worker;
 	private static Logger logger = LoggerWindowHandler.getLogger("Listener");
@@ -67,15 +72,11 @@ public class Listener {
 			ButtonPanel b = Main.getFrame().getButtons();
 			if (!b.getRender().isEnabled())
 				return;
-			Menu m = Main.getFrame().getMenu();
-
-			if (m.colorScale.isSelected())
-				Main.renderer = new ColorGradientGenerator();
-			else if (m.grayScale.isSelected())
-				Main.renderer = new GrayScaleGenerator();
-			if (m.binaryImage.isSelected())
-				Main.renderer = new BinaryImage();
-
+			
+			Main.renderer = getSelectedRenderer();
+			if(Main.renderer  == null)
+				return;
+			
 			if (!b.isRendering()) {
 				if (!Renderer.isInterrupt()) {
 					Main.createImage();
@@ -182,30 +183,29 @@ public class Listener {
 
 	}
 
-	public static class aaBoundsListener implements ActionListener {
+	public static class contrastListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			JFrame frame = new JFrame("Set AA Bounds");
-			final SpinnerNumberModel spMaxModel = new SpinnerNumberModel(0, -4,
-					4, 1);
-			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(0, -4,
-					4, 1);
+			final JFrame frame = new JFrame("Set Contrast bounds");
+			final SpinnerNumberModel spMaxModel = new SpinnerNumberModel(Settings.contrastHigh, 0,
+					255, 1);
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(Settings.contrastLow, 0,
+					255, 1);
 			final JSpinner spMin = new JSpinner(spMinModel);
 			final JSpinner spMax = new JSpinner(spMaxModel);
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					Settings.AAMin = (Integer) spMin.getValue();
-					Settings.AAMax = (Integer) spMax.getValue();
-
+					Settings.contrastLow = (Integer) spMin.getValue();
+					Settings.contrastHigh = (Integer) spMax.getValue();
+					frame.dispose();
 				}
 			});
-			JLabel maxlabel = new JLabel("Max AntiAliasing:");
-			JLabel minlabel = new JLabel("Min AntiAliasing:");
+			JLabel maxlabel = new JLabel("Max limit:");
+			JLabel minlabel = new JLabel("Min limit:");
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(2, 2));
 			panel.add(minlabel);
@@ -217,16 +217,6 @@ public class Listener {
 			frame.pack();
 			frame.setVisible(true);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		}
-
-	}
-
-	public static class aaStochasticListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 
 	}
@@ -251,18 +241,6 @@ public class Listener {
 
 	}
 
-	public static class aaEnabled implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (Main.getFrame().getMenu().aaEnabled.isSelected())
-				enableAAOptions();
-			else
-				disableAAOptions();
-
-		}
-
-	}
 
 	public static class bucketOrderListener implements ActionListener {
 
@@ -310,7 +288,7 @@ public class Listener {
 			JMenuItem bucket = Main.getFrame().getMenu().getBucketSize();
 			if (!bucket.isEnabled())
 				return;
-			JFrame frame = new JFrame("Set Bucket Size");
+			final JFrame frame = new JFrame("Set Bucket Size");
 			final JFormattedTextField tf = new JFormattedTextField(
 					NumberFormat.getIntegerInstance());
 			tf.setValue(Settings.bucket);
@@ -321,7 +299,7 @@ public class Listener {
 				public void actionPerformed(ActionEvent arg0) {
 					Settings.bucket = (Integer
 							.valueOf(tf.getValue().toString()));
-
+					frame.dispose();
 				}
 			});
 			tf.setColumns(10);
@@ -351,7 +329,7 @@ public class Listener {
 			JMenuItem pixelColor = Main.getFrame().getMenu().getSetPixelColor();
 			if (!pixelColor.isEnabled())
 				return;
-			JFrame frame = new JFrame("Set Pixel Color");
+			final JFrame frame = new JFrame("Set Pixel Color");
 			final JFormattedTextField fromx = new JFormattedTextField(
 					NumberFormat.getNumberInstance());
 			final JFormattedTextField fromyy = new JFormattedTextField(
@@ -382,7 +360,7 @@ public class Listener {
 					} catch (IllegalArgumentException e) {
 
 					}
-
+					frame.dispose();
 					Main.update();
 				}
 			});
@@ -421,7 +399,7 @@ public class Listener {
 			JMenuItem pixelColor = Main.getFrame().getMenu().getSetPixelColor();
 			if (!pixelColor.isEnabled())
 				return;
-			JFrame frame = new JFrame("Set Pixel Color");
+			final JFrame frame = new JFrame("Set Pixel Color");
 			final JFormattedTextField x = new JFormattedTextField(
 					NumberFormat.getNumberInstance());
 			final JFormattedTextField y = new JFormattedTextField(
@@ -452,6 +430,7 @@ public class Listener {
 					int Y = Integer.valueOf(y.getValue().toString());
 
 					Util.setPixel(X, Y, red, green, blue);
+					frame.dispose();
 					Main.update();
 				}
 
@@ -493,7 +472,7 @@ public class Listener {
 			JMenuItem pixelColor = Main.getFrame().getMenu().getSetPixelColor();
 			if (!pixelColor.isEnabled())
 				return;
-			JFrame frame = new JFrame("Get Pixel Color");
+			final JFrame frame = new JFrame("Get Pixel Color");
 			final JFormattedTextField x = new JFormattedTextField(
 					NumberFormat.getNumberInstance());
 			final JFormattedTextField y = new JFormattedTextField(
@@ -523,7 +502,7 @@ public class Listener {
 					logger.info("Pixel color of position (" + X + ", " + Y
 							+ ")\n alpha " + alpha + "\nRed " + red
 							+ "\nGreen " + green + "\nBlue " + blue);
-
+					frame.dispose();
 				}
 
 			});
@@ -557,7 +536,7 @@ public class Listener {
 			JMenuItem size = Main.getFrame().getMenu().getSetSize();
 			if (!size.isEnabled())
 				return;
-			JFrame frame = new JFrame("Set Size");
+			final JFrame frame = new JFrame("Set Size");
 			final JFormattedTextField tfW = new JFormattedTextField(
 					NumberFormat.getNumberInstance());
 			final JFormattedTextField tfH = new JFormattedTextField(
@@ -575,7 +554,7 @@ public class Listener {
 					Settings.setResolution(s);
 					Main.createImage();
 					Main.update();
-
+					frame.dispose();
 				}
 			});
 			tfW.setColumns(10);
@@ -623,6 +602,7 @@ public class Listener {
 					tryToEnableRender();
 					enableSavingImage();
 					enableOptions();
+					Main.getFrame().getButtons().enableRender();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 					logger.severe(e1.getMessage());
@@ -633,6 +613,46 @@ public class Listener {
 
 		}
 
+	}
+	
+	public static class histogramListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if (Main.getFrame().getButtons().isRendering()) {
+				Main.getFrame().ShowDialog(
+						"Cant change parameters while rendering! Press Stop!",
+						"Rendering", AlertType.ERROR);
+				return;
+			}
+			JMenuItem bins = Main.getFrame().getMenu().getSetSize();
+			if (!bins.isEnabled())
+				return;
+			final JFrame frame = new JFrame("Number of bins");
+			final JFormattedTextField nbins = new JFormattedTextField(
+					NumberFormat.getNumberInstance());
+			nbins.setValue(Settings.bins);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					int b = Integer.valueOf(nbins.getValue().toString());
+					Settings.bins = b;
+					frame.dispose();
+				}
+			});
+			nbins.setColumns(10);
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(new JLabel("Bins:"));
+			panel.add(nbins);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+	
 	}
 
 	private static void enableOptions() {
@@ -646,24 +666,24 @@ public class Listener {
 		m.colOrder.setEnabled(true);
 		m.randomOrder.setEnabled(true);
 		m.bucketSize.setEnabled(true);
-		m.aaEnabled.setEnabled(true);
+		m.negateFilter.setEnabled(true);
 		m.dofEnabled.setEnabled(true);
 		m.orderedOrder.setEnabled(true);
 	}
 
 	private static void enableAAOptions() {
 		Menu m = Main.getFrame().getMenu();
-		m.aaBounds.setEnabled(true);
+		m.contrast.setEnabled(true);
 		m.adaptive.setEnabled(true);
-		m.stochastic.setEnabled(true);
+		m.histogram.setEnabled(true);
 		m.adaptiveThreshold.setEnabled(true);
 	}
 
 	private static void disableAAOptions() {
 		Menu m = Main.getFrame().getMenu();
-		m.aaBounds.setEnabled(false);
+		m.contrast.setEnabled(false);
 		m.adaptive.setEnabled(false);
-		m.stochastic.setEnabled(false);
+		m.histogram.setEnabled(false);
 	}
 
 	private static void enableDOFOptions() {
@@ -680,7 +700,40 @@ public class Listener {
 		m.dofsharpPlane.setEnabled(false);
 
 	}
+	
+	private static void desSelectRenderer() {
+		Menu m = Main.getFrame().getMenu();
+		m.grayScale.setSelected(false);
+		m.colorScale.setSelected(false);
+		m.binaryImage.setSelected(false);
 
+	}
+
+	private static void desSelectFilter() {
+		Menu m = Main.getFrame().getMenu();
+		m.negateFilter.setSelected(false);
+
+	}
+	
+	private static Renderer getSelectedRenderer() {
+		Menu m = Main.getFrame().getMenu();
+		if (m.colorScale.isSelected())
+			return new ColorGradientGenerator();
+		if (m.grayScale.isSelected())
+			return new GrayScaleGenerator();
+		if (m.binaryImage.isSelected())
+			return new BinaryImage();
+		if (m.negateFilter.isSelected())
+			return new NegateFilter();
+		if (m.histogram.isSelected())
+			return new histogramFilter();
+		if (m.contrast.isSelected())
+			return new ContrastFilter();
+
+		return null;
+		
+	}
+	
 	public static class setDOFIterationsListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 

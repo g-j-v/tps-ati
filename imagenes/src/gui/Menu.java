@@ -15,7 +15,8 @@ import main.Main;
 public class Menu extends JMenuBar {
 
 
-
+	ButtonGroup rendererGroup;
+	
 	JRadioButtonMenuItem	 grayScale;
 	JRadioButtonMenuItem	 colorScale;
 	JRadioButtonMenuItem	 binaryImage;
@@ -41,12 +42,12 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem fitToSize;
 	
 	//Antialiasing
-	JRadioButtonMenuItem aaEnabled;
+	JRadioButtonMenuItem negateFilter;
 
 
-	JRadioButtonMenuItem stochastic;
+	JRadioButtonMenuItem histogram;
 	JRadioButtonMenuItem adaptive;
-	JMenuItem aaBounds;
+	JRadioButtonMenuItem contrast;
 	
 	JMenuItem adaptiveThreshold;
 	
@@ -63,7 +64,7 @@ public class Menu extends JMenuBar {
 		add(createFileMenu());
 		add(createOptionsMenu());
 		add(createRenderingOptions());
-		add(createAAOptions());
+		add(createFilterOptions());
 		add(createDOFOptions());
 	
 
@@ -73,7 +74,7 @@ public class Menu extends JMenuBar {
 	private JMenu createScaleMenu() {
 	
 		JMenu renderMenu = new JMenu("Renderer");
-		ButtonGroup group = new ButtonGroup();
+		rendererGroup = new ButtonGroup();
 		grayScale = new JRadioButtonMenuItem("Gray Gradient");
 		colorScale = new JRadioButtonMenuItem("Color Gradient");
 		binaryImage = new JRadioButtonMenuItem("Binary Image");
@@ -81,9 +82,9 @@ public class Menu extends JMenuBar {
 		grayScale.addActionListener(new Listener.engineListener());
 		colorScale.addActionListener(new Listener.engineListener());
 		binaryImage.addActionListener(new Listener.engineListener());
-		group.add(colorScale);
-		group.add(binaryImage);
-		group.add(grayScale);
+		rendererGroup.add(colorScale);
+		rendererGroup.add(binaryImage);
+		rendererGroup.add(grayScale);
 		renderMenu.add(colorScale);
 		renderMenu.add(grayScale);
 		renderMenu.add(binaryImage);
@@ -201,36 +202,34 @@ public class Menu extends JMenuBar {
 		return Options;
 	}
 	
-	private JMenu createAAOptions()
+	private JMenu createFilterOptions()
 	{
 		JMenu Options;
 		
-		Options = new JMenu("AntiAliasing");
+		Options = new JMenu("Filter");
 		
 		//AA options ********************************************************************
 		
-		aaEnabled = new JRadioButtonMenuItem("AntiAliasing");
-		aaEnabled.addActionListener(new Listener.aaEnabled());
-		aaEnabled.setEnabled(false);
-		Options.add(aaEnabled);
-		
-		aaBounds = new JMenuItem("Set AntiAliasing Bounds");
-		stochastic = new JRadioButtonMenuItem("Stochastic");
+		negateFilter = new JRadioButtonMenuItem("Negate");
+		Options.add(negateFilter);
+		rendererGroup.add(negateFilter);
+		contrast = new JRadioButtonMenuItem("Increase contrast");
+		histogram = new JRadioButtonMenuItem("Histogram");
 		adaptive = new JRadioButtonMenuItem("Adaptive");
 		adaptiveThreshold = new JMenuItem("Set Adaptive Threshold");
 		
-		aaBounds.addActionListener(new Listener.aaBoundsListener());
-		stochastic.addActionListener(new Listener.aaStochasticListener());
+		rendererGroup.add(histogram);
+		rendererGroup.add(contrast);
+		contrast.addActionListener(new Listener.contrastListener());
+		histogram.addActionListener(new Listener.histogramListener());
 		adaptive.addActionListener(new Listener.aaAdaptiveListener());
 		adaptiveThreshold.addActionListener(new Listener.adaptiveThresholdListener());
 		
-		aaBounds.setEnabled(false);
-		stochastic.setEnabled(false);
 		adaptive.setEnabled(false);
 		adaptiveThreshold.setEnabled(false);
-		Options.add(aaBounds);
+		Options.add(contrast);
 		
-		Options.add(stochastic);
+		Options.add(histogram);
 		Options.add(adaptive);
 		Options.add(adaptiveThreshold);
 		return Options;
@@ -337,12 +336,12 @@ public class Menu extends JMenuBar {
 	}
 	
 	public JRadioButtonMenuItem getAaEnabled() {
-		return aaEnabled;
+		return negateFilter;
 	}
 
 
 	public JRadioButtonMenuItem getStochastic() {
-		return stochastic;
+		return histogram;
 	}
 
 
@@ -352,7 +351,7 @@ public class Menu extends JMenuBar {
 
 
 	public JMenuItem getAaBounds() {
-		return aaBounds;
+		return contrast;
 	}
 
 

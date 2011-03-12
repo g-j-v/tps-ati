@@ -13,9 +13,10 @@ import main.Main;
 public class Settings {
 
 	private static Point2i resolution = new Point2i(640, 480);
-	public static int AAMax;
-	public static int AAMin;
-	public static int bucket = 64;
+	public static int bins = 256;
+	public static int contrastHigh = 150;
+	public static int contrastLow = 50;
+	public static int bucket = 512;
 	public static BucketTypes bucketType = BucketTypes.ORDER;
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerWindowHandler.getLogger("SunflowSceneParser");

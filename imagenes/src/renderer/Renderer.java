@@ -162,10 +162,10 @@ public abstract class Renderer {
 			// Padding de bucket en caso que AAmin sea menor a 0. Si no se hace
 			// esto, se podrian quedar partes en blanco
 
-			if (Settings.AAMin < 0)
+			if (Settings.contrastLow < 0)
 				bucket = (float) (Math.ceil(bucket
-						/ (float) (1 / Math.pow(2, Settings.AAMin))) * (float) (1 / Math
-						.pow(2, Settings.AAMin)));
+						/ (float) (1 / Math.pow(2, Settings.contrastLow))) * (float) (1 / Math
+						.pow(2, Settings.contrastLow)));
 
 			switch (Settings.bucketType) {
 			case ROWS: {
@@ -240,8 +240,7 @@ public abstract class Renderer {
 					continue;
 				
 
-				if(pixRay.getPos().x == 92 && pixRay.getPos().y == 254 )
-					System.out.println("es aca");
+			
 				if (Renderer.interrupt)
 					return;
 		
@@ -249,7 +248,7 @@ public abstract class Renderer {
 				try {
 					Set<Point2f> points;
 
-					if (Settings.AAMin < 0) {
+					if (Settings.contrastLow < 0) {
 						points = AllPixelsForThisRay(pixRay);
 						for (Point2f pt : points) {
 
@@ -297,7 +296,7 @@ public abstract class Renderer {
 
 		Point2i basePos = r.getPos();
 		HashSet<Point2f> ans = new HashSet<Point2f>();
-		float qty = (float) (1 / Math.pow(2, Settings.AAMin));
+		float qty = (float) (1 / Math.pow(2, Settings.contrastLow));
 		if (qty < 1)
 			qty = 1;
 

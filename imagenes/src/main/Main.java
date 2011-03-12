@@ -27,7 +27,7 @@ public class Main {
 	public static BufferedImage image;
 	private static Logger logger = LoggerWindowHandler.getLogger("Main");
 
-	public static void main(String[] args) throws Exception
+	public static void main(String[] args) 
 	{
 	
 		logger.setLevel(Level.ALL);
