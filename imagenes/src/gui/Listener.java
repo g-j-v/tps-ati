@@ -35,6 +35,9 @@ import renderer.GrayScaleGenerator;
 import renderer.Renderer;
 import renderer.filters.ContrastFilter;
 import renderer.filters.NegateFilter;
+import renderer.filters.Product;
+import renderer.filters.Substraction;
+import renderer.filters.Sum;
 import renderer.filters.histogramFilter;
 import util.Util;
 
@@ -221,12 +224,33 @@ public class Listener {
 
 	}
 
-	public static class aaAdaptiveListener implements ActionListener {
+	public static class sumListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+		public void actionPerformed(ActionEvent arg0) {
 
+			final JFrame frame = new JFrame("Set Alpha");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(Settings.alpha, 0,
+					1, 0.001);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					Settings.alpha = (Float) spAlpha.getValue();
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Alpha:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(2, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
 
 	}
@@ -615,6 +639,16 @@ public class Listener {
 
 	}
 	
+	public static class saveAsSecondaryImageListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Settings.secondaryImage = Main.getImage();
+			logger.info("Image copied");
+		}
+
+	}
+	
 	public static class histogramListener implements ActionListener {
 
 		@Override
@@ -674,15 +708,15 @@ public class Listener {
 	private static void enableAAOptions() {
 		Menu m = Main.getFrame().getMenu();
 		m.contrast.setEnabled(true);
-		m.adaptive.setEnabled(true);
+		m.sum.setEnabled(true);
 		m.histogram.setEnabled(true);
-		m.adaptiveThreshold.setEnabled(true);
+		m.product.setEnabled(true);
 	}
 
 	private static void disableAAOptions() {
 		Menu m = Main.getFrame().getMenu();
 		m.contrast.setEnabled(false);
-		m.adaptive.setEnabled(false);
+		m.sum.setEnabled(false);
 		m.histogram.setEnabled(false);
 	}
 
@@ -729,7 +763,12 @@ public class Listener {
 			return new histogramFilter();
 		if (m.contrast.isSelected())
 			return new ContrastFilter();
-
+		if (m.sum.isSelected())
+			return new Sum();
+		if (m.product.isSelected())
+			return new Product();
+		if (m.substraction.isSelected())
+			return new Substraction();
 		return null;
 		
 	}

@@ -20,6 +20,8 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem	 grayScale;
 	JRadioButtonMenuItem	 colorScale;
 	JRadioButtonMenuItem	 binaryImage;
+	
+	JMenuItem secondaryImage;
 	JMenuItem openImage;
 	JMenuItem saveImage;
 	JMenuItem setSize;
@@ -46,11 +48,11 @@ public class Menu extends JMenuBar {
 
 
 	JRadioButtonMenuItem histogram;
-	JRadioButtonMenuItem adaptive;
+	JRadioButtonMenuItem sum;
 	JRadioButtonMenuItem contrast;
 	
-	JMenuItem adaptiveThreshold;
-	
+	JRadioButtonMenuItem product;
+	JRadioButtonMenuItem substraction;
 	
 	//DOF
 	JRadioButtonMenuItem dofEnabled;
@@ -96,11 +98,15 @@ public class Menu extends JMenuBar {
 
 		openImage = new JMenuItem("Open Image");
 		saveImage = new JMenuItem("Save Image");
+		secondaryImage  = new JMenuItem("Copy Image to secondary variable");
 		saveImage.setEnabled(false);
 		openImage.addActionListener(new Listener.openImageListener());
 		saveImage.addActionListener(new Listener.saveImageListener());
+		secondaryImage.addActionListener(new Listener.saveAsSecondaryImageListener());
 		fileMenu.add(openImage);
 		fileMenu.add(saveImage);
+		fileMenu.add(secondaryImage);
+
 		return fileMenu;
 	}
 
@@ -215,23 +221,25 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(negateFilter);
 		contrast = new JRadioButtonMenuItem("Increase contrast");
 		histogram = new JRadioButtonMenuItem("Histogram");
-		adaptive = new JRadioButtonMenuItem("Adaptive");
-		adaptiveThreshold = new JMenuItem("Set Adaptive Threshold");
-		
+		sum = new JRadioButtonMenuItem("Sum");
+		product = new JRadioButtonMenuItem("Product");
+		substraction = new JRadioButtonMenuItem("Substraction");
 		rendererGroup.add(histogram);
 		rendererGroup.add(contrast);
+		rendererGroup.add(substraction);
+		rendererGroup.add(product);
+		rendererGroup.add(sum);
+		
 		contrast.addActionListener(new Listener.contrastListener());
 		histogram.addActionListener(new Listener.histogramListener());
-		adaptive.addActionListener(new Listener.aaAdaptiveListener());
-		adaptiveThreshold.addActionListener(new Listener.adaptiveThresholdListener());
-		
-		adaptive.setEnabled(false);
-		adaptiveThreshold.setEnabled(false);
+		sum.addActionListener(new Listener.sumListener());
+			
 		Options.add(contrast);
-		
 		Options.add(histogram);
-		Options.add(adaptive);
-		Options.add(adaptiveThreshold);
+		Options.add(sum);
+		Options.add(product);
+		Options.add(substraction);
+		
 		return Options;
 		
 	}
@@ -346,7 +354,7 @@ public class Menu extends JMenuBar {
 
 
 	public JRadioButtonMenuItem getAdaptive() {
-		return adaptive;
+		return sum;
 	}
 
 

@@ -2,6 +2,7 @@ package core;
 
 import gui.LoggerWindowHandler;
 
+import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
 import javax.vecmath.Point2i;
@@ -16,11 +17,13 @@ public class Settings {
 	public static int bins = 256;
 	public static int contrastHigh = 150;
 	public static int contrastLow = 50;
-	public static int bucket = 512;
+	public static int bucket = 128;
+	public static float alpha = 0.5f;
 	public static BucketTypes bucketType = BucketTypes.ORDER;
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerWindowHandler.getLogger("SunflowSceneParser");
 	public static String scenePath;
+	public static BufferedImage secondaryImage;
 
 
 	public static boolean isImageLoaded() {
