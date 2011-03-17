@@ -20,6 +20,8 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem	 grayScale;
 	JRadioButtonMenuItem	 colorScale;
 	JRadioButtonMenuItem	 binaryImage;
+	JRadioButtonMenuItem	 compresion;
+	
 	
 	JMenuItem secondaryImage;
 	JMenuItem openImage;
@@ -50,7 +52,7 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem histogram;
 	JRadioButtonMenuItem sum;
 	JRadioButtonMenuItem contrast;
-	
+	JRadioButtonMenuItem umbral;	
 	JRadioButtonMenuItem product;
 	JRadioButtonMenuItem substraction;
 	
@@ -80,16 +82,22 @@ public class Menu extends JMenuBar {
 		grayScale = new JRadioButtonMenuItem("Gray Gradient");
 		colorScale = new JRadioButtonMenuItem("Color Gradient");
 		binaryImage = new JRadioButtonMenuItem("Binary Image");
+		compresion = new JRadioButtonMenuItem("Compresion de rango"); 
 		
 		grayScale.addActionListener(new Listener.engineListener());
 		colorScale.addActionListener(new Listener.engineListener());
 		binaryImage.addActionListener(new Listener.engineListener());
+		compresion.addActionListener(new Listener.engineListener());
+		
 		rendererGroup.add(colorScale);
 		rendererGroup.add(binaryImage);
 		rendererGroup.add(grayScale);
+		rendererGroup.add(compresion);
+
 		renderMenu.add(colorScale);
 		renderMenu.add(grayScale);
 		renderMenu.add(binaryImage);
+		renderMenu.add(compresion); 
 		return renderMenu;
 	}
 	
@@ -219,6 +227,7 @@ public class Menu extends JMenuBar {
 		negateFilter = new JRadioButtonMenuItem("Negate");
 		Options.add(negateFilter);
 		rendererGroup.add(negateFilter);
+		umbral = new JRadioButtonMenuItem("Umbralization");
 		contrast = new JRadioButtonMenuItem("Increase contrast");
 		histogram = new JRadioButtonMenuItem("Histogram");
 		sum = new JRadioButtonMenuItem("Sum");
@@ -229,7 +238,10 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(substraction);
 		rendererGroup.add(product);
 		rendererGroup.add(sum);
-		
+		rendererGroup.add(umbral);
+
+		umbral.addActionListener(new Listener.umbralListener());
+
 		contrast.addActionListener(new Listener.contrastListener());
 		histogram.addActionListener(new Listener.histogramListener());
 		sum.addActionListener(new Listener.sumListener());
@@ -239,6 +251,7 @@ public class Menu extends JMenuBar {
 		Options.add(sum);
 		Options.add(product);
 		Options.add(substraction);
+		Options.add(umbral);
 		
 		return Options;
 		

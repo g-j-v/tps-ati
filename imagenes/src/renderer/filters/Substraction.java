@@ -9,8 +9,6 @@ import core.Settings;
 
 public class Substraction extends Filter {
 
-	float beta = 1 - Settings.alpha;
-	float alpha = Settings.alpha;
 	int x = 0;
 	int y = 0;
 	public Substraction() {

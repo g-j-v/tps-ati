@@ -31,6 +31,7 @@ import core.Settings.BucketTypes;
 
 import renderer.BinaryImage;
 import renderer.ColorGradientGenerator;
+import renderer.CompressionFilter;
 import renderer.GrayScaleGenerator;
 import renderer.Renderer;
 import renderer.filters.ContrastFilter;
@@ -38,6 +39,7 @@ import renderer.filters.NegateFilter;
 import renderer.filters.Product;
 import renderer.filters.Substraction;
 import renderer.filters.Sum;
+import renderer.filters.UmbralFilter;
 import renderer.filters.histogramFilter;
 import util.Util;
 
@@ -196,25 +198,48 @@ public class Listener {
 					255, 1);
 			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(Settings.contrastLow, 0,
 					255, 1);
+			final SpinnerNumberModel spS1Model = new SpinnerNumberModel(Settings.contrastS1, 0,
+					255, 1);
+			final SpinnerNumberModel spS2Model = new SpinnerNumberModel(Settings.contrastS2, 0,
+					255, 1);
 			final JSpinner spMin = new JSpinner(spMinModel);
 			final JSpinner spMax = new JSpinner(spMaxModel);
+			final JSpinner spS1 = new JSpinner(spS1Model);
+			final JSpinner spS2 = new JSpinner(spS2Model);
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					Settings.contrastLow = (Integer) spMin.getValue();
 					Settings.contrastHigh = (Integer) spMax.getValue();
+					Settings.contrastS1 = (Integer) spS1.getValue();
+					Settings.contrastS2 = (Integer) spS2.getValue();
 					frame.dispose();
+
+					
+					if(Settings.contrastLow > Settings.contrastHigh)
+						Settings.contrastLow = Settings.contrastHigh;					
+
+					if(Settings.contrastS1 > Settings.contrastLow)
+						Settings.contrastS1 = Settings.contrastLow;
+					if(Settings.contrastS2 < Settings.contrastHigh)
+						Settings.contrastS2 = Settings.contrastHigh;
 				}
 			});
 			JLabel maxlabel = new JLabel("Max limit:");
 			JLabel minlabel = new JLabel("Min limit:");
+			JLabel S2label = new JLabel("New Max limit:");
+			JLabel S1label = new JLabel("New Min limit:");
 			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(2, 2));
+			panel.setLayout(new GridLayout(4, 2));
 			panel.add(minlabel);
 			panel.add(spMin);
 			panel.add(maxlabel);
 			panel.add(spMax);
+			panel.add(S1label);
+			panel.add(spS1);
+			panel.add(S2label);
+			panel.add(spS2);
 			frame.add(confirm, BorderLayout.SOUTH);
 			frame.add(panel, BorderLayout.CENTER);
 			frame.pack();
@@ -237,13 +262,13 @@ public class Listener {
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					Settings.alpha = (Float) spAlpha.getValue();
+					Settings.alpha =  (Double) spAlpha.getValue();
 					frame.dispose();
 				}
 			});
 			JLabel minlabel = new JLabel("Alpha:");
 			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(2, 2));
+			panel.setLayout(new GridLayout(1, 2));
 			panel.add(minlabel);
 			panel.add(spAlpha);
 			frame.add(confirm, BorderLayout.SOUTH);
@@ -255,6 +280,38 @@ public class Listener {
 
 	}
 
+	
+	public static class umbralListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set umbral");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(Settings.umbral, 0,
+					255, 1);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					Settings.umbral =  (Integer) spAlpha.getValue();
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Umbral:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+	
 	public static class engineListener implements ActionListener {
 
 		@Override
@@ -769,6 +826,10 @@ public class Listener {
 			return new Product();
 		if (m.substraction.isSelected())
 			return new Substraction();
+		if (m.umbral.isSelected())
+			return new UmbralFilter();
+		if (m.compresion.isSelected())
+			return new CompressionFilter();
 		return null;
 		
 	}

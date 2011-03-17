@@ -17,13 +17,16 @@ public class Settings {
 	public static int bins = 256;
 	public static int contrastHigh = 150;
 	public static int contrastLow = 50;
+	public static int contrastS2 = 150;
+	public static int contrastS1 = 50;
 	public static int bucket = 128;
-	public static float alpha = 0.5f;
+	public static double alpha = 0.5f;
 	public static BucketTypes bucketType = BucketTypes.ORDER;
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerWindowHandler.getLogger("SunflowSceneParser");
 	public static String scenePath;
 	public static BufferedImage secondaryImage;
+	public static float umbral = 127;
 
 
 	public static boolean isImageLoaded() {

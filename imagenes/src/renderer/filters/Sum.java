@@ -9,8 +9,8 @@ import core.Settings;
 
 public class Sum extends Filter {
 
-	float beta = 1 - Settings.alpha;
-	float alpha = Settings.alpha;
+	double beta = 1 - Settings.alpha;
+	double alpha = Settings.alpha;
 	int x = 0;
 	int y = 0;
 	public Sum() {
@@ -41,9 +41,9 @@ public class Sum extends Filter {
 		float green2 = (pixel2 >> 8) & 0xff;
 		float blue2 = (pixel2) & 0xff;
 	
-		colors[0] = (red * alpha + red2 * beta) / 255;
-		colors[1] = (green * alpha + green2 * beta) / 255;
-		colors[2] = (blue * alpha + blue2 * beta) / 255;
+		colors[0] = (float) (red * alpha + red2 * beta) / 255;
+		colors[1] = (float) (green * alpha + green2 * beta) / 255;
+		colors[2] = (float) (blue * alpha + blue2 * beta) / 255;
 		
 		Color c = new Color(space, colors, 1);
 	

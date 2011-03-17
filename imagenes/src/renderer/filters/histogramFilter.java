@@ -23,6 +23,7 @@ public class histogramFilter extends Filter {
 		histogram = new Histogram("Frequency" ,"Grey level",Settings.bins, 0, 1);
 		panel = new HistPanel(histogram);
 		frame.setSize(600, 400);
+		panel.setSize(600, 400);
 		frame.add(panel, BorderLayout.CENTER);
 		frame.pack();
 		frame.setVisible(true);
