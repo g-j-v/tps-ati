@@ -294,7 +294,7 @@ public class Listener {
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					Settings.umbral =  (Integer) spAlpha.getValue();
+					Settings.umbral =  ((Double) spAlpha.getValue()).intValue();
 					frame.dispose();
 				}
 			});
