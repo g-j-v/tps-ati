@@ -49,6 +49,7 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem negateFilter;
 
 
+	JRadioButtonMenuItem equalize;
 	JRadioButtonMenuItem histogram;
 	JRadioButtonMenuItem sum;
 	JRadioButtonMenuItem contrast;
@@ -230,9 +231,11 @@ public class Menu extends JMenuBar {
 		umbral = new JRadioButtonMenuItem("Umbralization");
 		contrast = new JRadioButtonMenuItem("Increase contrast");
 		histogram = new JRadioButtonMenuItem("Histogram");
+		equalize = new JRadioButtonMenuItem("Equalize");
 		sum = new JRadioButtonMenuItem("Sum");
 		product = new JRadioButtonMenuItem("Product");
 		substraction = new JRadioButtonMenuItem("Substraction");
+		rendererGroup.add(equalize);
 		rendererGroup.add(histogram);
 		rendererGroup.add(contrast);
 		rendererGroup.add(substraction);
@@ -244,10 +247,12 @@ public class Menu extends JMenuBar {
 
 		contrast.addActionListener(new Listener.contrastListener());
 		histogram.addActionListener(new Listener.histogramListener());
+		equalize.addActionListener(new Listener.equalizeListener());
 		sum.addActionListener(new Listener.sumListener());
 			
 		Options.add(contrast);
 		Options.add(histogram);
+		Options.add(equalize);
 		Options.add(sum);
 		Options.add(product);
 		Options.add(substraction);
@@ -363,6 +368,11 @@ public class Menu extends JMenuBar {
 
 	public JRadioButtonMenuItem getStochastic() {
 		return histogram;
+	}
+	
+	
+	public JRadioButtonMenuItem getEqualized() {
+		return equalize;
 	}
 
 

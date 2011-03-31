@@ -212,5 +212,21 @@ public class Histogram
     fUnderflows = under;
     fOverflows = over;
   }// pack()
+  
+  public int sumUp(int pos){
+	  if(pos >= fNumBins){
+		  pos = fNumBins-1;
+	  }
+	  if(pos < 0){
+		  return 0;
+	  }
+	  
+	  int ret = 0;
+	  for (int i=0; i<= pos; i++){
+		  ret += fBins[i];
+	  }
+	  
+	  return ret;
+  }
 
 }// class Histogram 

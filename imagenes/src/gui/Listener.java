@@ -35,6 +35,7 @@ import renderer.CompressionFilter;
 import renderer.GrayScaleGenerator;
 import renderer.Renderer;
 import renderer.filters.ContrastFilter;
+import renderer.filters.EqualizeFilter;
 import renderer.filters.NegateFilter;
 import renderer.filters.Product;
 import renderer.filters.Substraction;
@@ -745,6 +746,46 @@ public class Listener {
 		}
 	
 	}
+	
+	public static class equalizeListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if (Main.getFrame().getButtons().isRendering()) {
+				Main.getFrame().ShowDialog(
+						"Cant change parameters while rendering! Press Stop!",
+						"Rendering", AlertType.ERROR);
+				return;
+			}
+			JMenuItem bins = Main.getFrame().getMenu().getSetSize();
+			if (!bins.isEnabled())
+				return;
+			final JFrame frame = new JFrame("Number of bins");
+			final JFormattedTextField nbins = new JFormattedTextField(
+					NumberFormat.getNumberInstance());
+			nbins.setValue(Settings.bins);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					int b = Integer.valueOf(nbins.getValue().toString());
+					Settings.bins = b;
+					frame.dispose();
+				}
+			});
+			nbins.setColumns(10);
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(new JLabel("Bins:"));
+			panel.add(nbins);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+	
+	}
 
 	private static void enableOptions() {
 		Menu m = Main.getFrame().getMenu();
@@ -818,6 +859,8 @@ public class Listener {
 			return new NegateFilter();
 		if (m.histogram.isSelected())
 			return new histogramFilter();
+		if (m.equalize.isSelected())
+			return new EqualizeFilter();
 		if (m.contrast.isSelected())
 			return new ContrastFilter();
 		if (m.sum.isSelected())
