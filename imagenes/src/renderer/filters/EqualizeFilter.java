@@ -5,6 +5,7 @@ import gui.histogram.Histogram;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.color.ColorSpace;
 
 import javax.swing.JFrame;
@@ -25,8 +26,7 @@ public class EqualizeFilter extends Filter {
 		JFrame frame = new JFrame("Histogram Equalization");
 		histogram = new Histogram("Frequency" ,"Grey level",Settings.bins, 0, 1);
 		panel = new HistPanel(histogram);
-		frame.setSize(600, 400);
-		panel.setSize(600, 400);
+		frame.setPreferredSize(new Dimension(800, 600));
 		frame.add(panel, BorderLayout.CENTER);
 		frame.pack();
 		frame.setVisible(true);

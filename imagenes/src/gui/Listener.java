@@ -3,6 +3,7 @@ package gui;
 import gui.Frame.AlertType;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -766,6 +767,14 @@ public class Listener {
 		public void actionPerformed(ActionEvent e) {
 			Settings.secondaryImage = Main.getImage();
 			logger.info("Image copied");
+			JFrame frame = new JFrame("Secondary Image");
+			//frame.setBounds(50, 50, 400, 400);
+			frame.setPreferredSize(new Dimension(Settings.secondaryImage.getWidth(), Settings.secondaryImage.getHeight()));
+			frame.add(new ImagePanel(Settings.secondaryImage));
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 		}
 
 	}

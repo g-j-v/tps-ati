@@ -5,6 +5,7 @@ import gui.histogram.Histogram;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.color.ColorSpace;
 
 import javax.swing.JFrame;
@@ -24,9 +25,11 @@ public class histogramFilter extends Filter {
 		JFrame frame = new JFrame("Histogram");
 		histogram = new Histogram("Frequency" ,"Grey level",Settings.bins, 0, 1);
 		panel = new HistPanel(histogram);
-		frame.setSize(600, 400);
-		panel.setSize(600, 400);
-		frame.add(panel, BorderLayout.CENTER);
+		panel.setBounds(0, 0, 400, 400);
+		frame.setBounds(50, 50, 400, 400);
+		frame.setPreferredSize(new Dimension(800, 600));
+		
+		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -49,19 +52,18 @@ public class histogramFilter extends Filter {
 		
 		histogram.add(colors[2]);
 		//colors va de 0 a 255 pero en realidad de 0 a 1.
-		colors[0] = red /255; 		 
-		colors[1] = green /255 ;
-		colors[2] = blue /255; 		 
 		//System.out.println("red " + colors[0] + "green " + colors[1] + "blue " + colors[2]  );
-		Color c = new Color(space, colors, 1 );
+		Color c = new Color(pixel);
 		return c;
 
 	}
 
 	@Override
 	public void endRender() {
-		super.endRender();
 		Main.setImage(oldImg);
+		panel.UpdateHistogram();
+		super.endRender();
+
 	}
 	
 }
