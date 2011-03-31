@@ -9,6 +9,8 @@ import java.awt.color.ColorSpace;
 
 import javax.swing.JFrame;
 
+import main.Main;
+
 import core.PixelRay;
 import core.Settings;
 
@@ -56,5 +58,10 @@ public class histogramFilter extends Filter {
 
 	}
 
+	@Override
+	public void endRender() {
+		super.endRender();
+		Main.setImage(oldImg);
+	}
 	
 }

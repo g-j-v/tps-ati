@@ -50,13 +50,14 @@ public class Menu extends JMenuBar {
 
 
 	JRadioButtonMenuItem equalize;
+	JRadioButtonMenuItem gamma;
 	JRadioButtonMenuItem histogram;
 	JRadioButtonMenuItem sum;
 	JRadioButtonMenuItem contrast;
 	JRadioButtonMenuItem umbral;	
 	JRadioButtonMenuItem product;
 	JRadioButtonMenuItem substraction;
-	
+	JRadioButtonMenuItem dotProduct;
 	//DOF
 	JRadioButtonMenuItem dofEnabled;
 	JMenuItem dofDispersion;
@@ -230,31 +231,41 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(negateFilter);
 		umbral = new JRadioButtonMenuItem("Umbralization");
 		contrast = new JRadioButtonMenuItem("Increase contrast");
+		gamma = new JRadioButtonMenuItem("Gamma Correction");
 		histogram = new JRadioButtonMenuItem("Histogram");
 		equalize = new JRadioButtonMenuItem("Equalize");
 		sum = new JRadioButtonMenuItem("Sum");
 		product = new JRadioButtonMenuItem("Product");
+		dotProduct = new JRadioButtonMenuItem("Dot Product");
+		
 		substraction = new JRadioButtonMenuItem("Substraction");
 		rendererGroup.add(equalize);
 		rendererGroup.add(histogram);
 		rendererGroup.add(contrast);
+		rendererGroup.add(gamma);
 		rendererGroup.add(substraction);
 		rendererGroup.add(product);
+		rendererGroup.add(dotProduct);
+		
 		rendererGroup.add(sum);
 		rendererGroup.add(umbral);
 
 		umbral.addActionListener(new Listener.umbralListener());
 
 		contrast.addActionListener(new Listener.contrastListener());
+		gamma.addActionListener(new Listener.GammaListener());
 		histogram.addActionListener(new Listener.histogramListener());
 		equalize.addActionListener(new Listener.equalizeListener());
 		sum.addActionListener(new Listener.sumListener());
-			
+		dotProduct.addActionListener(new Listener.dotProductListener());
+		
 		Options.add(contrast);
+		Options.add(gamma);
 		Options.add(histogram);
 		Options.add(equalize);
 		Options.add(sum);
 		Options.add(product);
+		Options.add(dotProduct);
 		Options.add(substraction);
 		Options.add(umbral);
 		

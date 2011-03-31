@@ -35,7 +35,9 @@ import renderer.CompressionFilter;
 import renderer.GrayScaleGenerator;
 import renderer.Renderer;
 import renderer.filters.ContrastFilter;
+import renderer.filters.DotProduct;
 import renderer.filters.EqualizeFilter;
+import renderer.filters.GammaCorrectionFilter;
 import renderer.filters.NegateFilter;
 import renderer.filters.Product;
 import renderer.filters.Substraction;
@@ -281,6 +283,67 @@ public class Listener {
 
 	}
 
+	public static class dotProductListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Alpha");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(DotProduct.alpha, 0,
+					5, 0.001);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					DotProduct.alpha =  ((Double) spAlpha.getValue()).floatValue();
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Alpha:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}	
+	
+	public static class GammaListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Alpha");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(GammaCorrectionFilter.alpha, 0,
+					50, 0.001);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					GammaCorrectionFilter.alpha =  ((Double) spAlpha.getValue()).floatValue();
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Alpha:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}	
 	
 	public static class umbralListener implements ActionListener {
 
@@ -873,6 +936,10 @@ public class Listener {
 			return new UmbralFilter();
 		if (m.compresion.isSelected())
 			return new CompressionFilter();
+		if (m.dotProduct.isSelected())
+			return new DotProduct();
+		if (m.gamma.isSelected())
+			return new GammaCorrectionFilter();
 		return null;
 		
 	}
