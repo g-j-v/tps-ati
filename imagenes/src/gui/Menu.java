@@ -66,6 +66,7 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem exponencialN;
 	JRadioButtonMenuItem rayleighN;
 	JRadioButtonMenuItem gaussianN;
+	JRadioButtonMenuItem saltnpepperN;
 	JMenuItem dofDispersion;
 	JMenuItem dofIterations;
 	JMenuItem dofsharpPlane;
@@ -241,6 +242,7 @@ public class Menu extends JMenuBar {
 		exponencialN= new JRadioButtonMenuItem("Add Exponential Noise");
 		gaussianN= new JRadioButtonMenuItem("Add Gaussian Noise");
 		rayleighN= new JRadioButtonMenuItem("Add Rayleigh Noise");
+		saltnpepperN= new JRadioButtonMenuItem("Add Salt N' Pepper Noise");
 		histogram = new JRadioButtonMenuItem("Histogram");
 		equalize = new JRadioButtonMenuItem("Equalize");
 		sum = new JRadioButtonMenuItem("Sum");
@@ -262,6 +264,7 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(exponencialN);
 		rendererGroup.add(rayleighN);
 		rendererGroup.add(gaussianN);
+		rendererGroup.add(saltnpepperN);
 		
 		rendererGroup.add(sum);
 		rendererGroup.add(umbral);
@@ -273,6 +276,7 @@ public class Menu extends JMenuBar {
 		exponencialN.addActionListener(new Listener.ExponencialNoiseListener());
 		rayleighN.addActionListener(new Listener.RayleighNoiseListener());
 		gaussianN.addActionListener(new Listener.GaussianNoiseListener());
+		saltnpepperN.addActionListener(new Listener.SaltnPepperNoiseListener());
 		histogram.addActionListener(new Listener.histogramListener());
 		equalize.addActionListener(new Listener.equalizeListener());
 		sum.addActionListener(new Listener.sumListener());
@@ -292,6 +296,7 @@ public class Menu extends JMenuBar {
 		Options.add(exponencialN);
 		Options.add(rayleighN);
 		Options.add(gaussianN);
+		Options.add(saltnpepperN);
 		
 		return Options;
 		

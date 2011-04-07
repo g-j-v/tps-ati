@@ -47,6 +47,7 @@ import renderer.filters.GaussianNoiseFilter;
 import renderer.filters.NegateFilter;
 import renderer.filters.Product;
 import renderer.filters.RayleighNoiseFilter;
+import renderer.filters.SaltnPepperNoiseFilter;
 import renderer.filters.Substraction;
 import renderer.filters.Sum;
 import renderer.filters.UmbralFilter;
@@ -522,6 +523,46 @@ public class Listener {
 			});
 			JLabel devlabel = new JLabel("Desviación:");
 			JLabel medlabel = new JLabel("Valor Medio:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(devlabel);
+			panel.add(spAlpha);
+			panel.add(medlabel);
+			panel.add(spMedio);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
+	public static class SaltnPepperNoiseListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Parameters");
+			final SpinnerNumberModel spDevModel = new SpinnerNumberModel(
+					SaltnPepperNoiseFilter.p0, 0, 1, 0.001);
+			final SpinnerNumberModel spMedModel = new SpinnerNumberModel(
+					SaltnPepperNoiseFilter.p1, 0, 1, 0.001);
+			final JSpinner spAlpha = new JSpinner(spDevModel);
+			final JSpinner spMedio = new JSpinner(spMedModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					SaltnPepperNoiseFilter.p0= ((Double) spAlpha
+							.getValue()).floatValue();
+					SaltnPepperNoiseFilter.p1= ((Double) spMedio
+							.getValue()).floatValue();
+					frame.dispose();
+				}
+			});
+			JLabel devlabel = new JLabel("Límite inferior:");
+			JLabel medlabel = new JLabel("\nLímite superior:");
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(1, 2));
 			panel.add(devlabel);
@@ -1151,6 +1192,9 @@ public class Listener {
 			return new RayleighNoiseFilter();
 		if (m.gaussianN.isSelected())
 			return new GaussianNoiseFilter();
+		if (m.saltnpepperN.isSelected())
+			return new SaltnPepperNoiseFilter();
+		
 			
 		return null;
 
