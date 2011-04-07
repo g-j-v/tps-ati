@@ -22,8 +22,8 @@ public class Noises {
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				distribution[i][j] = Math.sqrt(-2 * Math.random())
-						* Math.cos(2 * Math.PI * Math.random());
+				distribution[i][j] = deviation*Math.sqrt(-2 * Math.random())
+						* Math.cos(2 * Math.PI * Math.random())+medio;
 			}
 		}
 

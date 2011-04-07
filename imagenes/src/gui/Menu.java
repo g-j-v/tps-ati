@@ -60,6 +60,9 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem dotProduct;
 	//DOF
 	JRadioButtonMenuItem dofEnabled;
+	JRadioButtonMenuItem exponencialN;
+	JRadioButtonMenuItem rayleighN;
+	JRadioButtonMenuItem gaussianN;
 	JMenuItem dofDispersion;
 	JMenuItem dofIterations;
 	JMenuItem dofsharpPlane;
@@ -232,6 +235,9 @@ public class Menu extends JMenuBar {
 		umbral = new JRadioButtonMenuItem("Umbralization");
 		contrast = new JRadioButtonMenuItem("Increase contrast");
 		gamma = new JRadioButtonMenuItem("Gamma Correction");
+		exponencialN= new JRadioButtonMenuItem("Add Exponential Noise");
+		gaussianN= new JRadioButtonMenuItem("Add Gaussian Noise");
+		rayleighN= new JRadioButtonMenuItem("Add Rayleigh Noise");
 		histogram = new JRadioButtonMenuItem("Histogram");
 		equalize = new JRadioButtonMenuItem("Equalize");
 		sum = new JRadioButtonMenuItem("Sum");
@@ -246,6 +252,9 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(substraction);
 		rendererGroup.add(product);
 		rendererGroup.add(dotProduct);
+		rendererGroup.add(exponencialN);
+		rendererGroup.add(rayleighN);
+		rendererGroup.add(gaussianN);
 		
 		rendererGroup.add(sum);
 		rendererGroup.add(umbral);
@@ -254,6 +263,9 @@ public class Menu extends JMenuBar {
 
 		contrast.addActionListener(new Listener.contrastListener());
 		gamma.addActionListener(new Listener.GammaListener());
+		exponencialN.addActionListener(new Listener.ExponencialNoiseListener());
+		rayleighN.addActionListener(new Listener.RayleighNoiseListener());
+		gaussianN.addActionListener(new Listener.GaussianNoiseListener());
 		histogram.addActionListener(new Listener.histogramListener());
 		equalize.addActionListener(new Listener.equalizeListener());
 		sum.addActionListener(new Listener.sumListener());
@@ -268,6 +280,9 @@ public class Menu extends JMenuBar {
 		Options.add(dotProduct);
 		Options.add(substraction);
 		Options.add(umbral);
+		Options.add(exponencialN);
+		Options.add(rayleighN);
+		Options.add(gaussianN);
 		
 		return Options;
 		

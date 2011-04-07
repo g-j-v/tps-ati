@@ -38,9 +38,12 @@ import renderer.Renderer;
 import renderer.filters.ContrastFilter;
 import renderer.filters.DotProduct;
 import renderer.filters.EqualizeFilter;
+import renderer.filters.ExponencialNoiseFilter;
 import renderer.filters.GammaCorrectionFilter;
+import renderer.filters.GaussianNoiseFilter;
 import renderer.filters.NegateFilter;
 import renderer.filters.Product;
+import renderer.filters.RayleighNoiseFilter;
 import renderer.filters.Substraction;
 import renderer.filters.Sum;
 import renderer.filters.UmbralFilter;
@@ -50,8 +53,6 @@ import util.Util;
 import main.Main;
 
 public class Listener {
-
-
 
 	private static SwingWorker worker;
 	private static Logger logger = LoggerWindowHandler.getLogger("Listener");
@@ -81,11 +82,11 @@ public class Listener {
 			ButtonPanel b = Main.getFrame().getButtons();
 			if (!b.getRender().isEnabled())
 				return;
-			
+
 			Main.renderer = getSelectedRenderer();
-			if(Main.renderer  == null)
+			if (Main.renderer == null)
 				return;
-			
+
 			if (!b.isRendering()) {
 				if (!Renderer.isInterrupt()) {
 					Main.createImage();
@@ -198,14 +199,14 @@ public class Listener {
 		public void actionPerformed(ActionEvent arg0) {
 
 			final JFrame frame = new JFrame("Set Contrast bounds");
-			final SpinnerNumberModel spMaxModel = new SpinnerNumberModel(Settings.contrastHigh, 0,
-					255, 1);
-			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(Settings.contrastLow, 0,
-					255, 1);
-			final SpinnerNumberModel spS1Model = new SpinnerNumberModel(Settings.contrastS1, 0,
-					255, 1);
-			final SpinnerNumberModel spS2Model = new SpinnerNumberModel(Settings.contrastS2, 0,
-					255, 1);
+			final SpinnerNumberModel spMaxModel = new SpinnerNumberModel(
+					Settings.contrastHigh, 0, 255, 1);
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					Settings.contrastLow, 0, 255, 1);
+			final SpinnerNumberModel spS1Model = new SpinnerNumberModel(
+					Settings.contrastS1, 0, 255, 1);
+			final SpinnerNumberModel spS2Model = new SpinnerNumberModel(
+					Settings.contrastS2, 0, 255, 1);
 			final JSpinner spMin = new JSpinner(spMinModel);
 			final JSpinner spMax = new JSpinner(spMaxModel);
 			final JSpinner spS1 = new JSpinner(spS1Model);
@@ -220,13 +221,12 @@ public class Listener {
 					Settings.contrastS2 = (Integer) spS2.getValue();
 					frame.dispose();
 
-					
-					if(Settings.contrastLow > Settings.contrastHigh)
-						Settings.contrastLow = Settings.contrastHigh;					
+					if (Settings.contrastLow > Settings.contrastHigh)
+						Settings.contrastLow = Settings.contrastHigh;
 
-					if(Settings.contrastS1 > Settings.contrastLow)
+					if (Settings.contrastS1 > Settings.contrastLow)
 						Settings.contrastS1 = Settings.contrastLow;
-					if(Settings.contrastS2 < Settings.contrastHigh)
+					if (Settings.contrastS2 < Settings.contrastHigh)
 						Settings.contrastS2 = Settings.contrastHigh;
 				}
 			});
@@ -259,14 +259,14 @@ public class Listener {
 		public void actionPerformed(ActionEvent arg0) {
 
 			final JFrame frame = new JFrame("Set Alpha");
-			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(Settings.alpha, 0,
-					1, 0.001);
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					Settings.alpha, 0, 1, 0.001);
 			final JSpinner spAlpha = new JSpinner(spMinModel);
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					Settings.alpha =  (Double) spAlpha.getValue();
+					Settings.alpha = (Double) spAlpha.getValue();
 					frame.dispose();
 				}
 			});
@@ -290,14 +290,15 @@ public class Listener {
 		public void actionPerformed(ActionEvent arg0) {
 
 			final JFrame frame = new JFrame("Set Alpha");
-			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(DotProduct.alpha, 0,
-					5, 0.001);
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					DotProduct.alpha, 0, 5, 0.001);
 			final JSpinner spAlpha = new JSpinner(spMinModel);
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					DotProduct.alpha =  ((Double) spAlpha.getValue()).floatValue();
+					DotProduct.alpha = ((Double) spAlpha.getValue())
+							.floatValue();
 					frame.dispose();
 				}
 			});
@@ -313,22 +314,23 @@ public class Listener {
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
 
-	}	
-	
+	}
+
 	public static class GammaListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
 			final JFrame frame = new JFrame("Set Alpha");
-			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(GammaCorrectionFilter.alpha, 0,
-					50, 0.001);
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					GammaCorrectionFilter.alpha, 0, 50, 0.001);
 			final JSpinner spAlpha = new JSpinner(spMinModel);
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					GammaCorrectionFilter.alpha =  ((Double) spAlpha.getValue()).floatValue();
+					GammaCorrectionFilter.alpha = ((Double) spAlpha.getValue())
+							.floatValue();
 					frame.dispose();
 				}
 			});
@@ -344,22 +346,126 @@ public class Listener {
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
 
-	}	
-	
+	}
+
+	public static class ExponencialNoiseListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Lambda");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					ExponencialNoiseFilter.lambda, 0, 50, 0.001);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					ExponencialNoiseFilter.lambda = ((Double) spAlpha
+							.getValue()).floatValue();
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Lambda:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
+	public static class RayleighNoiseListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Psi");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					RayleighNoiseFilter.psi, 0, 50, 0.001);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					RayleighNoiseFilter.psi = ((Double) spAlpha.getValue())
+							.floatValue();
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Psi:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
+	public static class GaussianNoiseListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Parameters");
+			final SpinnerNumberModel spDevModel = new SpinnerNumberModel(
+					GaussianNoiseFilter.deviation, 0, 50, 0.001);
+			final SpinnerNumberModel spMedModel = new SpinnerNumberModel(
+					GaussianNoiseFilter.vmedio, 0, 50, 0.001);
+			final JSpinner spAlpha = new JSpinner(spDevModel);
+			final JSpinner spMedio = new JSpinner(spMedModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					GaussianNoiseFilter.deviation= ((Double) spAlpha
+							.getValue()).floatValue();
+					GaussianNoiseFilter.vmedio= ((Double) spMedio
+							.getValue()).floatValue();
+					frame.dispose();
+				}
+			});
+			JLabel devlabel = new JLabel("Desviación:");
+			JLabel medlabel = new JLabel("Valor Medio:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(devlabel);
+			panel.add(spAlpha);
+			panel.add(medlabel);
+			panel.add(spMedio);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
 	public static class umbralListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
 			final JFrame frame = new JFrame("Set umbral");
-			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(Settings.umbral, 0,
-					255, 1);
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					Settings.umbral, 0, 255, 1);
 			final JSpinner spAlpha = new JSpinner(spMinModel);
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					Settings.umbral =  ((Double) spAlpha.getValue()).intValue();
+					Settings.umbral = ((Double) spAlpha.getValue()).intValue();
 					frame.dispose();
 				}
 			});
@@ -376,7 +482,7 @@ public class Listener {
 		}
 
 	}
-	
+
 	public static class engineListener implements ActionListener {
 
 		@Override
@@ -386,7 +492,6 @@ public class Listener {
 		}
 
 	}
-
 
 	public static class bucketOrderListener implements ActionListener {
 
@@ -435,8 +540,8 @@ public class Listener {
 			if (!bucket.isEnabled())
 				return;
 			final JFrame frame = new JFrame("Set Bucket Size");
-			final JFormattedTextField tf = new JFormattedTextField(
-					NumberFormat.getIntegerInstance());
+			final JFormattedTextField tf = new JFormattedTextField(NumberFormat
+					.getIntegerInstance());
 			tf.setValue(Settings.bucket);
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
@@ -546,16 +651,16 @@ public class Listener {
 			if (!pixelColor.isEnabled())
 				return;
 			final JFrame frame = new JFrame("Set Pixel Color");
-			final JFormattedTextField x = new JFormattedTextField(
-					NumberFormat.getNumberInstance());
-			final JFormattedTextField y = new JFormattedTextField(
-					NumberFormat.getNumberInstance());
-			final JFormattedTextField r = new JFormattedTextField(
-					NumberFormat.getNumberInstance());
-			final JFormattedTextField g = new JFormattedTextField(
-					NumberFormat.getNumberInstance());
-			final JFormattedTextField b = new JFormattedTextField(
-					NumberFormat.getNumberInstance());
+			final JFormattedTextField x = new JFormattedTextField(NumberFormat
+					.getNumberInstance());
+			final JFormattedTextField y = new JFormattedTextField(NumberFormat
+					.getNumberInstance());
+			final JFormattedTextField r = new JFormattedTextField(NumberFormat
+					.getNumberInstance());
+			final JFormattedTextField g = new JFormattedTextField(NumberFormat
+					.getNumberInstance());
+			final JFormattedTextField b = new JFormattedTextField(NumberFormat
+					.getNumberInstance());
 			x.setValue(0);
 			y.setValue(0);
 			r.setValue(0);
@@ -619,10 +724,10 @@ public class Listener {
 			if (!pixelColor.isEnabled())
 				return;
 			final JFrame frame = new JFrame("Get Pixel Color");
-			final JFormattedTextField x = new JFormattedTextField(
-					NumberFormat.getNumberInstance());
-			final JFormattedTextField y = new JFormattedTextField(
-					NumberFormat.getNumberInstance());
+			final JFormattedTextField x = new JFormattedTextField(NumberFormat
+					.getNumberInstance());
+			final JFormattedTextField y = new JFormattedTextField(NumberFormat
+					.getNumberInstance());
 			x.setValue(0);
 			y.setValue(0);
 			JButton confirm = new JButton("Confirm");
@@ -760,7 +865,7 @@ public class Listener {
 		}
 
 	}
-	
+
 	public static class saveAsSecondaryImageListener implements ActionListener {
 
 		@Override
@@ -768,8 +873,9 @@ public class Listener {
 			Settings.secondaryImage = Main.getImage();
 			logger.info("Image copied");
 			JFrame frame = new JFrame("Secondary Image");
-			//frame.setBounds(50, 50, 400, 400);
-			frame.setPreferredSize(new Dimension(Settings.secondaryImage.getWidth(), Settings.secondaryImage.getHeight()));
+			// frame.setBounds(50, 50, 400, 400);
+			frame.setPreferredSize(new Dimension(Settings.secondaryImage
+					.getWidth(), Settings.secondaryImage.getHeight()));
 			frame.add(new ImagePanel(Settings.secondaryImage));
 			frame.pack();
 			frame.setVisible(true);
@@ -778,7 +884,7 @@ public class Listener {
 		}
 
 	}
-	
+
 	public static class histogramListener implements ActionListener {
 
 		@Override
@@ -816,9 +922,9 @@ public class Listener {
 			frame.setVisible(true);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
-	
+
 	}
-	
+
 	public static class equalizeListener implements ActionListener {
 
 		@Override
@@ -856,7 +962,7 @@ public class Listener {
 			frame.setVisible(true);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
-	
+
 	}
 
 	private static void enableOptions() {
@@ -904,7 +1010,7 @@ public class Listener {
 		m.dofsharpPlane.setEnabled(false);
 
 	}
-	
+
 	private static void desSelectRenderer() {
 		Menu m = Main.getFrame().getMenu();
 		m.grayScale.setSelected(false);
@@ -918,7 +1024,7 @@ public class Listener {
 		m.negateFilter.setSelected(false);
 
 	}
-	
+
 	private static Renderer getSelectedRenderer() {
 		Menu m = Main.getFrame().getMenu();
 		if (m.colorScale.isSelected())
@@ -949,10 +1055,16 @@ public class Listener {
 			return new DotProduct();
 		if (m.gamma.isSelected())
 			return new GammaCorrectionFilter();
+		if (m.exponencialN.isSelected())
+			return new ExponencialNoiseFilter();
+		if (m.rayleighN.isSelected())
+			return new RayleighNoiseFilter();
+		if (m.gaussianN.isSelected())
+			return new GaussianNoiseFilter();
 		return null;
-		
+
 	}
-	
+
 	public static class setDOFIterationsListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 

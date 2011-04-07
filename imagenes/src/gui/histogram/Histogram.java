@@ -229,4 +229,15 @@ public class Histogram
 	  return ret;
   }
 
-}// class Histogram 
+  public String binsss(){
+	  String str=  "[ ";
+	  
+	  for ( int i : fBins){
+		  str = str + i + " ";
+	  }
+	  
+	  return str + "]";
+  }
+}// class Histogram
+
+
