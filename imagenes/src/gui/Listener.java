@@ -40,7 +40,10 @@ import renderer.filters.DotProduct;
 import renderer.filters.EqualizeFilter;
 import renderer.filters.ExponencialNoiseFilter;
 import renderer.filters.GammaCorrectionFilter;
+import renderer.filters.MatrixFilter;
+import renderer.filters.MedianFilter;
 import renderer.filters.GaussianNoiseFilter;
+
 import renderer.filters.NegateFilter;
 import renderer.filters.Product;
 import renderer.filters.RayleighNoiseFilter;
@@ -48,6 +51,7 @@ import renderer.filters.Substraction;
 import renderer.filters.Sum;
 import renderer.filters.UmbralFilter;
 import renderer.filters.histogramFilter;
+import util.Matrix;
 import util.Util;
 
 import main.Main;
@@ -316,6 +320,88 @@ public class Listener {
 
 	}
 
+	public static class MatrixListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Select Filter");
+			final SpinnerNumberModel spNModel = new SpinnerNumberModel(
+					MatrixFilter.N, 1, 51, 2);
+			final SpinnerNumberModel spMModel = new SpinnerNumberModel(
+					MatrixFilter.M, 1, 51, 2);
+			final JSpinner spN = new JSpinner(spNModel);
+			final JSpinner spM = new JSpinner(spMModel);
+
+			JButton low = new JButton("Low-pass filter");
+			low.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					
+					MatrixFilter.N = (Integer) ( spN.getValue());
+					MatrixFilter.M = (Integer) ( spM.getValue());
+					
+					double cant = MatrixFilter.N * MatrixFilter.M;
+					double[][] data = new double[MatrixFilter.N][MatrixFilter.M];
+					double value = 1 / cant;
+					for (int j = 0; j < MatrixFilter.N; j++) {
+						for (int i = 0; i < MatrixFilter.M; i++) {
+							data[j][i] = value;
+						
+						}
+					}
+
+					MatrixFilter.mat = new Matrix(data);
+
+
+					frame.dispose();
+				}
+			});
+			JButton high = new JButton("High-pass filter");
+			high.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					
+					MatrixFilter.N = (Integer) ( spN.getValue());
+					MatrixFilter.M = (Integer) ( spM.getValue());
+					
+					double cant = MatrixFilter.N * MatrixFilter.M;
+					double[][] data = new double[MatrixFilter.N][MatrixFilter.M];
+					double value = -1 / cant;
+					for (int j = 0; j < MatrixFilter.N; j++) {
+						for (int i = 0; i < MatrixFilter.M; i++) {
+							data[j][i] = value;
+						
+						}
+					}
+					data[MatrixFilter.N / 2 ][MatrixFilter.M / 2 ] = (cant - 1) /cant; 
+					
+
+					MatrixFilter.mat = new Matrix(data);
+					MatrixFilter.mat.show();
+
+					frame.dispose();
+				}
+			});
+			JLabel nlabel = new JLabel("N:");
+			JLabel mlabel = new JLabel("M:");
+
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(3, 2));
+			panel.add(nlabel);
+			panel.add(spN);
+			panel.add(mlabel);
+			panel.add(spM);
+			panel.add(low);
+			panel.add(high);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
 	public static class GammaListener implements ActionListener {
 
 		@Override
@@ -347,7 +433,6 @@ public class Listener {
 		}
 
 	}
-
 	public static class ExponencialNoiseListener implements ActionListener {
 
 		@Override
@@ -832,7 +917,8 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (Main.getFrame().getButtons().isRendering()) {
-				Main.getFrame()
+				Main
+						.getFrame()
 						.ShowDialog(
 								"Cant open another image while rendering this one! Press Stop!",
 								"Rendering", AlertType.ERROR);
@@ -1055,12 +1141,17 @@ public class Listener {
 			return new DotProduct();
 		if (m.gamma.isSelected())
 			return new GammaCorrectionFilter();
+		if (m.applyMatrix.isSelected())
+			return new MatrixFilter();
+		if (m.median.isSelected())
+			return new MedianFilter();
 		if (m.exponencialN.isSelected())
 			return new ExponencialNoiseFilter();
 		if (m.rayleighN.isSelected())
 			return new RayleighNoiseFilter();
 		if (m.gaussianN.isSelected())
 			return new GaussianNoiseFilter();
+			
 		return null;
 
 	}
