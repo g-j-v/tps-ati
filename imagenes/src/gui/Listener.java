@@ -43,6 +43,7 @@ import renderer.filters.GammaCorrectionFilter;
 import renderer.filters.MatrixFilter;
 import renderer.filters.MedianFilter;
 import renderer.filters.GaussianNoiseFilter;
+import renderer.filters.SobelFilter;
 
 import renderer.filters.NegateFilter;
 import renderer.filters.Product;
@@ -403,6 +404,65 @@ public class Listener {
 
 	}
 
+	
+	public static class BorderListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Select Border Filter");
+
+			JButton Roberts = new JButton("Roberts");
+			Roberts.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					double[][] data = {{1, 0, 0}, {0 , 0 ,0}, {0, 0, -1}};
+					SobelFilter.mat1 = new Matrix(data);
+					double[][] data2 ={{0, 0, 1}, {0 , 0 ,0}, {-1, 0, 0}};
+					SobelFilter.mat2 = new Matrix(data2);
+
+
+					frame.dispose();
+				}
+			});
+			JButton prewitt = new JButton("Prewitt");
+			prewitt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					double[][] data = {{-1, -1, -1}, {0 , 0 ,0}, {1, 1, 1}};
+					SobelFilter.mat1 = new Matrix(data);
+					double[][] data2 ={{-1, 0, 1}, {-1 , 0 ,1}, {-1, 0, 1}};
+					SobelFilter.mat2 = new Matrix(data2);
+
+					frame.dispose();
+				}
+			});
+			
+			JButton sobel = new JButton("Sobel");
+			sobel.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					double[][] data = {{-1, -2, -1}, {0 , 0 ,0}, {1, 2, 1}};
+					SobelFilter.mat1 = new Matrix(data);
+					double[][] data2 ={{-1, 0, 1}, {-2 , 0 ,2}, {-1, 0, 1}};
+					SobelFilter.mat2 = new Matrix(data2);
+
+					frame.dispose();
+				}
+			});
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(3, 1));
+			panel.add(Roberts);
+			panel.add(prewitt);
+			panel.add(sobel);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+	
 	public static class GammaListener implements ActionListener {
 
 		@Override
@@ -1194,7 +1254,8 @@ public class Listener {
 			return new GaussianNoiseFilter();
 		if (m.saltnpepperN.isSelected())
 			return new SaltnPepperNoiseFilter();
-		
+		if (m.sobel.isSelected())
+			return new SobelFilter();	
 			
 		return null;
 

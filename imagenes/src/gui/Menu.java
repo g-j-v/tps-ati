@@ -50,7 +50,7 @@ public class Menu extends JMenuBar {
 
 
 	JRadioButtonMenuItem equalize;
-	JRadioButtonMenuItem gamma;
+	JRadioButtonMenuItem gamma ;
 	JRadioButtonMenuItem histogram;
 	JRadioButtonMenuItem sum;
 	JRadioButtonMenuItem contrast;
@@ -60,6 +60,7 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem dotProduct;
 	JRadioButtonMenuItem applyMatrix;
 	JRadioButtonMenuItem median;
+	JRadioButtonMenuItem sobel;
 	
 	//DOF
 	JRadioButtonMenuItem dofEnabled;
@@ -250,6 +251,7 @@ public class Menu extends JMenuBar {
 		dotProduct = new JRadioButtonMenuItem("Dot Product");
 		applyMatrix = new JRadioButtonMenuItem("Apply Matrix");
 		median = new JRadioButtonMenuItem("Median mask");
+		sobel = new JRadioButtonMenuItem("Borders");
 		
 		substraction = new JRadioButtonMenuItem("Substraction");
 		rendererGroup.add(equalize);
@@ -265,7 +267,8 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(rayleighN);
 		rendererGroup.add(gaussianN);
 		rendererGroup.add(saltnpepperN);
-		
+
+		rendererGroup.add(sobel);
 		rendererGroup.add(sum);
 		rendererGroup.add(umbral);
 
@@ -282,6 +285,7 @@ public class Menu extends JMenuBar {
 		sum.addActionListener(new Listener.sumListener());
 		dotProduct.addActionListener(new Listener.dotProductListener());
 		applyMatrix.addActionListener(new Listener.MatrixListener());
+		sobel.addActionListener(new Listener.BorderListener());
 		Options.add(contrast);
 		Options.add(gamma);
 		Options.add(histogram);
@@ -293,6 +297,7 @@ public class Menu extends JMenuBar {
 		Options.add(umbral);
 		Options.add(median);
 		Options.add(applyMatrix);
+		Options.add(sobel);
 		Options.add(exponencialN);
 		Options.add(rayleighN);
 		Options.add(gaussianN);
