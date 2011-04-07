@@ -36,7 +36,7 @@ public class ExponencialNoiseFilter extends Filter {
 
 		colors[2] = colors[2]
 				* (float) (-1 / lambda * Math.log(Math.random() + 0.0001));
-		pixel = Color.HSBtoRGB(colors[0], colors[1], colors[2] / 255);
+		pixel = Color.HSBtoRGB(colors[0], colors[1], colors[2]);
 		Color c = new Color(pixel);
 
 		return c;
