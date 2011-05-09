@@ -158,10 +158,61 @@ public class Listener {
 
 	}
 
-	public static class dofEnabledListener implements ActionListener {
+	public static class matrixListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			final JFrame frame = new JFrame("Set Matrix values");
+			final SpinnerNumberModel spMaxModel = new SpinnerNumberModel(
+					Settings., -255, 255, 1);
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					Settings.contrastLow, 255, 255, 1);
+			final SpinnerNumberModel spS1Model = new SpinnerNumberModel(
+					Settings.contrastS1, -255, 255, 1);
+			final SpinnerNumberModel spS2Model = new SpinnerNumberModel(
+					Settings.contrastS2, -255, 255, 1);
+			final JSpinner spMin = new JSpinner(spMinModel);
+			final JSpinner spMax = new JSpinner(spMaxModel);
+			final JSpinner spS1 = new JSpinner(spS1Model);
+			final JSpinner spS2 = new JSpinner(spS2Model);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					Settings.contrastLow = (Integer) spMin.getValue();
+					Settings.contrastHigh = (Integer) spMax.getValue();
+					Settings.contrastS1 = (Integer) spS1.getValue();
+					Settings.contrastS2 = (Integer) spS2.getValue();
+					frame.dispose();
+
+					if (Settings.contrastLow > Settings.contrastHigh)
+						Settings.contrastLow = Settings.contrastHigh;
+
+					if (Settings.contrastS1 > Settings.contrastLow)
+						Settings.contrastS1 = Settings.contrastLow;
+					if (Settings.contrastS2 < Settings.contrastHigh)
+						Settings.contrastS2 = Settings.contrastHigh;
+				}
+			});
+			JLabel maxlabel = new JLabel("Max limit:");
+			JLabel minlabel = new JLabel("Min limit:");
+			JLabel S2label = new JLabel("New Max limit:");
+			JLabel S1label = new JLabel("New Min limit:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(4, 2));
+			panel.add(minlabel);
+			panel.add(spMin);
+			panel.add(maxlabel);
+			panel.add(spMax);
+			panel.add(S1label);
+			panel.add(spS1);
+			panel.add(S2label);
+			panel.add(spS2);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		}
 

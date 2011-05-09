@@ -63,7 +63,7 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem sobel;
 	
 	//DOF
-	JRadioButtonMenuItem dofEnabled;
+	JRadioButtonMenuItem matrix;
 	JRadioButtonMenuItem exponencialN;
 	JRadioButtonMenuItem rayleighN;
 	JRadioButtonMenuItem gaussianN;
@@ -311,23 +311,20 @@ public class Menu extends JMenuBar {
 	{
 		JMenu Options;
 		
-		Options = new JMenu("Depth of Field");
-		dofEnabled = new JRadioButtonMenuItem("Enable Depth Of Field");
-		dofIterations = new JMenuItem("Set Iterations");
-		dofDispersion = new JMenuItem("Set Dispersion");
-		dofsharpPlane = new JMenuItem("Set Sharp Plane");
+		Options = new JMenu("TP3");
+		matrix = new JRadioButtonMenuItem("Borders detectors");
+		dofIterations = new JRadioButtonMenuItem("Umbralization global");
+		dofDispersion = new JRadioButtonMenuItem("Umbralization Otzu");
+		dofsharpPlane = new JRadioButtonMenuItem("Set Sharp Plane");
 		
-		dofEnabled.setEnabled(false);
-		dofIterations.setEnabled(false);
-		dofDispersion.setEnabled(false);
-		dofsharpPlane.setEnabled(false);
-		
-		dofEnabled.addActionListener(new Listener.dofEnabledListener());
+		matrix.addActionListener(new Listener.matrixListener());
 		dofIterations.addActionListener(new Listener.setDOFIterationsListener());
 		dofDispersion.addActionListener(new Listener.setDOFDispersionListener());
 		dofsharpPlane.addActionListener(new Listener.setDOFSharpPlane());
 		
-		Options.add(dofEnabled);
+		rendererGroup.add(matrix);
+
+		Options.add(matrix);
 		Options.add(dofIterations);
 		Options.add(dofDispersion);
 		Options.add(dofsharpPlane);

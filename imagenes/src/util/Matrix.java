@@ -61,6 +61,11 @@ final public class Matrix {
     	return data[i][j];
     }
 
+    public void setData(int i, int j, double value){
+    	data[i][j] = value;
+    }
+    
+    
     // create and return the transpose of the invoking matrix
     public Matrix transpose() {
         Matrix A = new Matrix(N, M);
