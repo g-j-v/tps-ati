@@ -3,7 +3,6 @@ package renderer.filters;
 import gui.histogram.HistPanel;
 import gui.histogram.Histogram;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.color.ColorSpace;
@@ -11,7 +10,6 @@ import java.awt.color.ColorSpace;
 import javax.swing.JFrame;
 
 import main.Main;
-
 import core.PixelRay;
 import core.Settings;
 

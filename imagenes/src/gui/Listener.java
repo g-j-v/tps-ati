@@ -41,6 +41,7 @@ import renderer.filters.ExponencialNoiseFilter;
 import renderer.filters.GammaCorrectionFilter;
 import renderer.filters.GaussianFilter;
 import renderer.filters.GaussianNoiseFilter;
+import renderer.filters.GlobalUmbralFilter;
 import renderer.filters.IsotropicFilter;
 import renderer.filters.MatrixFilter;
 import renderer.filters.MedianFilter;
@@ -1411,47 +1412,16 @@ public class Listener {
 			return new AnisotropicFilter();
 		if (m.matrix.isSelected())
 			return new ApplyMatrixFilter();
+		if (m.umbralGlobal.isSelected())
+			return new GlobalUmbralFilter();
 		return null;
 
-	}
-
-	public static class setDOFIterationsListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-
-			JMenuItem iterations = Main.getFrame().getMenu().dofIterations;
-			if (!iterations.isEnabled())
-				return;
-			JFrame frame = new JFrame("Set Iterations");
-			final JFormattedTextField iterTF = new JFormattedTextField(
-					NumberFormat.getIntegerInstance());
-
-			JButton confirm = new JButton("Confirm");
-			confirm.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-
-				}
-			});
-			iterTF.setColumns(10);
-
-			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(1, 2));
-			panel.add(new JLabel("Iterations:"));
-			panel.add(iterTF);
-
-			frame.add(confirm, BorderLayout.SOUTH);
-			frame.add(panel, BorderLayout.CENTER);
-			frame.pack();
-			frame.setVisible(true);
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		}
 	}
 
 	public static class setDOFDispersionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 
-			JMenuItem iterations = Main.getFrame().getMenu().dofDispersion;
+			JMenuItem iterations = Main.getFrame().getMenu().umbralOtzu;
 			if (!iterations.isEnabled())
 				return;
 			JFrame frame = new JFrame("Set Dispersion Factor");

@@ -72,8 +72,8 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem saltnpepperN;
 	JRadioButtonMenuItem isotropic;
 	JRadioButtonMenuItem anisotropic;
-	JMenuItem dofDispersion;
-	JMenuItem dofIterations;
+	JMenuItem umbralOtzu;
+	JMenuItem umbralGlobal;
 	JMenuItem dofsharpPlane;
 	
 	public Menu() {
@@ -333,20 +333,20 @@ public class Menu extends JMenuBar {
 		
 		Options = new JMenu("TP3");
 		matrix = new JRadioButtonMenuItem("Directional operators");
-		dofIterations = new JRadioButtonMenuItem("Umbralization global");
-		dofDispersion = new JRadioButtonMenuItem("Umbralization Otzu");
+		umbralGlobal = new JRadioButtonMenuItem("Umbralization global");
+		umbralOtzu = new JRadioButtonMenuItem("Umbralization Otzu");
 		dofsharpPlane = new JRadioButtonMenuItem("Set Sharp Plane");
 		
 		matrix.addActionListener(new Listener.matrixListener());
-		dofIterations.addActionListener(new Listener.setDOFIterationsListener());
-		dofDispersion.addActionListener(new Listener.setDOFDispersionListener());
 		dofsharpPlane.addActionListener(new Listener.setDOFSharpPlane());
 		
 		rendererGroup.add(matrix);
+		rendererGroup.add(umbralGlobal);
+		rendererGroup.add(umbralOtzu);
 
 		Options.add(matrix);
-		Options.add(dofIterations);
-		Options.add(dofDispersion);
+		Options.add(umbralGlobal);
+		Options.add(umbralOtzu);
 		Options.add(dofsharpPlane);
 		return Options;
 		
