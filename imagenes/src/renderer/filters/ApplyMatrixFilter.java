@@ -9,17 +9,16 @@ import core.PixelRay;
 public class ApplyMatrixFilter extends Filter {
 
 	
-	public static int N1 = 1;
-	public static int N2 = 1;
-	public static int N3 = 1;
-	public static int N4 = 1;
-	public static int N5 = 1;
-	public static int N6 = 1;
-	public static int N7 = 1;
-	public static int N8 = 1;
-	public static int N9 = 1;
+	public static int N1 = 5;
+	public static int N2 = 5;
+	public static int N3 = 5;
+	public static int N4 = -3;
+	public static int N5 = 0;
+	public static int N6 = -3;
+	public static int N7 = -3;
+	public static int N8 = -3;
+	public static int N9 = -3;
 
-	
 	private static int N = 3;
 	private static int M = 3;
 	public static Matrix mat = new Matrix(N, M); 
@@ -36,17 +35,15 @@ public class ApplyMatrixFilter extends Filter {
 		NLimit = (N - 1) / 2;
 		x = oldImg.getWidth();
 		y = oldImg.getHeight();
-		mat.setData(1, 1, N1);
-		mat.setData(1, 2, N2);
-		mat.setData(1, 3, N3);
-		mat.setData(2, 1, N4);
-		mat.setData(2, 2, N5);
-		mat.setData(2, 3, N6);
-		mat.setData(3, 1, N7);
-		mat.setData(3, 2, N8);
-		mat.setData(3, 3, N9);
-		
-		System.out.println(mat.toString());
+		mat.setData(0, 0, N1);
+		mat.setData(0, 1, N2);
+		mat.setData(0, 2, N3);
+		mat.setData(1, 0, N4);
+		mat.setData(1, 1, N5);
+		mat.setData(1, 2, N6);
+		mat.setData(2, 0, N7);
+		mat.setData(2, 1, N8);
+		mat.setData(2, 2, N9);
 	}
 
 	ColorSpace space = ColorSpace.getInstance(ColorSpace.CS_sRGB);
