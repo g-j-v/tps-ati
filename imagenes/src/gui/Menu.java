@@ -322,7 +322,7 @@ public class Menu extends JMenuBar {
 		JMenu Options;
 		
 		Options = new JMenu("TP3");
-		matrix = new JRadioButtonMenuItem("Borders detectors");
+		matrix = new JRadioButtonMenuItem("Directional operators");
 		dofIterations = new JRadioButtonMenuItem("Umbralization global");
 		dofDispersion = new JRadioButtonMenuItem("Umbralization Otzu");
 		dofsharpPlane = new JRadioButtonMenuItem("Set Sharp Plane");
