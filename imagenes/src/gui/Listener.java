@@ -35,6 +35,7 @@ import renderer.ColorGradientGenerator;
 import renderer.CompressionFilter;
 import renderer.GrayScaleGenerator;
 import renderer.Renderer;
+import renderer.filters.ApplyMatrixFilter;
 import renderer.filters.ContrastFilter;
 import renderer.filters.DotProduct;
 import renderer.filters.EqualizeFilter;
@@ -163,51 +164,61 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			final JFrame frame = new JFrame("Set Matrix values");
-			final SpinnerNumberModel spMaxModel = new SpinnerNumberModel(
-					Settings., -255, 255, 1);
-			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
-					Settings.contrastLow, 255, 255, 1);
-			final SpinnerNumberModel spS1Model = new SpinnerNumberModel(
-					Settings.contrastS1, -255, 255, 1);
-			final SpinnerNumberModel spS2Model = new SpinnerNumberModel(
-					Settings.contrastS2, -255, 255, 1);
-			final JSpinner spMin = new JSpinner(spMinModel);
-			final JSpinner spMax = new JSpinner(spMaxModel);
-			final JSpinner spS1 = new JSpinner(spS1Model);
-			final JSpinner spS2 = new JSpinner(spS2Model);
+			final SpinnerNumberModel N1Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N1, -255, 255, 1);
+			final SpinnerNumberModel N2Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N2, -255, 255, 1);
+			final SpinnerNumberModel N3Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N3, -255, 255, 1);
+			final SpinnerNumberModel N4Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N4, -255, 255, 1);
+			final SpinnerNumberModel N5Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N5, -255, 255, 1);
+			final SpinnerNumberModel N6Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N6, -255, 255, 1);
+			final SpinnerNumberModel N7Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N7, -255, 255, 1);
+			final SpinnerNumberModel N8Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N8, -255, 255, 1);
+			final SpinnerNumberModel N9Model = new SpinnerNumberModel(
+					ApplyMatrixFilter.N9, -255, 255, 1);
+			final JSpinner sp1= new JSpinner(N1Model);
+			final JSpinner sp2= new JSpinner(N2Model);
+			final JSpinner sp3= new JSpinner(N3Model);
+			final JSpinner sp4= new JSpinner(N4Model);
+			final JSpinner sp5= new JSpinner(N5Model);
+			final JSpinner sp6= new JSpinner(N6Model);
+			final JSpinner sp7= new JSpinner(N7Model);
+			final JSpinner sp8= new JSpinner(N8Model);
+			final JSpinner sp9= new JSpinner(N9Model);
+
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					Settings.contrastLow = (Integer) spMin.getValue();
-					Settings.contrastHigh = (Integer) spMax.getValue();
-					Settings.contrastS1 = (Integer) spS1.getValue();
-					Settings.contrastS2 = (Integer) spS2.getValue();
+					ApplyMatrixFilter.N1 = (Integer) sp1.getValue();
+					ApplyMatrixFilter.N2 = (Integer) sp2.getValue();
+					ApplyMatrixFilter.N3 = (Integer) sp3.getValue();
+					ApplyMatrixFilter.N4 = (Integer) sp4.getValue();
+					ApplyMatrixFilter.N5 = (Integer) sp5.getValue();
+					ApplyMatrixFilter.N6 = (Integer) sp6.getValue();
+					ApplyMatrixFilter.N7 = (Integer) sp7.getValue();
+					ApplyMatrixFilter.N8 = (Integer) sp8.getValue();
+					ApplyMatrixFilter.N9 = (Integer) sp9.getValue();
 					frame.dispose();
-
-					if (Settings.contrastLow > Settings.contrastHigh)
-						Settings.contrastLow = Settings.contrastHigh;
-
-					if (Settings.contrastS1 > Settings.contrastLow)
-						Settings.contrastS1 = Settings.contrastLow;
-					if (Settings.contrastS2 < Settings.contrastHigh)
-						Settings.contrastS2 = Settings.contrastHigh;
 				}
 			});
-			JLabel maxlabel = new JLabel("Max limit:");
-			JLabel minlabel = new JLabel("Min limit:");
-			JLabel S2label = new JLabel("New Max limit:");
-			JLabel S1label = new JLabel("New Min limit:");
 			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(4, 2));
-			panel.add(minlabel);
-			panel.add(spMin);
-			panel.add(maxlabel);
-			panel.add(spMax);
-			panel.add(S1label);
-			panel.add(spS1);
-			panel.add(S2label);
-			panel.add(spS2);
+			panel.setLayout(new GridLayout(4, 3));
+			panel.add(sp1);
+			panel.add(sp2);
+			panel.add(sp3);
+			panel.add(sp4);
+			panel.add(sp5);
+			panel.add(sp6);
+			panel.add(sp7);
+			panel.add(sp8);
+			panel.add(sp9);
 			frame.add(confirm, BorderLayout.SOUTH);
 			frame.add(panel, BorderLayout.CENTER);
 			frame.pack();
@@ -1215,53 +1226,9 @@ public class Listener {
 		m.randomOrder.setEnabled(true);
 		m.bucketSize.setEnabled(true);
 		m.negateFilter.setEnabled(true);
-		m.dofEnabled.setEnabled(true);
 		m.orderedOrder.setEnabled(true);
 	}
 
-	private static void enableAAOptions() {
-		Menu m = Main.getFrame().getMenu();
-		m.contrast.setEnabled(true);
-		m.sum.setEnabled(true);
-		m.histogram.setEnabled(true);
-		m.product.setEnabled(true);
-	}
-
-	private static void disableAAOptions() {
-		Menu m = Main.getFrame().getMenu();
-		m.contrast.setEnabled(false);
-		m.sum.setEnabled(false);
-		m.histogram.setEnabled(false);
-	}
-
-	private static void enableDOFOptions() {
-		Menu m = Main.getFrame().getMenu();
-		m.dofDispersion.setEnabled(true);
-		m.dofIterations.setEnabled(true);
-		m.dofsharpPlane.setEnabled(true);
-	}
-
-	private static void disableDOFOptions() {
-		Menu m = Main.getFrame().getMenu();
-		m.dofDispersion.setEnabled(false);
-		m.dofIterations.setEnabled(false);
-		m.dofsharpPlane.setEnabled(false);
-
-	}
-
-	private static void desSelectRenderer() {
-		Menu m = Main.getFrame().getMenu();
-		m.grayScale.setSelected(false);
-		m.colorScale.setSelected(false);
-		m.binaryImage.setSelected(false);
-
-	}
-
-	private static void desSelectFilter() {
-		Menu m = Main.getFrame().getMenu();
-		m.negateFilter.setSelected(false);
-
-	}
 
 	private static Renderer getSelectedRenderer() {
 		Menu m = Main.getFrame().getMenu();
@@ -1307,7 +1274,8 @@ public class Listener {
 			return new SaltnPepperNoiseFilter();
 		if (m.sobel.isSelected())
 			return new SobelFilter();	
-			
+		if (m.matrix.isSelected())
+			return new ApplyMatrixFilter();				
 		return null;
 
 	}
