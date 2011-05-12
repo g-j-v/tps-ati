@@ -46,6 +46,7 @@ import renderer.filters.IsotropicFilter;
 import renderer.filters.MatrixFilter;
 import renderer.filters.MedianFilter;
 import renderer.filters.NegateFilter;
+import renderer.filters.OtzuUmbralFilter;
 import renderer.filters.Product;
 import renderer.filters.RayleighNoiseFilter;
 import renderer.filters.SaltnPepperNoiseFilter;
@@ -1414,6 +1415,9 @@ public class Listener {
 			return new ApplyMatrixFilter();
 		if (m.umbralGlobal.isSelected())
 			return new GlobalUmbralFilter();
+		if (m.umbralOtzu.isSelected())
+			return new OtzuUmbralFilter();
+		
 		return null;
 
 	}
