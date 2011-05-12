@@ -68,6 +68,8 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem rayleighN;
 	JRadioButtonMenuItem gaussianN;
 	JRadioButtonMenuItem saltnpepperN;
+	JRadioButtonMenuItem isotropic;
+	JRadioButtonMenuItem anisotropic;
 	JMenuItem dofDispersion;
 	JMenuItem dofIterations;
 	JMenuItem dofsharpPlane;
@@ -252,6 +254,8 @@ public class Menu extends JMenuBar {
 		applyMatrix = new JRadioButtonMenuItem("Apply Matrix");
 		median = new JRadioButtonMenuItem("Median mask");
 		sobel = new JRadioButtonMenuItem("Borders");
+		isotropic= new JRadioButtonMenuItem("Apply Isotropic Filter");
+		anisotropic= new JRadioButtonMenuItem("Apply Anisotropic Filter");
 		
 		substraction = new JRadioButtonMenuItem("Substraction");
 		rendererGroup.add(equalize);
@@ -268,6 +272,8 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(gaussianN);
 		rendererGroup.add(saltnpepperN);
 
+		rendererGroup.add(isotropic);
+		rendererGroup.add(anisotropic);
 		rendererGroup.add(sobel);
 		rendererGroup.add(sum);
 		rendererGroup.add(umbral);
@@ -286,6 +292,8 @@ public class Menu extends JMenuBar {
 		dotProduct.addActionListener(new Listener.dotProductListener());
 		applyMatrix.addActionListener(new Listener.MatrixListener());
 		sobel.addActionListener(new Listener.BorderListener());
+		isotropic.addActionListener(new Listener.IsotropicListener());
+		anisotropic.addActionListener(new Listener.AnisotropicListener());
 		Options.add(contrast);
 		Options.add(gamma);
 		Options.add(histogram);
@@ -302,6 +310,8 @@ public class Menu extends JMenuBar {
 		Options.add(rayleighN);
 		Options.add(gaussianN);
 		Options.add(saltnpepperN);
+		Options.add(isotropic);
+		Options.add(anisotropic);
 		
 		return Options;
 		

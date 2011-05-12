@@ -37,7 +37,7 @@ public class RayleighNoiseFilter extends Filter {
 		colors[2] = colors[2]
 				* (float) (psi * Math.sqrt(-2 * Math.log(1 - Math.random())));
 
-		pixel = Color.HSBtoRGB(colors[0], colors[1], colors[2] / 255); // TODO:
+		pixel = Color.HSBtoRGB(colors[0], colors[1], colors[2] ); // TODO:
 																		// chequear
 																		// este
 																		// método.

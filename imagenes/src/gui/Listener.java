@@ -24,40 +24,39 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
 import javax.vecmath.Point2i;
 
-import core.Settings;
-import core.Settings.BucketTypes;
-
+import main.Main;
 import renderer.BinaryImage;
 import renderer.ColorGradientGenerator;
 import renderer.CompressionFilter;
 import renderer.GrayScaleGenerator;
 import renderer.Renderer;
+import renderer.filters.AnisotropicFilter;
 import renderer.filters.ApplyMatrixFilter;
 import renderer.filters.ContrastFilter;
 import renderer.filters.DotProduct;
 import renderer.filters.EqualizeFilter;
 import renderer.filters.ExponencialNoiseFilter;
 import renderer.filters.GammaCorrectionFilter;
+import renderer.filters.GaussianFilter;
+import renderer.filters.GaussianNoiseFilter;
+import renderer.filters.IsotropicFilter;
 import renderer.filters.MatrixFilter;
 import renderer.filters.MedianFilter;
-import renderer.filters.GaussianNoiseFilter;
-import renderer.filters.SobelFilter;
-
 import renderer.filters.NegateFilter;
 import renderer.filters.Product;
 import renderer.filters.RayleighNoiseFilter;
 import renderer.filters.SaltnPepperNoiseFilter;
+import renderer.filters.SobelFilter;
 import renderer.filters.Substraction;
 import renderer.filters.Sum;
 import renderer.filters.UmbralFilter;
 import renderer.filters.histogramFilter;
 import util.Matrix;
 import util.Util;
-
-import main.Main;
+import core.Settings;
+import core.Settings.BucketTypes;
 
 public class Listener {
 
@@ -182,15 +181,15 @@ public class Listener {
 					ApplyMatrixFilter.N8, -255, 255, 1);
 			final SpinnerNumberModel N9Model = new SpinnerNumberModel(
 					ApplyMatrixFilter.N9, -255, 255, 1);
-			final JSpinner sp1= new JSpinner(N1Model);
-			final JSpinner sp2= new JSpinner(N2Model);
-			final JSpinner sp3= new JSpinner(N3Model);
-			final JSpinner sp4= new JSpinner(N4Model);
-			final JSpinner sp5= new JSpinner(N5Model);
-			final JSpinner sp6= new JSpinner(N6Model);
-			final JSpinner sp7= new JSpinner(N7Model);
-			final JSpinner sp8= new JSpinner(N8Model);
-			final JSpinner sp9= new JSpinner(N9Model);
+			final JSpinner sp1 = new JSpinner(N1Model);
+			final JSpinner sp2 = new JSpinner(N2Model);
+			final JSpinner sp3 = new JSpinner(N3Model);
+			final JSpinner sp4 = new JSpinner(N4Model);
+			final JSpinner sp5 = new JSpinner(N5Model);
+			final JSpinner sp6 = new JSpinner(N6Model);
+			final JSpinner sp7 = new JSpinner(N7Model);
+			final JSpinner sp8 = new JSpinner(N8Model);
+			final JSpinner sp9 = new JSpinner(N9Model);
 
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
@@ -401,22 +400,21 @@ public class Listener {
 			low.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					
-					MatrixFilter.N = (Integer) ( spN.getValue());
-					MatrixFilter.M = (Integer) ( spM.getValue());
-					
+
+					MatrixFilter.N = (Integer) (spN.getValue());
+					MatrixFilter.M = (Integer) (spM.getValue());
+
 					double cant = MatrixFilter.N * MatrixFilter.M;
 					double[][] data = new double[MatrixFilter.N][MatrixFilter.M];
 					double value = 1 / cant;
 					for (int j = 0; j < MatrixFilter.N; j++) {
 						for (int i = 0; i < MatrixFilter.M; i++) {
 							data[j][i] = value;
-						
+
 						}
 					}
 
 					MatrixFilter.mat = new Matrix(data);
-
 
 					frame.dispose();
 				}
@@ -425,21 +423,21 @@ public class Listener {
 			high.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					
-					MatrixFilter.N = (Integer) ( spN.getValue());
-					MatrixFilter.M = (Integer) ( spM.getValue());
-					
+
+					MatrixFilter.N = (Integer) (spN.getValue());
+					MatrixFilter.M = (Integer) (spM.getValue());
+
 					double cant = MatrixFilter.N * MatrixFilter.M;
 					double[][] data = new double[MatrixFilter.N][MatrixFilter.M];
 					double value = -1 / cant;
 					for (int j = 0; j < MatrixFilter.N; j++) {
 						for (int i = 0; i < MatrixFilter.M; i++) {
 							data[j][i] = value;
-						
+
 						}
 					}
-					data[MatrixFilter.N / 2 ][MatrixFilter.M / 2 ] = (cant - 1) /cant; 
-					
+					data[MatrixFilter.N / 2][MatrixFilter.M / 2] = (cant - 1)
+							/ cant;
 
 					MatrixFilter.mat = new Matrix(data);
 					MatrixFilter.mat.show();
@@ -466,7 +464,6 @@ public class Listener {
 
 	}
 
-	
 	public static class BorderListener implements ActionListener {
 
 		@Override
@@ -478,11 +475,10 @@ public class Listener {
 			Roberts.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					double[][] data = {{1, 0, 0}, {0 , 0 ,0}, {0, 0, -1}};
+					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };
 					SobelFilter.mat1 = new Matrix(data);
-					double[][] data2 ={{0, 0, 1}, {0 , 0 ,0}, {-1, 0, 0}};
+					double[][] data2 = { { 0, 0, 1 }, { 0, 0, 0 }, { -1, 0, 0 } };
 					SobelFilter.mat2 = new Matrix(data2);
-
 
 					frame.dispose();
 				}
@@ -491,22 +487,26 @@ public class Listener {
 			prewitt.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					double[][] data = {{-1, -1, -1}, {0 , 0 ,0}, {1, 1, 1}};
+					double[][] data = { { -1, -1, -1 }, { 0, 0, 0 },
+							{ 1, 1, 1 } };
 					SobelFilter.mat1 = new Matrix(data);
-					double[][] data2 ={{-1, 0, 1}, {-1 , 0 ,1}, {-1, 0, 1}};
+					double[][] data2 = { { -1, 0, 1 }, { -1, 0, 1 },
+							{ -1, 0, 1 } };
 					SobelFilter.mat2 = new Matrix(data2);
 
 					frame.dispose();
 				}
 			});
-			
+
 			JButton sobel = new JButton("Sobel");
 			sobel.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					double[][] data = {{-1, -2, -1}, {0 , 0 ,0}, {1, 2, 1}};
+					double[][] data = { { -1, -2, -1 }, { 0, 0, 0 },
+							{ 1, 2, 1 } };
 					SobelFilter.mat1 = new Matrix(data);
-					double[][] data2 ={{-1, 0, 1}, {-2 , 0 ,2}, {-1, 0, 1}};
+					double[][] data2 = { { -1, 0, 1 }, { -2, 0, 2 },
+							{ -1, 0, 1 } };
 					SobelFilter.mat2 = new Matrix(data2);
 
 					frame.dispose();
@@ -524,7 +524,7 @@ public class Listener {
 		}
 
 	}
-	
+
 	public static class GammaListener implements ActionListener {
 
 		@Override
@@ -556,6 +556,7 @@ public class Listener {
 		}
 
 	}
+
 	public static class ExponencialNoiseListener implements ActionListener {
 
 		@Override
@@ -636,10 +637,10 @@ public class Listener {
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					GaussianNoiseFilter.deviation= ((Double) spAlpha
+					GaussianNoiseFilter.deviation = ((Double) spAlpha
 							.getValue()).floatValue();
-					GaussianNoiseFilter.vmedio= ((Double) spMedio
-							.getValue()).floatValue();
+					GaussianNoiseFilter.vmedio = ((Double) spMedio.getValue())
+							.floatValue();
 					frame.dispose();
 				}
 			});
@@ -676,10 +677,10 @@ public class Listener {
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					SaltnPepperNoiseFilter.p0= ((Double) spAlpha
-							.getValue()).floatValue();
-					SaltnPepperNoiseFilter.p1= ((Double) spMedio
-							.getValue()).floatValue();
+					SaltnPepperNoiseFilter.p0 = ((Double) spAlpha.getValue())
+							.floatValue();
+					SaltnPepperNoiseFilter.p1 = ((Double) spMedio.getValue())
+							.floatValue();
 					frame.dispose();
 				}
 			});
@@ -691,6 +692,107 @@ public class Listener {
 			panel.add(spAlpha);
 			panel.add(medlabel);
 			panel.add(spMedio);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
+	public static class IsotropicListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Standard Deviation");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					IsotropicFilter.steps, 0, 50, 1);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					IsotropicFilter.steps = ((Integer) spAlpha.getValue());
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Steps:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
+	public static class AnisotropicListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Standard Deviation");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					AnisotropicFilter.steps, 0, 200, 1);
+			final SpinnerNumberModel spMedModel = new SpinnerNumberModel(
+					AnisotropicFilter.kappa, 0, 100, 0.001);
+			final JSpinner spMedio = new JSpinner(spMedModel);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					AnisotropicFilter.steps = ((Integer) spAlpha.getValue());
+					AnisotropicFilter.kappa = ((Integer) spMedio.getValue());
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Steps:");
+			JLabel maxlabel = new JLabel("Kappa:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			panel.add(maxlabel);
+			panel.add(spMedio);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
+	public static class GaussianListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Standard Deviation");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					GaussianFilter.sigma, 0, 50, 0.1);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					GaussianFilter.sigma = ((Double) spAlpha.getValue())
+							.floatValue();
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Sigma:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
 			frame.add(confirm, BorderLayout.SOUTH);
 			frame.add(panel, BorderLayout.CENTER);
 			frame.pack();
@@ -1080,8 +1182,7 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (Main.getFrame().getButtons().isRendering()) {
-				Main
-						.getFrame()
+				Main.getFrame()
 						.ShowDialog(
 								"Cant open another image while rendering this one! Press Stop!",
 								"Rendering", AlertType.ERROR);
@@ -1229,7 +1330,6 @@ public class Listener {
 		m.orderedOrder.setEnabled(true);
 	}
 
-
 	private static Renderer getSelectedRenderer() {
 		Menu m = Main.getFrame().getMenu();
 		if (m.colorScale.isSelected())
@@ -1273,9 +1373,13 @@ public class Listener {
 		if (m.saltnpepperN.isSelected())
 			return new SaltnPepperNoiseFilter();
 		if (m.sobel.isSelected())
-			return new SobelFilter();	
+			return new SobelFilter();
+		if (m.isotropic.isSelected())
+			return new IsotropicFilter();
+		if (m.anisotropic.isSelected())
+			return new AnisotropicFilter();
 		if (m.matrix.isSelected())
-			return new ApplyMatrixFilter();				
+			return new ApplyMatrixFilter();
 		return null;
 
 	}
