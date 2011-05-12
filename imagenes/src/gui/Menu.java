@@ -24,6 +24,8 @@ public class Menu extends JMenuBar {
 	
 	
 	JMenuItem secondaryImage;
+	JMenuItem restoreImage;
+	JMenuItem auxImage;
 	JMenuItem openImage;
 	JMenuItem saveImage;
 	JMenuItem setSize;
@@ -119,13 +121,21 @@ public class Menu extends JMenuBar {
 		openImage = new JMenuItem("Open Image");
 		saveImage = new JMenuItem("Save Image");
 		secondaryImage  = new JMenuItem("Copy Image to secondary variable");
+		auxImage  = new JMenuItem("Save Image to an auxiliar variable");
+		restoreImage = new JMenuItem("Restore Image from an auxiliar variable");
 		saveImage.setEnabled(false);
 		openImage.addActionListener(new Listener.openImageListener());
 		saveImage.addActionListener(new Listener.saveImageListener());
 		secondaryImage.addActionListener(new Listener.saveAsSecondaryImageListener());
+		auxImage.addActionListener(new Listener.saveAsAuxiliarImageListener());
+		restoreImage.addActionListener(new Listener.RestoreAuxiliarImageListener());
+
+	
 		fileMenu.add(openImage);
 		fileMenu.add(saveImage);
 		fileMenu.add(secondaryImage);
+		fileMenu.add(auxImage);
+		fileMenu.add(restoreImage);
 
 		return fileMenu;
 	}

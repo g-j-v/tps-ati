@@ -26,6 +26,7 @@ public class Settings {
 	private static Logger logger = LoggerWindowHandler.getLogger("SunflowSceneParser");
 	public static String scenePath;
 	public static BufferedImage secondaryImage;
+	public static BufferedImage auxImage;
 	public static float umbral = 127;
 
 

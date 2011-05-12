@@ -1225,7 +1225,7 @@ public class Listener {
 			JFrame frame = new JFrame("Secondary Image");
 			// frame.setBounds(50, 50, 400, 400);
 			frame.setPreferredSize(new Dimension(Settings.secondaryImage
-					.getWidth(), Settings.secondaryImage.getHeight()));
+					.getWidth(), Settings.secondaryImage.getHeight() + 100));
 			frame.add(new ImagePanel(Settings.secondaryImage));
 			frame.pack();
 			frame.setVisible(true);
@@ -1235,6 +1235,37 @@ public class Listener {
 
 	}
 
+	public static class saveAsAuxiliarImageListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Settings.auxImage = Main.getImage();
+			logger.info("Image copied");
+			JFrame frame = new JFrame("Auxiliar Image");
+			// frame.setBounds(50, 50, 400, 400);
+			frame.setPreferredSize(new Dimension(Settings.auxImage
+					.getWidth(), Settings.auxImage.getHeight() + 100));
+			frame.add(new ImagePanel(Settings.auxImage));
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		}
+
+	}
+
+	public static class RestoreAuxiliarImageListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			Main.setImage(Settings.auxImage);
+			logger.info("Image Restored");
+		}
+
+	}
+
+	
 	public static class histogramListener implements ActionListener {
 
 		@Override
