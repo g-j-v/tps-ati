@@ -9,7 +9,7 @@ import core.PixelRay;
 public class AnisotropicFilter extends Filter {
 
 	public static int steps;
-	public static float kappa;
+	public static double kappa;
 
 	int h = oldImg.getHeight();
 	int w = oldImg.getWidth();
@@ -47,7 +47,7 @@ public class AnisotropicFilter extends Filter {
 						dS = newImg.getRGB(i + 1, j);
 					}
 					float dSred = (float) ((dS >> 16) & 0xff) - red;
-					float cS = g(dNred);
+					float cS = g(dSred);
 
 					int dE;
 					if (j == w - 1) {
@@ -56,7 +56,7 @@ public class AnisotropicFilter extends Filter {
 						dE = newImg.getRGB(i, j + 1);
 					}
 					float dEred = (float) ((dE >> 16) & 0xff) - red;
-					float cE = g(dNred);
+					float cE = g(dEred);
 
 					int dO;
 					if (j == 0) {
@@ -65,7 +65,7 @@ public class AnisotropicFilter extends Filter {
 						dO = newImg.getRGB(i, j - 1);
 					}
 					float dOred = (float) ((dO >> 16) & 0xff) - red;
-					float cO = g(dNred);
+					float cO = g(dOred);
 
 					red = red
 							+ lambda
@@ -101,8 +101,14 @@ public class AnisotropicFilter extends Filter {
 	}
 
 	private float g(float dNred) {
-		float ret = (float) Math.pow(Math.E, Math.pow(-(dNred/kappa),2));
-		return 1;
+		if (kappa == 0) {
+			return 1;
+		}
+
+		float ret = (float) Math.pow(Math.E, -Math.pow((dNred / kappa), 2));
+		System.err.println("un pow " + Math.pow((dNred / kappa), 2) + " y e "
+				+ Math.E + " elevados " + ret + " y dnred " + dNred);
+		return ret;
 	}
 
 	ColorSpace space = ColorSpace.getInstance(ColorSpace.CS_sRGB);

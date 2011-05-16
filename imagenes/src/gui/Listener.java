@@ -43,6 +43,8 @@ import renderer.filters.GaussianFilter;
 import renderer.filters.GaussianNoiseFilter;
 import renderer.filters.GlobalUmbralFilter;
 import renderer.filters.IsotropicFilter;
+import renderer.filters.LaplacianBorderDetectorFilter;
+import renderer.filters.LaplacianBorderDetectorVarianzaFilter;
 import renderer.filters.MatrixFilter;
 import renderer.filters.MedianFilter;
 import renderer.filters.NegateFilter;
@@ -54,6 +56,7 @@ import renderer.filters.SobelFilter;
 import renderer.filters.Substraction;
 import renderer.filters.Sum;
 import renderer.filters.UmbralFilter;
+import renderer.filters.WeirdBorderDetectorFilter;
 import renderer.filters.histogramFilter;
 import util.Matrix;
 import util.Util;
@@ -183,15 +186,15 @@ public class Listener {
 					ApplyMatrixFilter.N8, -255, 255, 1);
 			final SpinnerNumberModel N9Model = new SpinnerNumberModel(
 					ApplyMatrixFilter.N9, -255, 255, 1);
-			final JSpinner sp1 = new JSpinner(N1Model);
-			final JSpinner sp2 = new JSpinner(N2Model);
-			final JSpinner sp3 = new JSpinner(N3Model);
-			final JSpinner sp4 = new JSpinner(N4Model);
-			final JSpinner sp5 = new JSpinner(N5Model);
-			final JSpinner sp6 = new JSpinner(N6Model);
-			final JSpinner sp7 = new JSpinner(N7Model);
-			final JSpinner sp8 = new JSpinner(N8Model);
-			final JSpinner sp9 = new JSpinner(N9Model);
+			final JSpinner sp1= new JSpinner(N1Model);
+			final JSpinner sp2= new JSpinner(N2Model);
+			final JSpinner sp3= new JSpinner(N3Model);
+			final JSpinner sp4= new JSpinner(N4Model);
+			final JSpinner sp5= new JSpinner(N5Model);
+			final JSpinner sp6= new JSpinner(N6Model);
+			final JSpinner sp7= new JSpinner(N7Model);
+			final JSpinner sp8= new JSpinner(N8Model);
+			final JSpinner sp9= new JSpinner(N9Model);
 
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
@@ -734,6 +737,37 @@ public class Listener {
 
 	}
 
+	public static class LaplacianBorderDetectorVarianzaListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Set Variance");
+			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
+					LaplacianBorderDetectorVarianzaFilter.variance , 0, 500, 1);
+			final JSpinner spAlpha = new JSpinner(spMinModel);
+			JButton confirm = new JButton("Confirm");
+			confirm.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					LaplacianBorderDetectorVarianzaFilter.variance = ((Double) spAlpha.getValue());
+					frame.dispose();
+				}
+			});
+			JLabel minlabel = new JLabel("Variance:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(1, 2));
+			panel.add(minlabel);
+			panel.add(spAlpha);
+			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+	
 	public static class AnisotropicListener implements ActionListener {
 
 		@Override
@@ -743,7 +777,7 @@ public class Listener {
 			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
 					AnisotropicFilter.steps, 0, 200, 1);
 			final SpinnerNumberModel spMedModel = new SpinnerNumberModel(
-					AnisotropicFilter.kappa, 0, 100, 0.001);
+					AnisotropicFilter.kappa, 0, 300, 0.001);
 			final JSpinner spMedio = new JSpinner(spMedModel);
 			final JSpinner spAlpha = new JSpinner(spMinModel);
 			JButton confirm = new JButton("Confirm");
@@ -751,7 +785,7 @@ public class Listener {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					AnisotropicFilter.steps = ((Integer) spAlpha.getValue());
-					AnisotropicFilter.kappa = ((Integer) spMedio.getValue());
+					AnisotropicFilter.kappa = ((Double)spMedio.getValue());
 					frame.dispose();
 				}
 			});
@@ -1363,6 +1397,7 @@ public class Listener {
 		m.orderedOrder.setEnabled(true);
 	}
 
+
 	private static Renderer getSelectedRenderer() {
 		Menu m = Main.getFrame().getMenu();
 		if (m.colorScale.isSelected())
@@ -1413,6 +1448,12 @@ public class Listener {
 			return new AnisotropicFilter();
 		if (m.matrix.isSelected())
 			return new ApplyMatrixFilter();
+		if (m.weirdBorderDetector.isSelected())
+			return new WeirdBorderDetectorFilter();
+		if (m.laplacianBorderDetector.isSelected())
+			return new LaplacianBorderDetectorFilter();
+		if (m.laplacianBorderDetectorVariance.isSelected())
+			return new LaplacianBorderDetectorVarianzaFilter();
 		if (m.umbralGlobal.isSelected())
 			return new GlobalUmbralFilter();
 		if (m.umbralOtzu.isSelected())
@@ -1459,7 +1500,7 @@ public class Listener {
 
 		public void actionPerformed(ActionEvent arg0) {
 
-			JMenuItem sharpPlane = Main.getFrame().getMenu().dofsharpPlane;
+			JMenuItem sharpPlane = Main.getFrame().getMenu().weirdBorderDetector;
 			if (!sharpPlane.isEnabled())
 				return;
 

@@ -3,6 +3,7 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -14,15 +15,13 @@ import main.Main;
 @SuppressWarnings("serial")
 public class Menu extends JMenuBar {
 
-
 	ButtonGroup rendererGroup;
-	
-	JRadioButtonMenuItem	 grayScale;
-	JRadioButtonMenuItem	 colorScale;
-	JRadioButtonMenuItem	 binaryImage;
-	JRadioButtonMenuItem	 compresion;
-	
-	
+
+	JRadioButtonMenuItem grayScale;
+	JRadioButtonMenuItem colorScale;
+	JRadioButtonMenuItem binaryImage;
+	JRadioButtonMenuItem compresion;
+
 	JMenuItem secondaryImage;
 	JMenuItem restoreImage;
 	JMenuItem auxImage;
@@ -37,34 +36,33 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem progress;
 	JRadioButtonMenuItem softShadows;
 	JRadioButtonMenuItem cellShading;
-	
-	//MultiThreading
+
+	// MultiThreading
 	JRadioButtonMenuItem rowOrder;
 	JRadioButtonMenuItem colOrder;
 	JRadioButtonMenuItem orderedOrder;
-	
+
 	JRadioButtonMenuItem randomOrder;
 	JMenuItem bucketSize;
 	JRadioButtonMenuItem fitToSize;
-	
-	//Antialiasing
+
+	// Antialiasing
 	JRadioButtonMenuItem negateFilter;
 
-
 	JRadioButtonMenuItem equalize;
-	JRadioButtonMenuItem gamma ;
+	JRadioButtonMenuItem gamma;
 	JRadioButtonMenuItem histogram;
 	JRadioButtonMenuItem sum;
 	JRadioButtonMenuItem contrast;
-	JRadioButtonMenuItem umbral;	
+	JRadioButtonMenuItem umbral;
 	JRadioButtonMenuItem product;
 	JRadioButtonMenuItem substraction;
 	JRadioButtonMenuItem dotProduct;
 	JRadioButtonMenuItem applyMatrix;
 	JRadioButtonMenuItem median;
 	JRadioButtonMenuItem sobel;
-	
-	//DOF
+
+	// DOF
 	JRadioButtonMenuItem matrix;
 	JRadioButtonMenuItem exponencialN;
 	JRadioButtonMenuItem rayleighN;
@@ -74,8 +72,10 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem anisotropic;
 	JMenuItem umbralOtzu;
 	JMenuItem umbralGlobal;
-	JMenuItem dofsharpPlane;
-	
+	JMenuItem weirdBorderDetector;
+	JMenuItem laplacianBorderDetector;
+	JMenuItem laplacianBorderDetectorVariance;
+
 	public Menu() {
 
 		add(createScaleMenu());
@@ -84,25 +84,23 @@ public class Menu extends JMenuBar {
 		add(createRenderingOptions());
 		add(createFilterOptions());
 		add(createDOFOptions());
-	
 
 	}
 
-
 	private JMenu createScaleMenu() {
-	
+
 		JMenu renderMenu = new JMenu("Renderer");
 		rendererGroup = new ButtonGroup();
 		grayScale = new JRadioButtonMenuItem("Gray Gradient");
 		colorScale = new JRadioButtonMenuItem("Color Gradient");
 		binaryImage = new JRadioButtonMenuItem("Binary Image");
-		compresion = new JRadioButtonMenuItem("Compresion de rango"); 
-		
+		compresion = new JRadioButtonMenuItem("Compresion de rango");
+
 		grayScale.addActionListener(new Listener.engineListener());
 		colorScale.addActionListener(new Listener.engineListener());
 		binaryImage.addActionListener(new Listener.engineListener());
 		compresion.addActionListener(new Listener.engineListener());
-		
+
 		rendererGroup.add(colorScale);
 		rendererGroup.add(binaryImage);
 		rendererGroup.add(grayScale);
@@ -111,26 +109,27 @@ public class Menu extends JMenuBar {
 		renderMenu.add(colorScale);
 		renderMenu.add(grayScale);
 		renderMenu.add(binaryImage);
-		renderMenu.add(compresion); 
+		renderMenu.add(compresion);
 		return renderMenu;
 	}
-	
+
 	private JMenu createFileMenu() {
 		JMenu fileMenu = new JMenu("File");
 
 		openImage = new JMenuItem("Open Image");
 		saveImage = new JMenuItem("Save Image");
-		secondaryImage  = new JMenuItem("Copy Image to secondary variable");
-		auxImage  = new JMenuItem("Save Image to an auxiliar variable");
+		secondaryImage = new JMenuItem("Copy Image to secondary variable");
+		auxImage = new JMenuItem("Save Image to an auxiliar variable");
 		restoreImage = new JMenuItem("Restore Image from an auxiliar variable");
 		saveImage.setEnabled(false);
 		openImage.addActionListener(new Listener.openImageListener());
 		saveImage.addActionListener(new Listener.saveImageListener());
-		secondaryImage.addActionListener(new Listener.saveAsSecondaryImageListener());
+		secondaryImage
+				.addActionListener(new Listener.saveAsSecondaryImageListener());
 		auxImage.addActionListener(new Listener.saveAsAuxiliarImageListener());
-		restoreImage.addActionListener(new Listener.RestoreAuxiliarImageListener());
+		restoreImage
+				.addActionListener(new Listener.RestoreAuxiliarImageListener());
 
-	
 		fileMenu.add(openImage);
 		fileMenu.add(saveImage);
 		fileMenu.add(secondaryImage);
@@ -140,21 +139,16 @@ public class Menu extends JMenuBar {
 		return fileMenu;
 	}
 
-
-
 	private JMenu createOptionsMenu() {
 		JMenu Options;
-		
-		
-		
+
 		Options = new JMenu("Image");
-		
-		
-		//Display Options **************************************************
+
+		// Display Options **************************************************
 		setSize = new JMenuItem("Set Image Size");
 		copySubImage = new JMenuItem("Copy Sub Image ");
 		setPixelColor = new JMenuItem("Set pixel color");
-		getPixelColor= new JMenuItem("Get pixel color");
+		getPixelColor = new JMenuItem("Get pixel color");
 		setPixelColor.addActionListener(new Listener.setPixelColorListener());
 		copySubImage.addActionListener(new Listener.setCopySubImageListener());
 		setSize.addActionListener(new Listener.setSizeListener());
@@ -177,39 +171,34 @@ public class Menu extends JMenuBar {
 		Options.add(renderTime);
 		Options.add(progress);
 		Options.add(softShadows);
-		
+
 		fitToSize = new JRadioButtonMenuItem("Fit image to Panel");
 		fitToSize.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Main.update();
 			}
 		});
 		Options.add(fitToSize);
-		
-
 
 		return Options;
 	}
-	
-	private JMenu createRenderingOptions()
-	{
+
+	private JMenu createRenderingOptions() {
 		JMenu Options;
-	
+
 		Options = new JMenu("Rendering");
-		
-		
-		//MultiThreading Options *********************************************
-		
+
+		// MultiThreading Options *********************************************
+
 		ButtonGroup group = new ButtonGroup();
-		
-		
+
 		rowOrder = new JRadioButtonMenuItem("Row order");
 		colOrder = new JRadioButtonMenuItem("Col order");
-		orderedOrder = new JRadioButtonMenuItem("Ordered order");		
+		orderedOrder = new JRadioButtonMenuItem("Ordered order");
 		randomOrder = new JRadioButtonMenuItem("Random order");
-		
+
 		rowOrder.addActionListener(new Listener.bucketOrderListener());
 		colOrder.addActionListener(new Listener.bucketOrderListener());
 		randomOrder.addActionListener(new Listener.bucketOrderListener());
@@ -222,40 +211,38 @@ public class Menu extends JMenuBar {
 		group.add(colOrder);
 		group.add(orderedOrder);
 		group.add(randomOrder);
-		
+
 		bucketSize = new JMenuItem("Set Bucket Size");
 		bucketSize.setEnabled(false);
 		bucketSize.addActionListener(new Listener.setBucketListener());
-	
-		
+
 		Options.add(bucketSize);
 		Options.add(rowOrder);
 		Options.add(colOrder);
 		Options.add(orderedOrder);
 		Options.add(randomOrder);
-		
-		
+
 		return Options;
 	}
-	
-	private JMenu createFilterOptions()
-	{
+
+	private JMenu createFilterOptions() {
 		JMenu Options;
-		
+
 		Options = new JMenu("Filter");
-		
-		//AA options ********************************************************************
-		
+
+		// AA options
+		// ********************************************************************
+
 		negateFilter = new JRadioButtonMenuItem("Negate");
 		Options.add(negateFilter);
 		rendererGroup.add(negateFilter);
 		umbral = new JRadioButtonMenuItem("Umbralization");
 		contrast = new JRadioButtonMenuItem("Increase contrast");
 		gamma = new JRadioButtonMenuItem("Gamma Correction");
-		exponencialN= new JRadioButtonMenuItem("Add Exponential Noise");
-		gaussianN= new JRadioButtonMenuItem("Add Gaussian Noise");
-		rayleighN= new JRadioButtonMenuItem("Add Rayleigh Noise");
-		saltnpepperN= new JRadioButtonMenuItem("Add Salt N' Pepper Noise");
+		exponencialN = new JRadioButtonMenuItem("Add Exponential Noise");
+		gaussianN = new JRadioButtonMenuItem("Add Gaussian Noise");
+		rayleighN = new JRadioButtonMenuItem("Add Rayleigh Noise");
+		saltnpepperN = new JRadioButtonMenuItem("Add Salt N' Pepper Noise");
 		histogram = new JRadioButtonMenuItem("Histogram");
 		equalize = new JRadioButtonMenuItem("Equalize");
 		sum = new JRadioButtonMenuItem("Sum");
@@ -264,9 +251,9 @@ public class Menu extends JMenuBar {
 		applyMatrix = new JRadioButtonMenuItem("Apply Matrix");
 		median = new JRadioButtonMenuItem("Median mask");
 		sobel = new JRadioButtonMenuItem("Borders");
-		isotropic= new JRadioButtonMenuItem("Apply Isotropic Filter");
-		anisotropic= new JRadioButtonMenuItem("Apply Anisotropic Filter");
-		
+		isotropic = new JRadioButtonMenuItem("Apply Isotropic Filter");
+		anisotropic = new JRadioButtonMenuItem("Apply Anisotropic Filter");
+
 		substraction = new JRadioButtonMenuItem("Substraction");
 		rendererGroup.add(equalize);
 		rendererGroup.add(histogram);
@@ -322,43 +309,51 @@ public class Menu extends JMenuBar {
 		Options.add(saltnpepperN);
 		Options.add(isotropic);
 		Options.add(anisotropic);
-		
+
 		return Options;
-		
+
 	}
-	
-	private JMenu createDOFOptions()
-	{
+
+	private JMenu createDOFOptions() {
 		JMenu Options;
-		
+
 		Options = new JMenu("TP3");
 		matrix = new JRadioButtonMenuItem("Directional operators");
 		umbralGlobal = new JRadioButtonMenuItem("Umbralization global");
 		umbralOtzu = new JRadioButtonMenuItem("Umbralization Otzu");
-		dofsharpPlane = new JRadioButtonMenuItem("Set Sharp Plane");
-		
+		weirdBorderDetector = new JRadioButtonMenuItem(
+				"Detect borders oddly with laplacian mask");
+		laplacianBorderDetector = new JRadioButtonMenuItem(
+				"Detect borders with laplacian mask");
+		laplacianBorderDetectorVariance = new JRadioButtonMenuItem(
+				"Detect borders with laplacian mask and variance");
+
 		matrix.addActionListener(new Listener.matrixListener());
-		dofsharpPlane.addActionListener(new Listener.setDOFSharpPlane());
-		
+		laplacianBorderDetectorVariance
+				.addActionListener(new Listener.LaplacianBorderDetectorVarianzaListener());
+
 		rendererGroup.add(matrix);
+		rendererGroup.add(weirdBorderDetector);
+		rendererGroup.add(laplacianBorderDetector);
+		rendererGroup.add(laplacianBorderDetectorVariance);
 		rendererGroup.add(umbralGlobal);
 		rendererGroup.add(umbralOtzu);
 
 		Options.add(matrix);
 		Options.add(umbralGlobal);
 		Options.add(umbralOtzu);
-		Options.add(dofsharpPlane);
+		Options.add(weirdBorderDetector);
+		Options.add(laplacianBorderDetector);
+		Options.add(laplacianBorderDetectorVariance);
 		return Options;
-		
-	}
-	
 
-	
-	public boolean engineSelected()
-	{
-		return colorScale.isSelected() || grayScale.isSelected() || binaryImage.isSelected(); 
 	}
-	
+
+	public boolean engineSelected() {
+		return colorScale.isSelected() || grayScale.isSelected()
+				|| binaryImage.isSelected();
+	}
+
 	public JRadioButtonMenuItem getRayTracer() {
 		return grayScale;
 	}
@@ -382,11 +377,11 @@ public class Menu extends JMenuBar {
 	public JMenuItem getCopySubImage() {
 		return copySubImage;
 	}
-	
+
 	public JMenuItem getPixelColor() {
 		return getPixelColor;
 	}
-	
+
 	public JMenuItem getSetPixelColor() {
 		return setPixelColor;
 	}
@@ -398,11 +393,11 @@ public class Menu extends JMenuBar {
 	public JRadioButtonMenuItem getProgress() {
 		return progress;
 	}
-	
+
 	public JRadioButtonMenuItem getSoftShadows() {
 		return softShadows;
 	}
-	
+
 	public JRadioButtonMenuItem getRowOrder() {
 		return rowOrder;
 	}
@@ -422,36 +417,29 @@ public class Menu extends JMenuBar {
 	public JRadioButtonMenuItem getFitToSize() {
 		return fitToSize;
 	}
-	
+
 	public JRadioButtonMenuItem getAaEnabled() {
 		return negateFilter;
 	}
 
-
 	public JRadioButtonMenuItem getStochastic() {
 		return histogram;
 	}
-	
-	
+
 	public JRadioButtonMenuItem getEqualized() {
 		return equalize;
 	}
-
 
 	public JRadioButtonMenuItem getAdaptive() {
 		return sum;
 	}
 
-
 	public JMenuItem getAaBounds() {
 		return contrast;
 	}
 
-
 	public JRadioButtonMenuItem getOrderOrder() {
 		return orderedOrder;
 	}
-	
-	
-	
+
 }

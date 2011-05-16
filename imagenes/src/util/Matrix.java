@@ -162,6 +162,12 @@ final public class Matrix {
 					C.data[i][j] += (A.data[i][k] * B.data[k][j]);
 		return C;
 	}
+	
+	//Matriz laplaciana para detección de bordes
+	public static Matrix laplaciana(){
+		double[][] datas = {{0,-1,0},{-1,4,-1},{0,-1,0}};
+		return new Matrix(datas);
+	}
 
 	// return x = A^-1 b, assuming A is square and has full rank
 	public Matrix solve(Matrix rhs) {
