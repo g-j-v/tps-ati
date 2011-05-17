@@ -42,6 +42,7 @@ import renderer.filters.GammaCorrectionFilter;
 import renderer.filters.GaussianFilter;
 import renderer.filters.GaussianNoiseFilter;
 import renderer.filters.GlobalUmbralFilter;
+import renderer.filters.HoughFilter;
 import renderer.filters.IsotropicFilter;
 import renderer.filters.LaplacianBorderDetectorFilter;
 import renderer.filters.LaplacianBorderDetectorVarianzaFilter;
@@ -1296,9 +1297,9 @@ public class Listener {
 			Settings.secondaryImage = Main.getImage();
 			logger.info("Image copied");
 			JFrame frame = new JFrame("Secondary Image");
-			// frame.setBounds(50, 50, 400, 400);
+			frame.setBounds(500, 100, 400, 400);
 			frame.setPreferredSize(new Dimension(Settings.secondaryImage
-					.getWidth(), Settings.secondaryImage.getHeight()));
+					.getWidth(), Settings.secondaryImage.getHeight() + 30));
 			frame.add(new ImagePanel(Settings.secondaryImage));
 			frame.pack();
 			frame.setVisible(true);
@@ -1315,9 +1316,9 @@ public class Listener {
 			Settings.auxImage = Main.getImage();
 			logger.info("Image copied");
 			JFrame frame = new JFrame("Auxiliar Image");
-			// frame.setBounds(50, 50, 400, 400);
+			frame.setBounds(500, 100, 400, 400);
 			frame.setPreferredSize(new Dimension(Settings.auxImage
-					.getWidth(), Settings.auxImage.getHeight()));
+					.getWidth(), Settings.auxImage.getHeight() + 30));
 			frame.add(new ImagePanel(Settings.auxImage));
 			frame.pack();
 			frame.setVisible(true);
@@ -1497,6 +1498,8 @@ public class Listener {
 			return new OtzuUmbralFilter();
 		if (m.susan.isSelected())
 			return new SusanFilter();
+		if (m.hough.isSelected())
+			return new HoughFilter();
 		
 		return null;
 

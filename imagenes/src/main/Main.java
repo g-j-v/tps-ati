@@ -54,7 +54,7 @@ public class Main {
 	
 	public static void createImage()
 	{
-		image = new BufferedImage((int)Settings.getResolution().x, (int) Settings.getResolution().y, BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage((int)Settings.getResolution().x, (int) Settings.getResolution().y, BufferedImage.TYPE_INT_ARGB);
 	}
 
 	public static void setImage(BufferedImage image) {

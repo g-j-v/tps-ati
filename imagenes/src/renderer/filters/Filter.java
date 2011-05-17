@@ -27,8 +27,8 @@ public abstract class Filter extends Renderer {
 			throw new IllegalArgumentException("No image loaded.");
 		}
 		JFrame frame = new JFrame("Old Image");
-		//frame.setBounds(50, 50, 400, 400);
-		frame.setPreferredSize(new Dimension(oldImg.getWidth(), oldImg.getHeight()));
+		frame.setBounds(500, 100, 400, 400);
+		frame.setPreferredSize(new Dimension(oldImg.getWidth(), oldImg.getHeight()+ 30));
 		frame.add(new ImagePanel(oldImg));
 		frame.pack();
 		frame.setVisible(true);
