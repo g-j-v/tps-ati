@@ -55,6 +55,7 @@ import renderer.filters.SaltnPepperNoiseFilter;
 import renderer.filters.SobelFilter;
 import renderer.filters.Substraction;
 import renderer.filters.Sum;
+import renderer.filters.SusanFilter;
 import renderer.filters.UmbralFilter;
 import renderer.filters.WeirdBorderDetectorFilter;
 import renderer.filters.histogramFilter;
@@ -530,6 +531,42 @@ public class Listener {
 
 	}
 
+	
+	public static class SusanListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Select Susan mode");
+
+			JButton Roberts = new JButton("Borders");
+			Roberts.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					SusanFilter.mode = 1;
+					frame.dispose();
+				}
+			});
+			JButton prewitt = new JButton("Corners");
+			prewitt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					SusanFilter.mode = 2;
+					frame.dispose();
+				}
+			});
+
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(2, 1));
+			panel.add(Roberts);
+			panel.add(prewitt);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
 	public static class GammaListener implements ActionListener {
 
 		@Override
@@ -1261,7 +1298,7 @@ public class Listener {
 			JFrame frame = new JFrame("Secondary Image");
 			// frame.setBounds(50, 50, 400, 400);
 			frame.setPreferredSize(new Dimension(Settings.secondaryImage
-					.getWidth(), Settings.secondaryImage.getHeight() + 100));
+					.getWidth(), Settings.secondaryImage.getHeight()));
 			frame.add(new ImagePanel(Settings.secondaryImage));
 			frame.pack();
 			frame.setVisible(true);
@@ -1280,7 +1317,7 @@ public class Listener {
 			JFrame frame = new JFrame("Auxiliar Image");
 			// frame.setBounds(50, 50, 400, 400);
 			frame.setPreferredSize(new Dimension(Settings.auxImage
-					.getWidth(), Settings.auxImage.getHeight() + 100));
+					.getWidth(), Settings.auxImage.getHeight()));
 			frame.add(new ImagePanel(Settings.auxImage));
 			frame.pack();
 			frame.setVisible(true);
@@ -1458,6 +1495,8 @@ public class Listener {
 			return new GlobalUmbralFilter();
 		if (m.umbralOtzu.isSelected())
 			return new OtzuUmbralFilter();
+		if (m.susan.isSelected())
+			return new SusanFilter();
 		
 		return null;
 

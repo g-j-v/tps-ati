@@ -3,7 +3,6 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -70,6 +69,8 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem saltnpepperN;
 	JRadioButtonMenuItem isotropic;
 	JRadioButtonMenuItem anisotropic;
+
+	JMenuItem susan;
 	JMenuItem umbralOtzu;
 	JMenuItem umbralGlobal;
 	JMenuItem weirdBorderDetector;
@@ -321,6 +322,8 @@ public class Menu extends JMenuBar {
 		matrix = new JRadioButtonMenuItem("Directional operators");
 		umbralGlobal = new JRadioButtonMenuItem("Umbralization global");
 		umbralOtzu = new JRadioButtonMenuItem("Umbralization Otzu");
+		susan = new JRadioButtonMenuItem("Susan");
+		
 		weirdBorderDetector = new JRadioButtonMenuItem(
 				"Detect borders oddly with laplacian mask");
 		laplacianBorderDetector = new JRadioButtonMenuItem(
@@ -329,9 +332,12 @@ public class Menu extends JMenuBar {
 				"Detect borders with laplacian mask and variance");
 
 		matrix.addActionListener(new Listener.matrixListener());
+		susan.addActionListener(new Listener.SusanListener());
+
 		laplacianBorderDetectorVariance
 				.addActionListener(new Listener.LaplacianBorderDetectorVarianzaListener());
 
+		rendererGroup.add(susan);
 		rendererGroup.add(matrix);
 		rendererGroup.add(weirdBorderDetector);
 		rendererGroup.add(laplacianBorderDetector);
@@ -345,6 +351,8 @@ public class Menu extends JMenuBar {
 		Options.add(weirdBorderDetector);
 		Options.add(laplacianBorderDetector);
 		Options.add(laplacianBorderDetectorVariance);
+		Options.add(susan);
+
 		return Options;
 
 	}
