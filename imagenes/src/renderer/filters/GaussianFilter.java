@@ -32,6 +32,11 @@ public class GaussianFilter extends Filter {
 		y = oldImg.getHeight();
 
 	}
+	
+	public GaussianFilter(float sig){
+		sigma = sig;
+		new GaussianFilter();
+	}
 
 	ColorSpace space = ColorSpace.getInstance(ColorSpace.CS_sRGB);
 
