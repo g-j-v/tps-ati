@@ -72,14 +72,26 @@ public class SusanFilter extends Filter {
 			if(mode == 1){
 				if(Math.abs(count/total - 0.5) < tole )
 					return	Color.RED;
-			}else 
+				else 
+					return new Color(pixel);
+			}else
+				if(mode == 2){
 				if(Math.abs(count/total - 0.25) < (tole +0.1) )
 					return	Color.RED;
+				else 
+					return new Color(pixel);
+				}
+			if(mode == 3){
+				if(Math.abs(count/total - 0.5) < tole )
+					return	Color.WHITE;
+				else 
+					return Color.BLACK;
+
+				
+			}	
+			return Color.BLACK;
 			
-			return new Color(pixel);//Color.BLACK;
-
-
-		}
+			}
 
 	}
 

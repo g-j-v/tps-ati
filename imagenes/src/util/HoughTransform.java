@@ -12,9 +12,7 @@ import java.io.File;
  * by Olly Oechsle 
  * </p> 
  * <p/> 
- * Note: This class is based on original code from:<br /> 
- * <a href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/hough.htm">http://homepages.inf.ed.ac.uk/rbf/HIPR2/hough.htm</a> 
- * </p> 
+
  * <p/> 
  * If you represent a line as:<br /> 
  * x cos(theta) + y sin (theta) = r 
@@ -47,28 +45,7 @@ import java.io.File;
  
 public class HoughTransform extends Thread { 
  
-    public static void main(String[] args) throws Exception { 
-        String filename = "/home/ooechs/Desktop/vase.png"; 
- 
-        // load the file using Java's imageIO library 
-        BufferedImage image = javax.imageio.ImageIO.read(new File(filename)); 
- 
-        // create a hough transform object with the right dimensions 
-        HoughTransform h = new HoughTransform(image.getWidth(), image.getHeight()); 
- 
-        // add the points from the image (or call the addPoint method separately if your points are not in an image 
-        h.addPoints(image); 
- 
-        // get the lines out 
-        Vector<HoughLine> lines = h.getLines(30); 
- 
-        // draw the lines back onto the image 
-        for (int j = 0; j < lines.size(); j++) { 
-            HoughLine line = lines.elementAt(j); 
-            line.draw(image, Color.RED.getRGB()); 
-        } 
-    } 
- 
+
     // The size of the neighbourhood in which to search for other local maxima 
     final int neighbourhoodSize = 4; 
  

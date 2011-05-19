@@ -82,7 +82,7 @@ public class GlobalUmbralFilter extends Filter {
 			Tactual = (m1 + m2) / 2;
 			deltaT = Math.abs(Tactual - Tlast);
 			Tlast = Tactual;
-//			System.out.println(Tactual);
+			System.out.println(Tactual);
 		}
 	}
 

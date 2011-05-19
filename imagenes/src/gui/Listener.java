@@ -596,6 +596,47 @@ public class Listener {
 
 	}
 	
+	public static class houghListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Select parameters");
+			JSlider linesSlider;
+			
+			linesSlider = new JSlider(JSlider.HORIZONTAL, 1, 100, HoughFilter.DotPerLine);
+			linesSlider.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+			        JSlider source = (JSlider)e.getSource();
+			        if (!source.getValueIsAdjusting()) {
+			        	HoughFilter.DotPerLine = source.getValue();
+				}
+			};
+			});
+			linesSlider.setMajorTickSpacing(10);
+			linesSlider.setMinorTickSpacing(5);
+			linesSlider.setPaintTicks(true);
+			linesSlider.setPaintLabels(true);
+			linesSlider.setBackground(new Color(192,204,226));
+			linesSlider.setPreferredSize(new Dimension(300 , 100));
+			
+
+
+			JLabel circlabel = new JLabel("Number of points: ");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(2, 1));
+			panel.add(circlabel);
+			panel.add(linesSlider);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+	
+	
 	
 	public static class SusanListener implements ActionListener {
 

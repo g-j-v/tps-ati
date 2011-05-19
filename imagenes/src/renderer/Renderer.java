@@ -257,7 +257,7 @@ public abstract class Renderer {
 
 	}
 
-	protected abstract Color RenderPixel(PixelRay pixRay);
+	public abstract Color RenderPixel(PixelRay pixRay);
 
 	
 	private void UpdateProgress()

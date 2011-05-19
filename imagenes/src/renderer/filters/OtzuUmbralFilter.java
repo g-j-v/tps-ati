@@ -87,6 +87,7 @@ public class OtzuUmbralFilter extends Filter {
 		      threshold = t;
 		   }
 		}
+		System.out.println(threshold -3);
 	}
 
 

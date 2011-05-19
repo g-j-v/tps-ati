@@ -13,6 +13,7 @@ import core.Settings;
 
 public class HoughFilter extends Filter {
 
+	public static int DotPerLine = 30;
 	protected BufferedImage auxImg;
 	public static int black;
 	public HoughFilter() {
@@ -26,7 +27,7 @@ public class HoughFilter extends Filter {
         h.addPoints(oldImg); 
  
         // get the lines out 
-        Vector<HoughLine> lines = h.getLines(30); 
+        Vector<HoughLine> lines = h.getLines(DotPerLine); 
  
         // draw the lines back onto the image 
         for (int j = 0; j < lines.size(); j++) { 

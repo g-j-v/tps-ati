@@ -54,7 +54,7 @@ public class CircleHough {
 			acc = new int[width * height];
 			for(int x=0;x<width;x++) {
 				for(int y=0;y<height;y++) {
-					acc[x*width+y] =0 ;
+					acc[y*width+x] =0 ;
 				}
 			}			
 			int x0, y0;

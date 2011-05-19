@@ -340,6 +340,7 @@ public class Menu extends JMenuBar {
 		susan.addActionListener(new Listener.SusanListener());
 
 		houghcircle.addActionListener(new Listener.houghcircleListener());
+		hough.addActionListener(new Listener.houghListener());
 		laplacianBorderDetectorVariance
 				.addActionListener(new Listener.LaplacianBorderDetectorVarianzaListener());
 
