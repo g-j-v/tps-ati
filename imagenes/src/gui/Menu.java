@@ -71,6 +71,7 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem anisotropic;
 
 	JMenuItem hough;
+	JMenuItem houghcircle;
 	JMenuItem susan;
 	JMenuItem umbralOtzu;
 	JMenuItem umbralGlobal;
@@ -325,6 +326,7 @@ public class Menu extends JMenuBar {
 		umbralOtzu = new JRadioButtonMenuItem("Umbralization Otzu");
 		susan = new JRadioButtonMenuItem("Susan");
 		hough = new JRadioButtonMenuItem("Hough");
+		houghcircle = new JRadioButtonMenuItem("Circle Hough");
 		weirdBorderDetector = new JRadioButtonMenuItem(
 				"Detect borders oddly with laplacian mask");
 		laplacianBorderDetector = new JRadioButtonMenuItem(
@@ -332,9 +334,10 @@ public class Menu extends JMenuBar {
 		laplacianBorderDetectorVariance = new JRadioButtonMenuItem(
 				"Detect borders with laplacian mask and variance");
 
-		matrix.addActionListener(new Listener.matrixListener());
+		matrix.addActionListener(new Listener.matListener());
 		susan.addActionListener(new Listener.SusanListener());
 
+		houghcircle.addActionListener(new Listener.houghcircleListener());
 		laplacianBorderDetectorVariance
 				.addActionListener(new Listener.LaplacianBorderDetectorVarianzaListener());
 
@@ -346,7 +349,8 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(umbralGlobal);
 		rendererGroup.add(umbralOtzu);
 		rendererGroup.add(hough);
-
+		rendererGroup.add(houghcircle);
+		
 		Options.add(matrix);
 		Options.add(umbralGlobal);
 		Options.add(umbralOtzu);
@@ -355,7 +359,8 @@ public class Menu extends JMenuBar {
 		Options.add(laplacianBorderDetectorVariance);
 		Options.add(susan);
 		Options.add(hough);
-
+		Options.add(houghcircle);
+		
 		return Options;
 
 	}

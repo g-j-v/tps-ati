@@ -1,5 +1,6 @@
 package core;
 
+import gui.Frame;
 import gui.LoggerWindowHandler;
 
 import java.util.logging.Logger;
@@ -20,9 +21,11 @@ public class Progress {
 	{
 		count++;
 		
-		if(count % (size/10) != 0)
+		if(count % (size/10) != 0){
+			Frame.progressBar.setValue((int) (count/size * 100));
+
 			return;
-	
+		}
 		logger.info("Progress = " + (int) (count/size * 100) + "%");
 
 	}
@@ -30,6 +33,7 @@ public class Progress {
 	synchronized public static void resetProgress()
 	{
 		count = 0;
+		Frame.progressBar.setValue(0);
 		size = Main.getImage().getHeight() * Main.getImage().getWidth();
 	}
 }

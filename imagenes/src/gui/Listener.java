@@ -3,6 +3,7 @@ package gui;
 import gui.Frame.AlertType;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -22,8 +23,11 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.vecmath.Point2i;
 
 import main.Main;
@@ -34,6 +38,7 @@ import renderer.GrayScaleGenerator;
 import renderer.Renderer;
 import renderer.filters.AnisotropicFilter;
 import renderer.filters.ApplyMatrixFilter;
+import renderer.filters.CircleHoughFilter;
 import renderer.filters.ContrastFilter;
 import renderer.filters.DotProduct;
 import renderer.filters.EqualizeFilter;
@@ -165,7 +170,7 @@ public class Listener {
 
 	}
 
-	public static class matrixListener implements ActionListener {
+	public static class matListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -531,7 +536,65 @@ public class Listener {
 		}
 
 	}
+	
+	public static class houghcircleListener implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame frame = new JFrame("Select parameters");
+			JSlider linesSlider, radiusSlider;
+			
+			linesSlider = new JSlider(JSlider.HORIZONTAL, 1, 100, CircleHoughFilter.circles);
+			linesSlider.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+			        JSlider source = (JSlider)e.getSource();
+			        if (!source.getValueIsAdjusting()) {
+			        	CircleHoughFilter.circles=source.getValue();
+				}
+			};
+			});
+			linesSlider.setMajorTickSpacing(10);
+			linesSlider.setMinorTickSpacing(5);
+			linesSlider.setPaintTicks(true);
+			linesSlider.setPaintLabels(true);
+			linesSlider.setBackground(new Color(192,204,226));
+			linesSlider.setPreferredSize(new Dimension(300 , 100));
+			
+			radiusSlider = new JSlider(JSlider.HORIZONTAL, 1, 100, CircleHoughFilter.radius);
+			radiusSlider.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+			        JSlider source = (JSlider)e.getSource();
+			        if (!source.getValueIsAdjusting()) {
+			        	CircleHoughFilter.radius=source.getValue();
+				}
+			};
+			});
+			radiusSlider.setMajorTickSpacing(10);
+			radiusSlider.setMinorTickSpacing(5);
+			radiusSlider.setPaintTicks(true);
+			radiusSlider.setPaintLabels(true);
+			radiusSlider.setBackground(new Color(192,204,226));
+			linesSlider.setPreferredSize(new Dimension(300 , 100));
+
+			JLabel circlabel = new JLabel("Number of Circles: ");
+			JLabel radlabel = new JLabel("Radius:");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(2, 2));
+			panel.add(circlabel);
+			panel.add(linesSlider);
+			panel.add(radlabel);
+			panel.add(radiusSlider);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+	
 	
 	public static class SusanListener implements ActionListener {
 
@@ -1500,6 +1563,9 @@ public class Listener {
 			return new SusanFilter();
 		if (m.hough.isSelected())
 			return new HoughFilter();
+		if (m.houghcircle.isSelected())
+			return new CircleHoughFilter();
+		
 		
 		return null;
 

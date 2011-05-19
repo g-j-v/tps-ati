@@ -13,6 +13,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -35,13 +36,13 @@ public class Frame extends JFrame implements WindowListener {
 	private static  Logger logger;
 	private static JInternalFrame logFrame;
 	private static JDesktopPane pane;
-
+	public static JProgressBar progressBar;
 	public Frame() {
 		setTitle("Renderer Grupo 1");
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		menu = new Menu();
 		setJMenuBar(menu);
-	
+		progressBar = new JProgressBar();
 		createLoggerFrame();
 	
 		createPanels();
@@ -93,7 +94,7 @@ public class Frame extends JFrame implements WindowListener {
 		panel.setPreferredSize(new Dimension(PANELWIDTH, PANELHEIGHT));
 		
 		buttons = new ButtonPanel();
-
+		add(progressBar, BorderLayout.SOUTH);
 		add(buttons,BorderLayout.NORTH);
 		add(panel, BorderLayout.WEST);
 	}

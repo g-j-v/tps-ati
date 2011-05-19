@@ -6,23 +6,19 @@ import gui.LoggerWindowHandler;
 
 import java.awt.Color;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.vecmath.Point2f;
 import javax.vecmath.Point2i;
 
+import main.Main;
 import core.Camera;
+import core.Camera.ImageScan;
 import core.PixelRay;
 import core.Progress;
 import core.RenderTimer;
 import core.Settings;
-import core.Camera.ImageScan;
 import core.Settings.BucketTypes;
-
-import main.Main;
 
 
 
@@ -270,30 +266,7 @@ public abstract class Renderer {
 			Progress.pixelRendered();
 
 	}
-	private Set<Point2f> AllPixelsForThisRay(PixelRay r) {
 
-		Point2i basePos = r.getPos();
-		HashSet<Point2f> ans = new HashSet<Point2f>();
-		float qty = (float) (1 / Math.pow(2, Settings.contrastLow));
-		if (qty < 1)
-			qty = 1;
-
-		for (int i = (int) -(qty / 2); i < qty / 2; i++) {
-			for (int j = (int) -(qty / 2); j < qty / 2; j++) {
-				Point2f p = new Point2f(basePos.x + i, basePos.y + j);
-				if (p.x >= Settings.getResolution().x)
-					p.x = Settings.getResolution().x - 1;
-				if (p.y >= Settings.getResolution().y)
-					p.y = Settings.getResolution().y - 1;
-				if (p.x < 0)
-					p.x = 0;
-				if (p.y < 0)
-					p.y = 0;
-				ans.add(p);
-			}
-		}
-		return ans;
-	}
 
 	private RenderThread[] createRendererThreads() {
 		Point2i dim = Settings.getResolution();
