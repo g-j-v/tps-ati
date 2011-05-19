@@ -71,7 +71,7 @@ public class SusanFilter extends Filter {
 			
 			if(mode == 1){
 				if(Math.abs(count/total - 0.5) < tole )
-					return	Color.WHITE;
+					return	Color.RED;
 			}else 
 				if(Math.abs(count/total - 0.25) < (tole +0.1) )
 					return	Color.RED;

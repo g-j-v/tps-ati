@@ -70,6 +70,7 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem isotropic;
 	JRadioButtonMenuItem anisotropic;
 
+	JMenuItem canny;
 	JMenuItem hough;
 	JMenuItem houghcircle;
 	JMenuItem susan;
@@ -324,6 +325,7 @@ public class Menu extends JMenuBar {
 		matrix = new JRadioButtonMenuItem("Directional operators");
 		umbralGlobal = new JRadioButtonMenuItem("Umbralization global");
 		umbralOtzu = new JRadioButtonMenuItem("Umbralization Otzu");
+		canny = new JRadioButtonMenuItem("Canny");
 		susan = new JRadioButtonMenuItem("Susan");
 		hough = new JRadioButtonMenuItem("Hough");
 		houghcircle = new JRadioButtonMenuItem("Circle Hough");
@@ -350,6 +352,7 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(umbralOtzu);
 		rendererGroup.add(hough);
 		rendererGroup.add(houghcircle);
+		rendererGroup.add(canny);
 		
 		Options.add(matrix);
 		Options.add(umbralGlobal);
@@ -360,6 +363,7 @@ public class Menu extends JMenuBar {
 		Options.add(susan);
 		Options.add(hough);
 		Options.add(houghcircle);
+		Options.add(canny);
 		
 		return Options;
 

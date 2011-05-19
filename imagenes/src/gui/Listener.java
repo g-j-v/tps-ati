@@ -38,6 +38,7 @@ import renderer.GrayScaleGenerator;
 import renderer.Renderer;
 import renderer.filters.AnisotropicFilter;
 import renderer.filters.ApplyMatrixFilter;
+import renderer.filters.CannyFilterAux;
 import renderer.filters.CircleHoughFilter;
 import renderer.filters.ContrastFilter;
 import renderer.filters.DotProduct;
@@ -1565,6 +1566,8 @@ public class Listener {
 			return new HoughFilter();
 		if (m.houghcircle.isSelected())
 			return new CircleHoughFilter();
+		if (m.canny.isSelected())
+			return new CannyFilterAux();
 		
 		
 		return null;
