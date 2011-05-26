@@ -9,7 +9,13 @@ import core.PixelRay;
 
 public class CannyFilter extends Filter {
 
-	public static float filterSigma = 2;
+	@Override
+	public Color RenderPixel(PixelRay pixRay) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+/*	public static float filterSigma = 2;
 
 	private GaussianFilter gf;
 	private int w = oldImg.getWidth();
@@ -140,6 +146,7 @@ public class CannyFilter extends Filter {
 			return 3;
 		}
 		return 0;
+		
 	}
 
 	// Function to apply non maxima suppression to the image array
@@ -182,4 +189,5 @@ public class CannyFilter extends Filter {
 				+ i + " " + j);
 		return 0;
 	}
+	*/
 }
