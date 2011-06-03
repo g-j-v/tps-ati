@@ -1,17 +1,5 @@
 package util;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.applet.*;
-import java.net.*;
-import java.io.*;
-import java.lang.Math;
-import java.util.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.JApplet;
-import javax.imageio.*;
-import javax.swing.event.*;
 
 public class CircleHough {
 
@@ -26,7 +14,7 @@ public class CircleHough {
 		int[] results;
 		int r;
 
-		public void circleHough() {
+		public CircleHough() {
 			progress=0;
 		}
 
@@ -50,7 +38,6 @@ public class CircleHough {
 		public int[] process() {
 	
 			// for polar we need accumulator of 180degress * the longest length in the image
-			int rmax = (int)Math.sqrt(width*width + height*height);
 			acc = new int[width * height];
 			for(int x=0;x<width;x++) {
 				for(int y=0;y<height;y++) {

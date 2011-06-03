@@ -1,14 +1,12 @@
 package renderer.filters;
 
 import java.awt.Color;
-import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 
 import javax.vecmath.Point2i;
 
 import util.CircleHough;
-import util.Matrix;
 import util.hystThresh;
 import util.nonmax;
 import util.sobel;
@@ -62,8 +60,8 @@ public class CircleHoughFilter extends Filter {
 
 		// sobelObject.init(orig,width,height);
 		// orig = sobelObject.process();
-		double direction[] = new double[width * height];
-		direction = sobelObject.getDirection();
+		//double direction[] = new double[width * height];
+		sobelObject.getDirection();
 		nonMaxSuppressionObject.init(orig, width, height);
 		orig = nonMaxSuppressionObject.process();
 		hystThreshObject.init(orig, width, height, 25, 50);

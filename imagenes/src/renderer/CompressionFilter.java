@@ -1,12 +1,9 @@
 package renderer;
 
-import gui.LoggerWindowHandler;
-
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-import java.util.logging.Logger;
 
 import main.Main;
 import core.PixelRay;
@@ -15,8 +12,6 @@ import core.Settings;
 
 
 public class CompressionFilter extends Renderer {
-	private Logger logger = LoggerWindowHandler.getLogger("CompressionFilter");	
-	
 	Random r = new Random();
 	int max = 0;
 	ColorSpace space = ColorSpace.getInstance(ColorSpace.CS_sRGB);
@@ -24,7 +19,6 @@ public class CompressionFilter extends Renderer {
 	protected BufferedImage oldImg;
 	
 	public CompressionFilter() {
-		float colors[] = new float [3];
 		
 		if(! Settings.isImageLoaded())
 			Main.createImage();

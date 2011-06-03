@@ -1,9 +1,8 @@
 package util; 
  
-import java.awt.image.BufferedImage; 
-import java.awt.*; 
-import java.util.Vector; 
-import java.io.File; 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.util.Vector;
  
 /** 
  * <p/> 

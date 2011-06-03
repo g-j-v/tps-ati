@@ -3,8 +3,6 @@ package renderer.filters;
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import core.PixelRay;
-import core.Settings;
-
 
 
 public class DotProduct extends Filter {

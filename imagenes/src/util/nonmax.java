@@ -1,17 +1,4 @@
 package util;
-import java.awt.*;
-import java.awt.image.*;
-import java.applet.*;
-import java.net.*;
-import java.io.*;
-import java.lang.Math;
-import java.util.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.JApplet;
-import javax.imageio.*;
-import javax.swing.event.*;
-import java.util.*;
 
 public class nonmax {
 
@@ -23,7 +10,7 @@ public class nonmax {
 	int convolveX[] = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
 	int convolveY[] = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
 	int templateSize = 3;
-	public void nonmax() {
+	public nonmax() {
 			progress=0;
 		}
 

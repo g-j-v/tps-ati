@@ -2,16 +2,8 @@ package renderer.filters;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.image.PixelGrabber;
-
-import javax.vecmath.Point2i;
 
 import util.CannyEdgeDetector;
-import util.CircleHough;
-import util.hystThresh;
-import util.nonmax;
-import util.sobel;
-
 import core.PixelRay;
 
 public class CannyFilterAux extends Filter {

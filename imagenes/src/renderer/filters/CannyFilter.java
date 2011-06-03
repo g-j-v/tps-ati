@@ -1,9 +1,6 @@
 package renderer.filters;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
-
-import javax.vecmath.Point2i;
 
 import core.PixelRay;
 
