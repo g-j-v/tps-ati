@@ -85,6 +85,36 @@ public class InverseFFT{
     return output;
   }
   
+  
+  
+  /**
+   * Takes a TwoDArray, applies the 2D inverse FFT to the input by applying
+   * the 1D inverse FFT to each column and then each row in turn.
+   *
+   * @param input TwoDArray containing the input image data.
+   * @return TwoDArray containing the new image data.
+   */
+  public TwoDArray transformAbs1(TwoDArray input){
+	progress = 0;
+
+    TwoDArray intermediate = new TwoDArray(input.width, input.height);
+    TwoDArray output = new TwoDArray(input.width, input.height);
+    
+    
+    for(int i=0;i<input.size;++i){
+	    progress++;
+	intermediate.putColumn(i, recursiveInverseFFT(input.getColumn(i)));
+    }
+
+    for(int i=0;i<intermediate.size;++i){
+	    progress++;
+	output.putRow(i, recursiveInverseFFT(intermediate.getRow(i)));
+    }
+    return output;
+  }
+  
+
+  
   public int[] getPixels(TwoDArray output) {
   	  double [] outputArrayDoubles = 
 	    new double [output.width*output.height];

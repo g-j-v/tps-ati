@@ -46,6 +46,7 @@ import renderer.filters.EqualizeFilter;
 import renderer.filters.ExponencialNoiseFilter;
 import renderer.filters.FourierFilterAbs;
 import renderer.filters.FourierFilterInverse;
+import renderer.filters.FourierFilterInverseAbs1;
 import renderer.filters.FourierFilterPhase;
 import renderer.filters.GammaCorrectionFilter;
 import renderer.filters.GaussianFilter;
@@ -1624,7 +1625,7 @@ public class Listener {
 		if (m.fourierInverse.isSelected())
 			return new FourierFilterInverse();
 		if (m.fourierInvAbs1.isSelected())
-			return new FourierFilterAbs();
+			return new FourierFilterInverseAbs1();
 
 		
 		return null;
