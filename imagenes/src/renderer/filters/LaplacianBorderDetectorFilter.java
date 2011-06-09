@@ -55,9 +55,9 @@ public class LaplacianBorderDetectorFilter extends Filter {
 		} else {
 			boolean esborde = borders[x1][y1];
 			if (esborde) {
-				return Color.black;
-			} else {
 				return Color.white;
+			} else {
+				return Color.black;
 			}
 		}
 		// return new Color(newImg.getRGB(x1, y1));

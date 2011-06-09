@@ -56,9 +56,9 @@ public class LaplacianBorderDetectorVarianzaFilter extends Filter {
 		} else {
 			boolean esborde = borders[x1][y1];
 			if (esborde) {
-				return Color.black;
-			} else {
 				return Color.white;
+			} else {
+				return Color.black;
 			}
 		}
 	}
@@ -113,25 +113,36 @@ public class LaplacianBorderDetectorVarianzaFilter extends Filter {
 
 				System.out.println(colors[2]);
 
-				if (Math.signum(newImg.getRGB(k, l) * newImg.getRGB(k - 1, l)) < 0
-						|| Math.signum(newImg.getRGB(k, l)
-								* newImg.getRGB(k, l - 1)) < 0) {
+				if (isPossibleBorder(k, l)) {
 					double varianza = 0;
+					
+//					varianza = Math.max(Math.abs(newImg.getRGB(k, l) - newImg.getRGB(k - 1, l)), Math.abs(newImg.getRGB(k, l)
+//								- newImg.getRGB(k, l - 1)));
+					int p1 = newImg.getRGB(k, l);
+					float one = (p1 >> 16) & 0xff;
+					
+					int p2 = newImg.getRGB(k-1, l);
+					float two = (p2 >> 16) & 0xff;
+					
+//					varianza = Math.abs(newImg.getRGB(k, l) - newImg.getRGB(k - 1, l));
+					varianza = Math.abs(one-two);
+					System.err.println("color antes = "+two+", color depues = "+one);
+//
+//					int valoresTomados = 0;
+//					for (int i = -M; i <= M; i++) {
+//						for (int j = -M; j <= M; j++) {
+//							if ((k - i) >= 0 && (k - i) < x && (l - j) >= 0
+//									&& (l - j) < y) {
+//								valoresTomados++;
+//								varianza += ((double) (newImg.getRGB(k - i, l
+//										- j) - media(k - i, l - j)));
+//							}
+//						}
+//
+//					}
+//					varianza = varianza / valoresTomados;
 
-					int valoresTomados = 0;
-					for (int i = -M; i <= M; i++) {
-						for (int j = -M; j <= M; j++) {
-							if ((k - i) >= 0 && (k - i) < x && (l - j) >= 0
-									&& (l - j) < y) {
-								valoresTomados++;
-								varianza += ((double) (newImg.getRGB(k - i, l
-										- j) - media(k - i, l - j)));
-							}
-						}
-
-					}
-					varianza = varianza / valoresTomados;
-
+					System.err.println("Variance: " + variance + ", varianza : " + varianza);
 					borders[k][l] = variance < varianza;
 				} else {
 					borders[k][l] = false;
@@ -156,5 +167,11 @@ public class LaplacianBorderDetectorVarianzaFilter extends Filter {
 		varianza = varianza / valoresTomados;
 
 		return varianza;
+	}
+	
+	boolean isPossibleBorder(int k, int l){
+		return Math.signum(newImg.getRGB(k, l) * newImg.getRGB(k - 1, l)) < 0
+		|| Math.signum(newImg.getRGB(k, l)
+				* newImg.getRGB(k, l - 1)) < 0;
 	}
 }

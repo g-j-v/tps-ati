@@ -140,7 +140,7 @@ public class Canny4Filter extends Filter {
 							(int) (res * 254), (int) (res * 254)).getRGB());
 				} else {
 
-					suprimirNoMáximos(i, j);
+					suprimirNoMaximos(i, j);
 				}
 			}
 		}
@@ -196,7 +196,7 @@ public class Canny4Filter extends Filter {
 		return colors[2];
 	}
 
-	private void suprimirNoMáximos(int i, int j) {
+	private void suprimirNoMaximos(int i, int j) {
 		float vecino1;
 		float vecino2;
 

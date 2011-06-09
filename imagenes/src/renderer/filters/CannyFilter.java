@@ -27,6 +27,12 @@ public class CannyFilter extends Filter {
 	int[][] sector = new int[w][h];
 	int[][] nms = new int[w][h];
 
+	private Object highthresh;
+
+	private Object lowthresh;
+
+	private Object tracked;
+
 	public CannyFilter() {
 
 		gf = new GaussianFilter(filterSigma);
@@ -111,6 +117,12 @@ public class CannyFilter extends Filter {
 
 	}
 
+	private Object apply_track(int[][] nms2, int w2, int h2, Object lowthresh2,
+			Object highthresh2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	protected Color RenderPixel(PixelRay pixRay) {
 		// TODO Auto-generated method stub
@@ -118,7 +130,7 @@ public class CannyFilter extends Filter {
 	}
 
 	// Function to check which sector the line is in (see Machine Vision pg 171)
-	private int sector(double theta) {
+	public static  int sector(double theta) {
 
 		// Converting into degrees from radians, and moving to lie between 0 and
 		// 360
