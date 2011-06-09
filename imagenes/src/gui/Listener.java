@@ -44,6 +44,7 @@ import renderer.filters.ContrastFilter;
 import renderer.filters.DotProduct;
 import renderer.filters.EqualizeFilter;
 import renderer.filters.ExponencialNoiseFilter;
+import renderer.filters.FourierFilter;
 import renderer.filters.GammaCorrectionFilter;
 import renderer.filters.GaussianFilter;
 import renderer.filters.GaussianNoiseFilter;
@@ -1612,6 +1613,10 @@ public class Listener {
 //			return new CannyFilter();
 //			return new CannyFilter3();
 			return new Canny4Filter();
+		
+
+		if (m.fourier.isSelected())
+			return new FourierFilter();
 		
 		
 		return null;

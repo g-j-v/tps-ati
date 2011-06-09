@@ -1,7 +1,6 @@
 package fourier;
 
 
-import java.lang.Math.*;
 import java.awt.*;
 
 /**

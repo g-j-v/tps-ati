@@ -80,6 +80,10 @@ public class Menu extends JMenuBar {
 	JMenuItem laplacianBorderDetector;
 	JMenuItem laplacianBorderDetectorVariance;
 
+	//TP4
+	JRadioButtonMenuItem fourier;
+	
+	
 	public Menu() {
 
 		add(createScaleMenu());
@@ -88,6 +92,7 @@ public class Menu extends JMenuBar {
 		add(createRenderingOptions());
 		add(createFilterOptions());
 		add(createDOFOptions());
+		add(createFourierOptions());
 
 	}
 
@@ -365,6 +370,22 @@ public class Menu extends JMenuBar {
 		Options.add(hough);
 		Options.add(houghcircle);
 		Options.add(canny);
+		
+		return Options;
+
+	}
+	
+	
+	private JMenu createFourierOptions() {
+		JMenu Options;
+
+		Options = new JMenu("TP4");
+		fourier = new JRadioButtonMenuItem("Fourier");
+		//fourier.addActionListener(new Listener.matListener());
+		rendererGroup.add(fourier);
+
+		Options.add(fourier);
+		
 		
 		return Options;
 
