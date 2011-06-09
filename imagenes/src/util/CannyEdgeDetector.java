@@ -2,6 +2,8 @@ package util;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
+import renderer.filters.GaussianFilter;
+
 /**
  * <p><em>This software has been released into the public domain.
  * <strong>Please read the notes in this source file for additional information.
@@ -62,6 +64,9 @@ public class CannyEdgeDetector {
 	private float[] yConv;
 	private float[] xGradient;
 	private float[] yGradient;
+	private int[] orientation;
+	
+	private GaussianFilter gf;
 	
 	// constructors
 	
@@ -268,6 +273,7 @@ public class CannyEdgeDetector {
 		if (data == null || picsize != data.length) {
 			data = new int[picsize];
 			magnitude = new int[picsize];
+			orientation = new int[picsize];
 
 			xConv = new float[picsize];
 			yConv = new float[picsize];
@@ -371,8 +377,8 @@ public class CannyEdgeDetector {
 				int indexSW = indexS - 1;
 				int indexSE = indexS + 1;
 				
-				float xGrad = xGradient[index];
-				float yGrad = yGradient[index];
+				float xGrad = Math.abs(xGradient[index]);
+				float yGrad = Math.abs(yGradient[index]);
 				float gradMag = hypot(xGrad, yGrad);
 
 				//perform non-maximal supression
@@ -429,8 +435,10 @@ public class CannyEdgeDetector {
 					//NOTE: The orientation of the edge is not employed by this
 					//implementation. It is a simple matter to compute it at
 					//this point as: Math.atan2(yGrad, xGrad);
+					orientation[index] = xGrad == 0 ? 0 : sector(Math.atan2(yGrad, xGrad));
 				} else {
 					magnitude[index] = 0;
+					orientation[index]=0;
 				}
 			}
 		}
@@ -441,6 +449,7 @@ public class CannyEdgeDetector {
 	//simple approximations such as Math.abs(x) + Math.abs(y) and they work fine.
 	private float hypot(float x, float y) {
 		return (float) Math.hypot(x, y);
+//		return (float) Math.atan2(x, y);
 	}
  
 	private float gaussian(float x, float sigma) {
@@ -477,7 +486,7 @@ public class CannyEdgeDetector {
 				int i2 = x + y * width;
 				if ((y != y1 || x != x1)
 					&& data[i2] == 0 
-					&& magnitude[i2] >= threshold) {
+					&& magnitude[i2] >= threshold && orientation[i2] == orientation[i1]) {
 					follow(x, y, i2, threshold);
 					return;
 				}
@@ -560,6 +569,34 @@ public class CannyEdgeDetector {
 			edgesImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		}
 		edgesImage.getWritableTile(0, 0).setDataElements(0, 0, width, height, pixels);
+	}
+	
+	private int sector(double theta) {
+
+		// Converting into degrees from radians, and moving to lie between 0 and
+		// 360
+		theta = Math.toDegrees(theta);
+		theta = theta + 270;
+		theta = theta % 360;
+
+		if ((theta >= 337.5) || (theta < 22.5)
+				|| ((theta >= 157.5) && (theta < 202.5))) {
+			return 0;
+		}
+		if (((theta >= 22.5) && (theta < 67.5))
+				|| ((theta >= 202.5) && (theta < 247.5))) {
+			return 1;
+		}
+		if (((theta >= 67.5) && (theta < 112.5))
+				|| ((theta >= 247.5) && (theta < 292.5))) {
+			return 2;
+		}
+		if (((theta >= 112.5) && (theta < 157.5))
+				|| ((theta >= 292.5) && (theta < 337.5))) {
+			return 3;
+		}
+		return 0;
+		
 	}
  
 }

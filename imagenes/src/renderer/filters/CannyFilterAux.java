@@ -15,8 +15,8 @@ public class CannyFilterAux extends Filter {
 		CannyEdgeDetector detector = new CannyEdgeDetector();
 
 		//adjust its parameters as desired
-		detector.setLowThreshold(0.5f);
-		detector.setHighThreshold(1f);
+		detector.setLowThreshold(2.0f);
+		detector.setHighThreshold(2.5f);
 
 		//apply it to an image
 		detector.setSourceImage(oldImg);

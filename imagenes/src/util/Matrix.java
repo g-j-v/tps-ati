@@ -162,10 +162,26 @@ final public class Matrix {
 					C.data[i][j] += (A.data[i][k] * B.data[k][j]);
 		return C;
 	}
-	
-	//Matriz laplaciana para detección de bordes
-	public static Matrix laplaciana(){
-		double[][] datas = {{0,-1,0},{-1,4,-1},{0,-1,0}};
+
+	// Matriz laplaciana para detección de bordes
+	public static Matrix laplaciana() {
+		double[][] datas = { { 0, -1, 0 }, { -1, 4, -1 }, { 0, -1, 0 } };
+		return new Matrix(datas);
+	}
+
+	// Matriz recomendada para detección de bordes con el método de canny
+	public static Matrix canny() {
+		double[][] datas = {
+				{ ((double) 1) / 273, ((double) 4) / 273, ((double) 7) / 273,
+						((double) 4) / 273, ((double) 1) / 273 },
+				{ ((double) 4) / 273, ((double) 16) / 273, ((double) 26) / 273,
+						((double) 16) / 273, ((double) 4) / 273 },
+				{ ((double) 7) / 273, ((double) 26) / 273, ((double) 41) / 273,
+						((double) 26) / 273, ((double) 7) / 273 },
+				{ ((double) 4) / 273, ((double) 16) / 273, ((double) 26) / 273,
+						((double) 16) / 273, ((double) 4) / 273 },
+				{ ((double) 1) / 273, ((double) 4) / 273, ((double) 7) / 273,
+						((double) 4) / 273, ((double) 1) / 273 } };
 		return new Matrix(datas);
 	}
 
