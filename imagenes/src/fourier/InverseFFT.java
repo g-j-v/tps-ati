@@ -89,7 +89,7 @@ public class InverseFFT{
   	  double [] outputArrayDoubles = 
 	    new double [output.width*output.height];
 	  outputArrayDoubles = output.getReal();
-	  //outputArrayDoubles = fft.output.getMagnitude();
+	  //outputArrayDoubles = output.getMagnitude();
 	  int[] outputArray = new int [outputArrayDoubles.length];
 	  //outputArray = ImageMods.toPixels(outputArrayDoubles);
 	  outputArray = 

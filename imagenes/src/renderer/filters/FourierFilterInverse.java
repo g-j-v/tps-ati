@@ -9,8 +9,10 @@ import java.awt.image.PixelGrabber;
 
 import core.PixelRay;
 import fourier.FFT;
+import fourier.InverseFFT;
+import fourier.TwoDArray;
 
-public class FourierFilterPhase extends Filter {
+public class FourierFilterInverse extends Filter {
 
 	protected BufferedImage auxImg;
 	public static int black;
@@ -19,11 +21,13 @@ public class FourierFilterPhase extends Filter {
 	private FFT fft;
 	private MemoryImageSource foutput;
 	private BufferedImage finalimg;
+	private InverseFFT inverse;
 
-	public FourierFilterPhase() {
+	public FourierFilterInverse() {
 		height = oldImg.getHeight();
 		width = oldImg.getWidth();
 
+		inverse = new InverseFFT();
 		orig = new int[width * height];
 		PixelGrabber grabber = new PixelGrabber(oldImg, 0, 0, width, height,
 				orig, 0, width);
@@ -34,7 +38,9 @@ public class FourierFilterPhase extends Filter {
 		}
 
 		fft = new FFT(orig, width, height);
-		foutput = new MemoryImageSource(width, height, fft.getPixelsPhase(), 0, width);
+		TwoDArray output = inverse.transform(fft.intermediate);
+		foutput = new MemoryImageSource(width, height, inverse.getPixels(output), 0, width);
+
 		finalimg = new BufferedImage(width, width, BufferedImage.TYPE_INT_RGB);
 		Image piximg = Toolkit.getDefaultToolkit().createImage(foutput);
 		finalimg.getGraphics().drawImage(piximg, 0, 0, null);
