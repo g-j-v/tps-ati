@@ -44,7 +44,8 @@ import renderer.filters.ContrastFilter;
 import renderer.filters.DotProduct;
 import renderer.filters.EqualizeFilter;
 import renderer.filters.ExponencialNoiseFilter;
-import renderer.filters.FourierFilter;
+import renderer.filters.FourierFilterAbs;
+import renderer.filters.FourierFilterPhase;
 import renderer.filters.GammaCorrectionFilter;
 import renderer.filters.GaussianFilter;
 import renderer.filters.GaussianNoiseFilter;
@@ -1613,11 +1614,17 @@ public class Listener {
 //			return new CannyFilter();
 //			return new CannyFilter3();
 			return new Canny4Filter();
-		
+		if (m.fourierModule.isSelected())
+			return new FourierFilterAbs();
+		if (m.fourierPashe.isSelected())
+			return new FourierFilterPhase();
+		if (m.fourierPasheExchange.isSelected())
+			return new FourierFilterAbs();
+		if (m.fourierInverse.isSelected())
+			return new FourierFilterAbs();
+		if (m.fourierInvAbs1.isSelected())
+			return new FourierFilterAbs();
 
-		if (m.fourier.isSelected())
-			return new FourierFilter();
-		
 		
 		return null;
 

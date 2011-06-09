@@ -118,6 +118,10 @@ public class FFT{
 	return toPixels(logs(intermediate.DCToCentre(intermediate.getMagnitude())));
   }
   
+  public int[] getPixelsPhase() {
+		return toPixels(logs(intermediate.DCToCentre(intermediate.getPhase())));
+  }
+  
   /**
    * A method to convert an array of doubles to an array of their log values.
    *

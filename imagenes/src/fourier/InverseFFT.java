@@ -1,8 +1,7 @@
 package fourier;
 
 
-import java.lang.Math.*;
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * The InverseFFT class contains a method to apply the 2D inverse FFT to a
