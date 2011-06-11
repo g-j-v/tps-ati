@@ -1,7 +1,6 @@
 package fourier;
 
 
-import java.lang.Math.*;
 
 /**
  * TwoDArray is a data structure to represent a two-dimensional array
@@ -55,6 +54,30 @@ public class TwoDArray{
     }
   }
 
+  public static  TwoDArray setAbs1(TwoDArray a){
+	  	TwoDArray r = new TwoDArray();
+	    r.width = a.width;
+	    r.height = a.height;
+	//System.out.println("NEW 2D 1 w: "+width+" height: "+height);    
+	    r.size = a.size;
+	    r.values = new ComplexNumber[r.size][r.size];
+	    for(int j=0;j<r.size;++j){
+	      for(int i=0;i<r.size;++i){
+		ComplexNumber c = new ComplexNumber(a.values[i][j]);
+		double img, real;
+		img = c.imaginary / c.magnitude();
+		real = c.imaginary / c.magnitude();
+		
+		c.imaginary = img;
+		c.real = c.real;
+		r.values[i][j] = c;
+		
+	      }
+	    }
+	    
+	    return r;
+	  }
+  
   /**
    * Constructor that takes a width and a height, generates the appropriate
    * size values and then sets up an array of (0,0) complex numbers.

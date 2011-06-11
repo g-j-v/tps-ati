@@ -96,8 +96,9 @@ public class InverseFFT{
    */
   public TwoDArray transformAbs1(TwoDArray input){
 	progress = 0;
+		input = TwoDArray.setAbs1(input);
 
-    TwoDArray intermediate = new TwoDArray(input.width, input.height);
+	TwoDArray intermediate = new TwoDArray(input.width, input.height);
     TwoDArray output = new TwoDArray(input.width, input.height);
     
     

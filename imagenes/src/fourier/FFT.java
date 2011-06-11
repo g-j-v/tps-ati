@@ -119,9 +119,44 @@ public class FFT{
   }
   
   public int[] getPixelsPhase() {
-		return toPixels(logs(intermediate.DCToCentre(intermediate.getPhase())));
+		return toPixelsPhase(logs(intermediate.DCToCentre(intermediate.getPhase())));
   }
   
+  private int [] toPixelsPhase(double [] values){
+	  
+	    int grey;
+	    double [] greys = new double [values.length];
+	    int [] pixels = new int [values.length];
+//	    for(int i=0;i<greys.length;++i){
+//	      greys[i] = values[i];
+//	    }
+//	    double max = maxValue(greys);
+	    double max = maxValue(values);
+	    Double scale;
+	    if (max == 0) scale = 1.0;
+	    else scale = 1/max;
+
+	    max = 255;
+	    if(scale.isNaN())
+    		scale = 1/max;	    
+	    //System.out.println(max);
+//	    for(int i=0;i<greys.length;++i){
+	    for(int i=0;i<values.length;++i){        
+	      greys[i] = greys[i] * 255/max;
+	      grey = (int) Math.round(greys[i]);
+	    		if(values[i] == Double.NaN)
+	    			grey = 255;
+	    		else
+	    			grey = (int) Math.round(values[i]);
+	    		if(grey < 0 )
+	    			grey = 0;
+	      System.out.println(grey);
+			System.out.println("Scale " + scale);
+
+	      pixels[i] = new Color(grey,grey,grey).getRGB(); //recombine greys
+	    }
+	    return pixels;
+	  }
   /**
    * A method to convert an array of doubles to an array of their log values.
    *
@@ -147,6 +182,7 @@ public class FFT{
    * @return An array of pixel values.
    */
   private int [] toPixels(double [] values){
+	  
     int grey;
 //    double [] greys = new double [values.length];
     int [] pixels = new int [values.length];
@@ -155,16 +191,24 @@ public class FFT{
 //    }
 //    double max = maxValue(greys);
     double max = maxValue(values);
-    double scale;
+    Double scale;
     if (max == 0) scale = 1.0;
     else scale = 255.0/max;
+ //   if(scale.isNaN())
+  //  		scale = 255.0;
     
     //System.out.println(max);
 //    for(int i=0;i<greys.length;++i){
     for(int i=0;i<values.length;++i){        
 //      greys[i] = greys[i] * 255/max;
 //      grey = (int) Math.round(greys[i]);
-      grey = (int) Math.round(values[i]*scale);
+  //  		if(values[i] == Double.NaN)
+   // 			grey = 256;
+    //		else
+    			grey = (int) Math.round(values[i]*scale);
+      System.out.println(grey);
+		System.out.println("Scale " + scale);
+
       pixels[i] = new Color(grey,grey,grey).getRGB(); //recombine greys
     }
     return pixels;
