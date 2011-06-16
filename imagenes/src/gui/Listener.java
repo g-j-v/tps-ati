@@ -48,6 +48,7 @@ import renderer.filters.FourierFilterAbs;
 import renderer.filters.FourierFilterInverse;
 import renderer.filters.FourierFilterInverseAbs1;
 import renderer.filters.FourierFilterPhase;
+import renderer.filters.FourierFrequencyFilter;
 import renderer.filters.GammaCorrectionFilter;
 import renderer.filters.GaussianFilter;
 import renderer.filters.GaussianNoiseFilter;
@@ -198,15 +199,15 @@ public class Listener {
 					ApplyMatrixFilter.N8, -255, 255, 1);
 			final SpinnerNumberModel N9Model = new SpinnerNumberModel(
 					ApplyMatrixFilter.N9, -255, 255, 1);
-			final JSpinner sp1= new JSpinner(N1Model);
-			final JSpinner sp2= new JSpinner(N2Model);
-			final JSpinner sp3= new JSpinner(N3Model);
-			final JSpinner sp4= new JSpinner(N4Model);
-			final JSpinner sp5= new JSpinner(N5Model);
-			final JSpinner sp6= new JSpinner(N6Model);
-			final JSpinner sp7= new JSpinner(N7Model);
-			final JSpinner sp8= new JSpinner(N8Model);
-			final JSpinner sp9= new JSpinner(N9Model);
+			final JSpinner sp1 = new JSpinner(N1Model);
+			final JSpinner sp2 = new JSpinner(N2Model);
+			final JSpinner sp3 = new JSpinner(N3Model);
+			final JSpinner sp4 = new JSpinner(N4Model);
+			final JSpinner sp5 = new JSpinner(N5Model);
+			final JSpinner sp6 = new JSpinner(N6Model);
+			final JSpinner sp7 = new JSpinner(N7Model);
+			final JSpinner sp8 = new JSpinner(N8Model);
+			final JSpinner sp9 = new JSpinner(N9Model);
 
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
@@ -541,7 +542,7 @@ public class Listener {
 		}
 
 	}
-	
+
 	public static class houghcircleListener implements ActionListener {
 
 		@Override
@@ -549,40 +550,42 @@ public class Listener {
 
 			final JFrame frame = new JFrame("Select parameters");
 			JSlider linesSlider, radiusSlider;
-			
-			linesSlider = new JSlider(JSlider.HORIZONTAL, 1, 100, CircleHoughFilter.circles);
+
+			linesSlider = new JSlider(JSlider.HORIZONTAL, 1, 100,
+					CircleHoughFilter.circles);
 			linesSlider.addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-			        JSlider source = (JSlider)e.getSource();
-			        if (!source.getValueIsAdjusting()) {
-			        	CircleHoughFilter.circles=source.getValue();
-				}
-			};
+					JSlider source = (JSlider) e.getSource();
+					if (!source.getValueIsAdjusting()) {
+						CircleHoughFilter.circles = source.getValue();
+					}
+				};
 			});
 			linesSlider.setMajorTickSpacing(10);
 			linesSlider.setMinorTickSpacing(5);
 			linesSlider.setPaintTicks(true);
 			linesSlider.setPaintLabels(true);
-			linesSlider.setBackground(new Color(192,204,226));
-			linesSlider.setPreferredSize(new Dimension(300 , 100));
-			
-			radiusSlider = new JSlider(JSlider.HORIZONTAL, 1, 100, CircleHoughFilter.radius);
+			linesSlider.setBackground(new Color(192, 204, 226));
+			linesSlider.setPreferredSize(new Dimension(300, 100));
+
+			radiusSlider = new JSlider(JSlider.HORIZONTAL, 1, 100,
+					CircleHoughFilter.radius);
 			radiusSlider.addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-			        JSlider source = (JSlider)e.getSource();
-			        if (!source.getValueIsAdjusting()) {
-			        	CircleHoughFilter.radius=source.getValue();
-				}
-			};
+					JSlider source = (JSlider) e.getSource();
+					if (!source.getValueIsAdjusting()) {
+						CircleHoughFilter.radius = source.getValue();
+					}
+				};
 			});
 			radiusSlider.setMajorTickSpacing(10);
 			radiusSlider.setMinorTickSpacing(5);
 			radiusSlider.setPaintTicks(true);
 			radiusSlider.setPaintLabels(true);
-			radiusSlider.setBackground(new Color(192,204,226));
-			linesSlider.setPreferredSize(new Dimension(300 , 100));
+			radiusSlider.setBackground(new Color(192, 204, 226));
+			linesSlider.setPreferredSize(new Dimension(300, 100));
 
 			JLabel circlabel = new JLabel("Number of Circles: ");
 			JLabel radlabel = new JLabel("Radius:");
@@ -599,7 +602,7 @@ public class Listener {
 		}
 
 	}
-	
+
 	public static class houghListener implements ActionListener {
 
 		@Override
@@ -607,25 +610,24 @@ public class Listener {
 
 			final JFrame frame = new JFrame("Select parameters");
 			JSlider linesSlider;
-			
-			linesSlider = new JSlider(JSlider.HORIZONTAL, 1, 100, HoughFilter.DotPerLine);
+
+			linesSlider = new JSlider(JSlider.HORIZONTAL, 1, 100,
+					HoughFilter.DotPerLine);
 			linesSlider.addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-			        JSlider source = (JSlider)e.getSource();
-			        if (!source.getValueIsAdjusting()) {
-			        	HoughFilter.DotPerLine = source.getValue();
-				}
-			};
+					JSlider source = (JSlider) e.getSource();
+					if (!source.getValueIsAdjusting()) {
+						HoughFilter.DotPerLine = source.getValue();
+					}
+				};
 			});
 			linesSlider.setMajorTickSpacing(10);
 			linesSlider.setMinorTickSpacing(5);
 			linesSlider.setPaintTicks(true);
 			linesSlider.setPaintLabels(true);
-			linesSlider.setBackground(new Color(192,204,226));
-			linesSlider.setPreferredSize(new Dimension(300 , 100));
-			
-
+			linesSlider.setBackground(new Color(192, 204, 226));
+			linesSlider.setPreferredSize(new Dimension(300, 100));
 
 			JLabel circlabel = new JLabel("Number of points: ");
 			JPanel panel = new JPanel();
@@ -639,9 +641,7 @@ public class Listener {
 		}
 
 	}
-	
-	
-	
+
 	public static class SusanListener implements ActionListener {
 
 		@Override
@@ -677,6 +677,7 @@ public class Listener {
 		}
 
 	}
+
 	public static class GammaListener implements ActionListener {
 
 		@Override
@@ -884,20 +885,22 @@ public class Listener {
 
 	}
 
-	public static class LaplacianBorderDetectorVarianzaListener implements ActionListener {
+	public static class LaplacianBorderDetectorVarianzaListener implements
+			ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
 			final JFrame frame = new JFrame("Set Variance");
 			final SpinnerNumberModel spMinModel = new SpinnerNumberModel(
-					LaplacianBorderDetectorVarianzaFilter.variance , 0, 500, 1);
+					LaplacianBorderDetectorVarianzaFilter.variance, 0, 500, 1);
 			final JSpinner spAlpha = new JSpinner(spMinModel);
 			JButton confirm = new JButton("Confirm");
 			confirm.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					LaplacianBorderDetectorVarianzaFilter.variance = ((Double) spAlpha.getValue());
+					LaplacianBorderDetectorVarianzaFilter.variance = ((Double) spAlpha
+							.getValue());
 					frame.dispose();
 				}
 			});
@@ -914,7 +917,7 @@ public class Listener {
 		}
 
 	}
-	
+
 	public static class AnisotropicListener implements ActionListener {
 
 		@Override
@@ -932,7 +935,7 @@ public class Listener {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					AnisotropicFilter.steps = ((Integer) spAlpha.getValue());
-					AnisotropicFilter.kappa = ((Double)spMedio.getValue());
+					AnisotropicFilter.kappa = ((Double) spMedio.getValue());
 					frame.dispose();
 				}
 			});
@@ -1365,7 +1368,8 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (Main.getFrame().getButtons().isRendering()) {
-				Main.getFrame()
+				Main
+						.getFrame()
 						.ShowDialog(
 								"Cant open another image while rendering this one! Press Stop!",
 								"Rendering", AlertType.ERROR);
@@ -1426,8 +1430,8 @@ public class Listener {
 			logger.info("Image copied");
 			JFrame frame = new JFrame("Auxiliar Image");
 			frame.setBounds(500, 100, 400, 400);
-			frame.setPreferredSize(new Dimension(Settings.auxImage
-					.getWidth(), Settings.auxImage.getHeight() + 30));
+			frame.setPreferredSize(new Dimension(Settings.auxImage.getWidth(),
+					Settings.auxImage.getHeight() + 30));
 			frame.add(new ImagePanel(Settings.auxImage));
 			frame.pack();
 			frame.setVisible(true);
@@ -1448,7 +1452,6 @@ public class Listener {
 
 	}
 
-	
 	public static class histogramListener implements ActionListener {
 
 		@Override
@@ -1481,6 +1484,92 @@ public class Listener {
 			panel.add(new JLabel("Bins:"));
 			panel.add(nbins);
 			frame.add(confirm, BorderLayout.SOUTH);
+			frame.add(panel, BorderLayout.CENTER);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
+	}
+
+	public static class FourierFiltersListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+
+			final JFrame frame = new JFrame("Select Frequency Filter");
+
+			JLabel d0label = new JLabel("D0:");
+			final SpinnerNumberModel d0 = new SpinnerNumberModel(
+					FourierFrequencyFilter.d0, 1, 200, 0.1);
+			final JSpinner spD0 = new JSpinner(d0);
+			JButton ideal = new JButton("Ideal");
+			ideal.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
+					// change
+					FourierFrequencyFilter.filter = new Matrix(data);
+
+					frame.dispose();
+				}
+			});
+			JButton butterworth = new JButton("Butterworth");
+			butterworth.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
+					// change
+					FourierFrequencyFilter.filter = new Matrix(data);
+
+					frame.dispose();
+				}
+			});
+			JButton media = new JButton("Media");
+			media.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
+					// change
+					FourierFrequencyFilter.filter = new Matrix(data);
+
+					frame.dispose();
+				}
+			});
+			JButton sobel = new JButton("Sobel");
+			sobel.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
+					// change
+					FourierFrequencyFilter.filter = new Matrix(data);
+
+					frame.dispose();
+				}
+			});
+
+			JButton prewitt = new JButton("Prewitt");
+			prewitt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
+					// change
+					FourierFrequencyFilter.filter = new Matrix(data);
+
+					frame.dispose();
+				}
+			});
+
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(3, 1));
+			panel.add(d0label);
+			panel.add(spD0);
+			panel.add(ideal);
+			panel.add(butterworth);
+			panel.add(prewitt);
+			panel.add(media);
+			panel.add(sobel);
 			frame.add(panel, BorderLayout.CENTER);
 			frame.pack();
 			frame.setVisible(true);
@@ -1543,7 +1632,6 @@ public class Listener {
 		m.negateFilter.setEnabled(true);
 		m.orderedOrder.setEnabled(true);
 	}
-
 
 	private static Renderer getSelectedRenderer() {
 		Menu m = Main.getFrame().getMenu();
@@ -1612,9 +1700,9 @@ public class Listener {
 		if (m.houghcircle.isSelected())
 			return new CircleHoughFilter();
 		if (m.canny.isSelected())
-//			return new CannyFilterAux();
-//			return new CannyFilter();
-//			return new CannyFilter3();
+			// return new CannyFilterAux();
+			// return new CannyFilter();
+			// return new CannyFilter3();
 			return new Canny4Filter();
 		if (m.fourierModule.isSelected())
 			return new FourierFilterAbs();
@@ -1626,8 +1714,10 @@ public class Listener {
 			return new FourierFilterInverse();
 		if (m.fourierInvAbs1.isSelected())
 			return new FourierFilterInverseAbs1();
+		if (m.fourierFilters.isSelected())
+			;
+		// return new FourierFilters();
 
-		
 		return null;
 
 	}

@@ -80,17 +80,23 @@ public class Menu extends JMenuBar {
 	JMenuItem laplacianBorderDetector;
 	JMenuItem laplacianBorderDetectorVariance;
 
-	//TP4
+	// TP4
 	JRadioButtonMenuItem fourierModule;
 
-	JRadioButtonMenuItem fourierPashe = new JRadioButtonMenuItem("Fourier Phase");
-	JRadioButtonMenuItem fourierInverse = new JRadioButtonMenuItem("Fourier Inverse");
-	JRadioButtonMenuItem fourierInvAbs1 = new JRadioButtonMenuItem("Fourier Inverse Absolute 1");
-	JRadioButtonMenuItem fourierPasheExchange = new JRadioButtonMenuItem("Fourier Exchange phase");
+	JRadioButtonMenuItem fourierPashe = new JRadioButtonMenuItem(
+			"Fourier Phase");
+	JRadioButtonMenuItem fourierInverse = new JRadioButtonMenuItem(
+			"Fourier Inverse");
+	JRadioButtonMenuItem fourierInvAbs1 = new JRadioButtonMenuItem(
+			"Fourier Inverse Absolute 1");
+	JRadioButtonMenuItem fourierPasheExchange = new JRadioButtonMenuItem(
+			"Fourier Exchange phase");
+	JRadioButtonMenuItem fourierFilters = new JRadioButtonMenuItem(
+			"Fourier Filters");;
 
-	JRadioButtonMenuItem fourierInverseFilters = new JRadioButtonMenuItem("Fourier Inverse filters");
-	
-	
+	JRadioButtonMenuItem fourierInverseFilters = new JRadioButtonMenuItem(
+			"Fourier Inverse filters");
+
 	public Menu() {
 
 		add(createScaleMenu());
@@ -366,7 +372,7 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(hough);
 		rendererGroup.add(houghcircle);
 		rendererGroup.add(canny);
-		
+
 		Options.add(matrix);
 		Options.add(umbralGlobal);
 		Options.add(umbralOtzu);
@@ -377,12 +383,11 @@ public class Menu extends JMenuBar {
 		Options.add(hough);
 		Options.add(houghcircle);
 		Options.add(canny);
-		
+
 		return Options;
 
 	}
-	
-	
+
 	private JMenu createFourierOptions() {
 		JMenu Options;
 
@@ -391,19 +396,20 @@ public class Menu extends JMenuBar {
 		fourierPashe = new JRadioButtonMenuItem("Fourier Phase");
 		fourierInverse = new JRadioButtonMenuItem("Fourier Inverse");
 		fourierInvAbs1 = new JRadioButtonMenuItem("Fourier Inverse Absolute 1");
-		fourierPasheExchange = new JRadioButtonMenuItem("Fourier Exchange phase");
+		fourierPasheExchange = new JRadioButtonMenuItem(
+				"Fourier Exchange phase");
+		fourierFilters.addActionListener(new Listener.FourierFiltersListener());
+		fourierInverseFilters = new JRadioButtonMenuItem(
+				"Fourier Inverse filters");
 
-		fourierInverseFilters = new JRadioButtonMenuItem("Fourier Inverse filters");
-		
-		
-		
-		//fourier.addActionListener(new Listener.matListener());
+		// fourier.addActionListener(new Listener.matListener());
 		rendererGroup.add(fourierModule);
 		rendererGroup.add(fourierPashe);
 		rendererGroup.add(fourierInverse);
 		rendererGroup.add(fourierInvAbs1);
 		rendererGroup.add(fourierPasheExchange);
 		rendererGroup.add(fourierInverseFilters);
+		rendererGroup.add(fourierFilters);
 
 		Options.add(fourierModule);
 		Options.add(fourierPashe);
@@ -411,7 +417,8 @@ public class Menu extends JMenuBar {
 		Options.add(fourierInvAbs1);
 		Options.add(fourierPasheExchange);
 		Options.add(fourierInverseFilters);
-		
+		Options.add(fourierFilters);
+
 		return Options;
 
 	}
