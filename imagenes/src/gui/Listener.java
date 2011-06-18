@@ -47,6 +47,7 @@ import renderer.filters.ExponencialNoiseFilter;
 import renderer.filters.FourierFilterAbs;
 import renderer.filters.FourierFilterInverse;
 import renderer.filters.FourierFilterInverseAbs1;
+import renderer.filters.FourierFilterInversePhaseExchange;
 import renderer.filters.FourierFilterPhase;
 import renderer.filters.FourierFrequencyFilter;
 import renderer.filters.GammaCorrectionFilter;
@@ -1709,7 +1710,7 @@ public class Listener {
 		if (m.fourierPashe.isSelected())
 			return new FourierFilterPhase();
 		if (m.fourierPasheExchange.isSelected())
-			return new FourierFilterAbs();
+			return new FourierFilterInversePhaseExchange();
 		if (m.fourierInverse.isSelected())
 			return new FourierFilterInverse();
 		if (m.fourierInvAbs1.isSelected())
