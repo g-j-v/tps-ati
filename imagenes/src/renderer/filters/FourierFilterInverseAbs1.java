@@ -8,6 +8,7 @@ import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 
 import core.PixelRay;
+import fourier.ComplexNumber;
 import fourier.FFT;
 import fourier.InverseFFT;
 import fourier.TwoDArray;
@@ -38,13 +39,31 @@ public class FourierFilterInverseAbs1 extends Filter {
 		}
 
 		fft = new FFT(orig, width, height);
-		TwoDArray output = inverse.transformAbs1(fft.intermediate);
-		foutput = new MemoryImageSource(width, height, inverse.getPixels(output), 0, width);
+		TwoDArray input = fft.intermediate;
+		TwoDArray intermediate = new TwoDArray(input.width, input.height);
+		for (int i = 0; i < input.size; ++i) {
+			intermediate.putColumn(i, setABS1(input.getColumn(i)));
+		}
+
+		TwoDArray output = inverse.transform(intermediate);
+		foutput = new MemoryImageSource(width, height,
+				inverse.getPixels(output), 0, width);
 
 		finalimg = new BufferedImage(width, width, BufferedImage.TYPE_INT_RGB);
 		Image piximg = Toolkit.getDefaultToolkit().createImage(foutput);
 		finalimg.getGraphics().drawImage(piximg, 0, 0, null);
 	}
+
+	public ComplexNumber [] setABS1 (ComplexNumber [] x){
+    int n = x.length;
+    ComplexNumber [] result = new ComplexNumber [n];
+    
+      for(int i=0;i<n;++i){
+    	  	result[i] = ComplexNumber.ComplexNumberPolar(x[i].magnitude(), x[i].phaseAngle());
+      }
+    
+    return result;
+  }
 
 	@Override
 	public Color RenderPixel(PixelRay ray) {
