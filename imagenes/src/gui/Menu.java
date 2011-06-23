@@ -80,7 +80,7 @@ public class Menu extends JMenuBar {
 	JMenuItem laplacianBorderDetector;
 	JMenuItem laplacianBorderDetectorVariance;
 
-	// TP4
+	//TP4
 	JRadioButtonMenuItem fourierModule;
 
 	JRadioButtonMenuItem fourierPashe = new JRadioButtonMenuItem(
@@ -97,6 +97,10 @@ public class Menu extends JMenuBar {
 	JRadioButtonMenuItem fourierInverseFilters = new JRadioButtonMenuItem(
 			"Fourier Inverse filters");
 
+
+	private JRadioButtonMenuItem fourierFiltros;
+	
+	
 	public Menu() {
 
 		add(createScaleMenu());
@@ -275,6 +279,7 @@ public class Menu extends JMenuBar {
 		sobel = new JRadioButtonMenuItem("Borders");
 		isotropic = new JRadioButtonMenuItem("Apply Isotropic Filter");
 		anisotropic = new JRadioButtonMenuItem("Apply Anisotropic Filter");
+		fourierFiltros = new JRadioButtonMenuItem("Borders");
 
 		substraction = new JRadioButtonMenuItem("Substraction");
 		rendererGroup.add(equalize);
@@ -372,7 +377,7 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(hough);
 		rendererGroup.add(houghcircle);
 		rendererGroup.add(canny);
-
+		
 		Options.add(matrix);
 		Options.add(umbralGlobal);
 		Options.add(umbralOtzu);
@@ -383,11 +388,12 @@ public class Menu extends JMenuBar {
 		Options.add(hough);
 		Options.add(houghcircle);
 		Options.add(canny);
-
+		
 		return Options;
 
 	}
-
+	
+	
 	private JMenu createFourierOptions() {
 		JMenu Options;
 
@@ -402,6 +408,13 @@ public class Menu extends JMenuBar {
 		fourierInverseFilters = new JRadioButtonMenuItem(
 				"Fourier Inverse filters");
 
+		fourierInverseFilters = new JRadioButtonMenuItem("Fourier Inverse filters");
+		
+		
+		fourierFiltros.addActionListener(new Listener.FourierFiltersListener());
+		
+		
+		//fourier.addActionListener(new Listener.matListener());
 		// fourier.addActionListener(new Listener.matListener());
 		rendererGroup.add(fourierModule);
 		rendererGroup.add(fourierPashe);
@@ -409,6 +422,7 @@ public class Menu extends JMenuBar {
 		rendererGroup.add(fourierInvAbs1);
 		rendererGroup.add(fourierPasheExchange);
 		rendererGroup.add(fourierInverseFilters);
+		rendererGroup.add(fourierFiltros);
 		rendererGroup.add(fourierFilters);
 
 		Options.add(fourierModule);
@@ -417,6 +431,8 @@ public class Menu extends JMenuBar {
 		Options.add(fourierInvAbs1);
 		Options.add(fourierPasheExchange);
 		Options.add(fourierInverseFilters);
+		Options.add(fourierFiltros);
+		
 		Options.add(fourierFilters);
 
 		return Options;

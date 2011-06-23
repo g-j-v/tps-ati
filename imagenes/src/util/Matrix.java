@@ -1,5 +1,7 @@
 package util;
 
+import javax.swing.SpinnerNumberModel;
+
 /*************************************************************************
  * Compilation: javac Matrix.java Execution: java Matrix
  * 
@@ -49,6 +51,14 @@ final public class Matrix {
 		for (int i = 0; i < N; i++)
 			I.data[i][i] = 1;
 		return I;
+	}
+
+	public int getWidth() {
+		return N;
+	}
+
+	public int getHeight() {
+		return M;
 	}
 
 	// create and return the N-by-N gaussian matrix
@@ -287,5 +297,57 @@ final public class Matrix {
 
 		A.times(x).show();
 
+	}
+
+	public static Matrix idealFourierFilter(SpinnerNumberModel d0) {
+		int half = d0.getNumber().intValue();
+		int s = 1 + 2 * half;
+		double[][] data = new double[s][s];
+
+		for (int i = -half; i <= half; i++) {
+			for (int j = -half; j <= half; j++) {
+				if (Math.sqrt(i * i + j * j) <= half) {
+					data[i + half][j + half] = 1.0;
+				} else {
+					data[i + half][j + half] = 0.0;
+				}
+			}
+		}
+
+		return new Matrix(data);
+	}
+
+	public static Matrix butterworthFourierFilter(SpinnerNumberModel d0) {
+		int d = d0.getNumber().intValue();
+
+		int n = 2;
+		int halfsize = 10 * d;
+
+		double[][] data = new double[2 * halfsize + 1][2 * halfsize + 1];
+
+		for (int i = -halfsize; i <= halfsize; i++) {
+			for (int j = -halfsize; j <= halfsize; j++) {
+				double dist = Math.sqrt(i * i + j * j);
+				data[i + halfsize][j + halfsize] = 1 / (1 + Math.pow(dist / d,
+						2 * n));
+			}
+		}
+
+		return new Matrix(data);
+	}
+
+	public static Matrix mediaFourierFilter(SpinnerNumberModel d0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Matrix sobelFourierFilter(SpinnerNumberModel d0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Matrix prewittFourierFilter(SpinnerNumberModel d0) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1497,7 +1497,6 @@ public class Listener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 
 			final JFrame frame = new JFrame("Select Frequency Filter");
 
@@ -1509,9 +1508,8 @@ public class Listener {
 			ideal.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
-					// change
-					FourierFrequencyFilter.filter = new Matrix(data);
+					
+					FourierFrequencyFilter.filter = Matrix.idealFourierFilter(d0);
 
 					frame.dispose();
 				}
@@ -1520,9 +1518,8 @@ public class Listener {
 			butterworth.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
-					// change
-					FourierFrequencyFilter.filter = new Matrix(data);
+					
+					FourierFrequencyFilter.filter = Matrix.butterworthFourierFilter(d0);
 
 					frame.dispose();
 				}
@@ -1531,9 +1528,7 @@ public class Listener {
 			media.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
-					// change
-					FourierFrequencyFilter.filter = new Matrix(data);
+					FourierFrequencyFilter.filter = Matrix.mediaFourierFilter(d0);
 
 					frame.dispose();
 				}
@@ -1542,10 +1537,8 @@ public class Listener {
 			sobel.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
-					// change
-					FourierFrequencyFilter.filter = new Matrix(data);
-
+					FourierFrequencyFilter.filter = Matrix.sobelFourierFilter(d0);
+					
 					frame.dispose();
 				}
 			});
@@ -1554,10 +1547,7 @@ public class Listener {
 			prewitt.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					double[][] data = { { 1, 0, 0 }, { 0, 0, 0 }, { 0, 0, -1 } };// TODO
-					// change
-					FourierFrequencyFilter.filter = new Matrix(data);
-
+					FourierFrequencyFilter.filter = Matrix.prewittFourierFilter(d0);
 					frame.dispose();
 				}
 			});
@@ -1716,8 +1706,7 @@ public class Listener {
 		if (m.fourierInvAbs1.isSelected())
 			return new FourierFilterInverseAbs1();
 		if (m.fourierFilters.isSelected())
-			;
-		// return new FourierFilters();
+			return new FourierFrequencyFilter();
 
 		return null;
 
