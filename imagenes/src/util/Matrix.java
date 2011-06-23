@@ -342,17 +342,32 @@ final public class Matrix {
 		return ret;
 	}
 
-	public static TwoDArray mediaFourierFilter(SpinnerNumberModel d0) {
+	public static TwoDArray mediaFourierFilter(SpinnerNumberModel d0, int k,
+			int l) {
 
-		int size = 2 * d0.getNumber().intValue() + 1;
-		int[] espacial = new int[size * size];
-		Arrays.fill(espacial, 1);
+		int d = d0.getNumber().intValue();
+		int width = d * k + 1;
+		int height = d * l + 1;
+		int[] espacial = new int[width * height];
 
-		FFT mat = new FFT(espacial, size, size);
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (Math.abs(i - height / 2) <= d / 2
+						&& Math.abs(j - width / 2) <= d / 2) {
+					espacial[i * width + j] = 1;
+				} else {
+					espacial[i * width + j] = 0;
+				}
+			}
+		}
 
-		for (int i = 0; i < size; i++) {
-			for (int j = 0 ;j < size; j++) {
-				mat.output.values[i][j] = new ComplexNumber(mat.output.values[i][j].real/(size*size), mat.output.values[i][j].imaginary/(size*size));
+		FFT mat = new FFT(espacial, width, height);
+
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				mat.output.values[i][j] = new ComplexNumber(
+						mat.output.values[i][j].real / (width * height),
+						mat.output.values[i][j].imaginary / (width * height));
 			}
 		}
 		return mat.output;
@@ -375,12 +390,11 @@ final public class Matrix {
 
 		TwoDArray ret = new TwoDArray(2 * halfsize + 1, 2 * halfsize + 1);
 
-
 		for (int i = -halfsize; i <= halfsize; i++) {
 			for (int j = -halfsize; j <= halfsize; j++) {
 				double dist = Math.sqrt(i * i + j * j);
-				ret.values[i + halfsize][j + halfsize] = new ComplexNumber(Math.exp(-dist * dist
-						/ (2 * d * d)),0);
+				ret.values[i + halfsize][j + halfsize] = new ComplexNumber(Math
+						.exp(-dist * dist / (2 * d * d)), 0);
 			}
 		}
 

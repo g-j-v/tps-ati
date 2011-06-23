@@ -1528,7 +1528,7 @@ public class Listener {
 			media.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					FourierFrequencyFilter.filter = Matrix.mediaFourierFilter(d0);
+					FourierFrequencyFilter.filter = Matrix.mediaFourierFilter(d0, Main.getImage().getWidth(), Main.getImage().getWidth());
 
 					frame.dispose();
 				}
