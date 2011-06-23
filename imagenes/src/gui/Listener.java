@@ -1551,6 +1551,15 @@ public class Listener {
 					frame.dispose();
 				}
 			});
+			
+			JButton gaussian = new JButton("Gauss");
+			gaussian.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					FourierFrequencyFilter.filter = Matrix.gaussianFourierFilter(d0);
+					frame.dispose();
+				}
+			});
 
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(3, 1));
@@ -1561,6 +1570,7 @@ public class Listener {
 			panel.add(prewitt);
 			panel.add(media);
 			panel.add(sobel);
+			panel.add(gaussian);
 			frame.add(panel, BorderLayout.CENTER);
 			frame.pack();
 			frame.setVisible(true);

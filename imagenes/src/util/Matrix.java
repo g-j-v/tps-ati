@@ -1,6 +1,10 @@
 package util;
 
+import java.util.Arrays;
+
 import javax.swing.SpinnerNumberModel;
+
+import fourier.FFT;
 
 /*************************************************************************
  * Compilation: javac Matrix.java Execution: java Matrix
@@ -337,8 +341,24 @@ final public class Matrix {
 	}
 
 	public static Matrix mediaFourierFilter(SpinnerNumberModel d0) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int size = 2*d0.getNumber().intValue()+1;
+		int[] espacial = new int[size*size];
+		Arrays.fill(espacial, 1);
+		
+		FFT mat = new FFT(espacial, size, size);
+		
+		double[] real = mat.output.getReal();
+		
+		Matrix m = new Matrix(size,size);
+		
+		for(int i = 0; i < size; i ++){
+			for(int j = 0; j < size; j ++){
+				m.setData(i, j, real[i*size+j]);
+			}	
+		}
+		
+		return m;
 	}
 
 	public static Matrix sobelFourierFilter(SpinnerNumberModel d0) {
@@ -349,5 +369,23 @@ final public class Matrix {
 	public static Matrix prewittFourierFilter(SpinnerNumberModel d0) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public static Matrix gaussianFourierFilter(SpinnerNumberModel d0) {
+		int d = d0.getNumber().intValue();
+
+		int n = 2;
+		int halfsize = 10 * d;
+
+		double[][] data = new double[2 * halfsize + 1][2 * halfsize + 1];
+
+		for (int i = -halfsize; i <= halfsize; i++) {
+			for (int j = -halfsize; j <= halfsize; j++) {
+				double dist = Math.sqrt(i * i + j * j);
+				data[i + halfsize][j + halfsize] =  Math.exp(-dist*dist/(2*d*d));
+			}
+		}
+
+		return new Matrix(data);
 	}
 }
