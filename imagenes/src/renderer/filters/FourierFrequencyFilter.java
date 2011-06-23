@@ -18,7 +18,8 @@ import fourier.TwoDArray;
 public class FourierFrequencyFilter extends Filter {
 
 	public static int d0 = 3;
-	public static Matrix filter;
+	// public static Matrix filter;
+	public static TwoDArray filter;
 
 	protected BufferedImage auxImg;
 	public static int black;
@@ -37,7 +38,7 @@ public class FourierFrequencyFilter extends Filter {
 
 		orig = new int[width * height];
 
-		filter.show();
+		// filter.show();
 
 		PixelGrabber grabber = new PixelGrabber(oldImg, 0, 0, width, height,
 				orig, 0, width);
@@ -62,13 +63,10 @@ public class FourierFrequencyFilter extends Filter {
 				else
 					j2 = j;
 
-				if (Math.abs(i2) <= filter.getHeight() / 2
-						&& Math.abs(j2) <= filter.getWidth() / 2) {
-					double mult = filter.getData(i2 + filter.getHeight() / 2,
-							j2 + filter.getWidth() / 2);
-					fft.output.values[i][j] = new ComplexNumber(
-							fft.output.values[i][j].real * mult,
-							fft.output.values[i][j].imaginary * mult);
+				if (Math.abs(i2) <= filter.height / 2
+						&& Math.abs(j2) <= filter.width / 2) {
+					ComplexNumber mult = filter.values[i2 + filter.height / 2][j2 + filter.width / 2];
+					fft.output.values[i][j] = ComplexNumber.cMult(fft.output.values[i][j],mult);
 				} else
 					fft.output.values[i][j] = new ComplexNumber(0, 0);
 			}

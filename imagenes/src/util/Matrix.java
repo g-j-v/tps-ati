@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 import javax.swing.SpinnerNumberModel;
 
+import fourier.ComplexNumber;
 import fourier.FFT;
+import fourier.TwoDArray;
 
 /*************************************************************************
  * Compilation: javac Matrix.java Execution: java Matrix
@@ -303,89 +305,85 @@ final public class Matrix {
 
 	}
 
-	public static Matrix idealFourierFilter(SpinnerNumberModel d0) {
+	public static TwoDArray idealFourierFilter(SpinnerNumberModel d0) {
 		int half = d0.getNumber().intValue();
 		int s = 1 + 2 * half;
-		double[][] data = new double[s][s];
+		TwoDArray ret = new TwoDArray(s, s);
 
 		for (int i = -half; i <= half; i++) {
 			for (int j = -half; j <= half; j++) {
 				if (Math.sqrt(i * i + j * j) <= half) {
-					data[i + half][j + half] = 1.0;
+					ret.values[i + half][j + half] = new ComplexNumber(1.0, 0);
 				} else {
-					data[i + half][j + half] = 0.0;
+					ret.values[i + half][j + half] = new ComplexNumber(0, 0);
 				}
 			}
 		}
 
-		return new Matrix(data);
+		return ret;
 	}
 
-	public static Matrix butterworthFourierFilter(SpinnerNumberModel d0) {
+	public static TwoDArray butterworthFourierFilter(SpinnerNumberModel d0) {
 		int d = d0.getNumber().intValue();
 
 		int n = 2;
 		int halfsize = 10 * d;
 
-		double[][] data = new double[2 * halfsize + 1][2 * halfsize + 1];
+		TwoDArray ret = new TwoDArray(2 * halfsize + 1, 2 * halfsize + 1);
 
 		for (int i = -halfsize; i <= halfsize; i++) {
 			for (int j = -halfsize; j <= halfsize; j++) {
 				double dist = Math.sqrt(i * i + j * j);
-				data[i + halfsize][j + halfsize] = 1 / (1 + Math.pow(dist / d,
-						2 * n));
+				ret.values[i + halfsize][j + halfsize] = new ComplexNumber(
+						1 / (1 + Math.pow(dist / d, 2 * n)), 0);
 			}
 		}
 
-		return new Matrix(data);
+		return ret;
 	}
 
-	public static Matrix mediaFourierFilter(SpinnerNumberModel d0) {
-		
-		int size = 2*d0.getNumber().intValue()+1;
-		int[] espacial = new int[size*size];
+	public static TwoDArray mediaFourierFilter(SpinnerNumberModel d0) {
+
+		int size = 2 * d0.getNumber().intValue() + 1;
+		int[] espacial = new int[size * size];
 		Arrays.fill(espacial, 1);
-		
+
 		FFT mat = new FFT(espacial, size, size);
-		
-		double[] real = mat.output.getReal();
-		
-		Matrix m = new Matrix(size,size);
-		
-		for(int i = 0; i < size; i ++){
-			for(int j = 0; j < size; j ++){
-				m.setData(i, j, real[i*size+j]);
-			}	
+
+		for (int i = 0; i < size; i++) {
+			for (int j = 0 ;j < size; j++) {
+				mat.output.values[i][j] = new ComplexNumber(mat.output.values[i][j].real/(size*size), mat.output.values[i][j].imaginary/(size*size));
+			}
 		}
-		
-		return m;
+		return mat.output;
 	}
 
-	public static Matrix sobelFourierFilter(SpinnerNumberModel d0) {
+	public static TwoDArray sobelFourierFilter(SpinnerNumberModel d0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static Matrix prewittFourierFilter(SpinnerNumberModel d0) {
+	public static TwoDArray prewittFourierFilter(SpinnerNumberModel d0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static Matrix gaussianFourierFilter(SpinnerNumberModel d0) {
+	public static TwoDArray gaussianFourierFilter(SpinnerNumberModel d0) {
 		int d = d0.getNumber().intValue();
 
-		int n = 2;
 		int halfsize = 10 * d;
 
-		double[][] data = new double[2 * halfsize + 1][2 * halfsize + 1];
+		TwoDArray ret = new TwoDArray(2 * halfsize + 1, 2 * halfsize + 1);
+
 
 		for (int i = -halfsize; i <= halfsize; i++) {
 			for (int j = -halfsize; j <= halfsize; j++) {
 				double dist = Math.sqrt(i * i + j * j);
-				data[i + halfsize][j + halfsize] =  Math.exp(-dist*dist/(2*d*d));
+				ret.values[i + halfsize][j + halfsize] = new ComplexNumber(Math.exp(-dist * dist
+						/ (2 * d * d)),0);
 			}
 		}
 
-		return new Matrix(data);
+		return ret;
 	}
 }
