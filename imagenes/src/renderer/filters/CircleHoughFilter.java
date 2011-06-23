@@ -1,10 +1,16 @@
 package renderer.filters;
 
+import gui.ImagePanel;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 
+import javax.swing.JFrame;
 import javax.vecmath.Point2i;
+
+import main.Main;
 
 import util.CircleHough;
 import util.hystThresh;
@@ -27,6 +33,29 @@ public class CircleHoughFilter extends Filter {
 
 
 	public CircleHoughFilter() {
+		
+		Filter canFilter = new Canny4Filter();
+	
+		try {
+			canFilter.Render();
+		} catch (InterruptedException e) {
+		
+		}	
+		oldImg = Main.getImage();
+		if(oldImg == null)
+		{
+				throw new IllegalArgumentException("No image loaded.");
+		}
+		JFrame frame = new JFrame("Old Image");
+		frame.setBounds(500, 100, 400, 400);
+		frame.setPreferredSize(new Dimension(oldImg.getWidth(), oldImg.getHeight()+ 30));
+		frame.add(new ImagePanel(oldImg));
+		frame.pack();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		
+		oldImg = Main.image;
 		height = oldImg.getHeight();
 		width = oldImg.getWidth();
 
@@ -46,24 +75,22 @@ public class CircleHoughFilter extends Filter {
 		}
 
 	
-		Filter susFilter = new SusanFilter();
-		SusanFilter.mode = 3;
-
-		for (int x = 0; x < oldImg.getWidth(); x++)
-			for (int y = 0; y < oldImg.getHeight(); y++) {
-				PixelRay pix = new PixelRay(new Point2i(x, y));
-				orig[x + (y * oldImg.getWidth())] = susFilter.RenderPixel(pix).getRGB();
-			}
-		
-
-			
-
+//		Filter susFilter = new SusanFilter();
+//		SusanFilter.mode = 3;
+//
+//		for (int x = 0; x < oldImg.getWidth(); x++)
+//			for (int y = 0; y < oldImg.getHeight(); y++) {
+//				PixelRay pix = new PixelRay(new Point2i(x, y));
+//				orig[x + (y * oldImg.getWidth())] = susFilter.RenderPixel(pix).getRGB();
+//			}
+//	
+	
 		// sobelObject.init(orig,width,height);
 		// orig = sobelObject.process();
 		//double direction[] = new double[width * height];
-		sobelObject.getDirection();
-		nonMaxSuppressionObject.init(orig, width, height);
-		orig = nonMaxSuppressionObject.process();
+		//sobelObject.getDirection();
+		//nonMaxSuppressionObject.init(orig, width, height);
+		//orig = nonMaxSuppressionObject.process();
 		hystThreshObject.init(orig, width, height, 25, 50);
 		orig = hystThreshObject.process();
 		circleHoughObject.init(orig, width, height, radius);
@@ -77,7 +104,7 @@ public class CircleHoughFilter extends Filter {
 		if (orig[ray.getPos().x + (width * ray.getPos().y)] != -16777216)
 			return new Color(orig[ray.getPos().x + (width * ray.getPos().y)]);
 		else
-			//return Color.BLACK;
+		//	return Color.BLACK;
 		 return new Color(oldImg.getRGB(ray.getPos().x, ray.getPos().y));
 	}
 
