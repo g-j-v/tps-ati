@@ -80,7 +80,7 @@ public class CommandPannel extends JPanel {
 				}
 				currentFrame--;
 
-				if (currentFrame == 1) {
+				if (currentFrame == 0) {
 					back.setEnabled(false);
 					return;
 				}
