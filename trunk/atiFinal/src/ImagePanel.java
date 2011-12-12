@@ -62,6 +62,7 @@ public class ImagePanel extends JPanel implements MouseListener {
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
 		if(frame != null)
+		{
 			g.setColor(Color.GREEN);
 			for (Point p : frame.region) {
 				g.fillRect(p.x, p.y, 1, 1);		
@@ -77,8 +78,7 @@ public class ImagePanel extends JPanel implements MouseListener {
 				System.out.println("Lout x " + p.x + " y " + p.y);
 			}
 			
-			;
-			
+		}	
 	}
 
 	public void mousePressed(MouseEvent e) {
