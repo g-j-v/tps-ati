@@ -11,6 +11,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public class ImageLoader {
+	
+	public static ImageLoader Loader;
 	private static String frameWord = "Frame";
 	private String path;
 	private String ext;
@@ -63,6 +65,7 @@ public class ImageLoader {
 		});
 		this.maxFrame = images.size();
 		System.out.println(images);
+		Loader = this;
 	}
 	
 	public int getInitFrame(){

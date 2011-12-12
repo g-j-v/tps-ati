@@ -30,18 +30,18 @@ public class Frame {
 	public BufferedImage image;
 	HSVArray brightness;
 	public int color;
-	public int tolerance = 50;
+	public int tolerance = 5;
 	public boolean cambio = true;
 	public int ITERACIONES = 1000;
 	public int MAXX, MAXY;
 
-	public Frame(HSVArray image, int x, int y) {
+	public Frame(HSVArray image, int x, int y, int color) {
 		super();
 		this.brightness = image;
 		MAXX = brightness.width;
 		MAXY = brightness.height;
 
-		this.color = brightness.getColor(x, y);
+		this.color = color;
 		Lin.add(new Point(x, y));
 
 		Lout.add(new Point(x - 1, y));
@@ -296,18 +296,22 @@ public class Frame {
 		}
 
 	}
-	
-	
+
 	public Point getMidPoint() {
-		int x = 0 , y =0, n = 0;
-		
+		int x = 0, y = 0, n = 0;
+
 		for (Point point : Lin) {
 			x += point.x;
 			y += point.y;
 			n++;
 		}
-		x =x /n;
-		y = y/n;
+		if (n != 0) {
+			x = x / n;
+			y = y / n;
+		} else {
+			x = 0;
+			y = 0;
+		}
 		return new Point(x, y);
 	}
 }

@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import dirUtils.ImageLoader;
+
 public class ImagePanel extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -21,18 +23,18 @@ public class ImagePanel extends JPanel implements MouseListener {
 	public Frame frame;
 
 	public ImagePanel(String img) {
-    this(new ImageIcon(img).getImage());
+		this(new ImageIcon(img).getImage());
 
-    try {
-    
-    BufferedImage imagen;
-		imagen = ImageIO.read(new File(img));
-		 array = new HSVArray(imagen);
-	} catch (IOException e) {
-		e.printStackTrace();
+		try {
+
+			BufferedImage imagen;
+			imagen = ImageIO.read(new File(img));
+			array = new HSVArray(imagen);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
-    
-  }
 
 	private ImagePanel(Image img) {
 		this.img = img;
@@ -45,8 +47,8 @@ public class ImagePanel extends JPanel implements MouseListener {
 		setLayout(null);
 
 	}
-	
-	public void setImage(Image img){
+
+	public void setImage(BufferedImage img){
 		this.img = img;
 		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
 		setPreferredSize(size);
@@ -55,30 +57,40 @@ public class ImagePanel extends JPanel implements MouseListener {
 		setSize(size);
 		addMouseListener(this);
 		setLayout(null);
-		this.repaint();
+		 if(frame != null)
+		 {
+			 Point aux = frame.getMidPoint();
+				int auxColor = array.getColor(aux.x, aux.y);
+						 array = new HSVArray(img);
+			 frame = new Frame(array, aux.x, aux.y, auxColor );
+			 System.out.println("new Center x " + aux.x + " y " + aux.y);
+				
+			 frame.cicle1();
+			 frame.clean();
+		 }
+		 this.repaint();
+		 
 	}
-	
 
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
-		if(frame != null)
-		{
+		if (frame != null) {
 			g.setColor(Color.GREEN);
 			for (Point p : frame.region) {
-				g.fillRect(p.x, p.y, 1, 1);		
+				g.fillRect(p.x, p.y, 1, 1);
 			}
 			g.setColor(Color.MAGENTA);
 			for (Point p : frame.Lin) {
-				g.fillRect(p.x, p.y, 1, 1);		
-				System.out.println("Lin x " + p.x + " y " + p.y);
+				g.fillRect(p.x, p.y, 1, 1);
+				//System.out.println("Lin x " + p.x + " y " + p.y);
 			}
 			g.setColor(Color.RED);
 			for (Point p : frame.Lout) {
-				g.fillRect(p.x, p.y, 1, 1);		
-				System.out.println("Lout x " + p.x + " y " + p.y);
+				g.fillRect(p.x, p.y, 1, 1);
+				//System.out.println("Lout x " + p.x + " y " + p.y);
 			}
-			
-		}	
+
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -88,13 +100,13 @@ public class ImagePanel extends JPanel implements MouseListener {
 	public void mouseReleased(MouseEvent e) {
 		// System.out.println("Mouse released (# of clicks: ");
 		System.out.println("x " + e.getX() + " y " + e.getY());
-		 frame = new Frame(array, e.getX(), e.getY());
-		 //frame.floodFill(new Point(e.getX(), e.getY()));
-		 frame.cicle1();
-		 frame.clean();
-		 
-		 System.out.println(frame.getMidPoint());
-		 repaint();
+		frame = new Frame(array, e.getX(), e.getY(), array.getColor(e.getX(), e.getY()));
+		// frame.floodFill(new Point(e.getX(), e.getY()));
+		frame.cicle1();
+		frame.clean();
+		// ImageLoader.Loader.getFrame(i)
+		System.out.println(frame.getMidPoint());
+		repaint();
 	}
 
 	public void mouseEntered(MouseEvent e) {
