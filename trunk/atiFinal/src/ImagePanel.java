@@ -12,7 +12,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
 
 public class ImagePanel extends JPanel implements MouseListener {
 
@@ -54,7 +53,7 @@ public class ImagePanel extends JPanel implements MouseListener {
 			for (Point p : frame.region) {
 				g.fillRect(p.x, p.y, 1, 1);		
 			}
-			g.setColor(Color.BLUE);
+			g.setColor(Color.MAGENTA);
 			for (Point p : frame.Lin) {
 				g.fillRect(p.x, p.y, 1, 1);		
 				System.out.println("Lin x " + p.x + " y " + p.y);
@@ -77,8 +76,11 @@ public class ImagePanel extends JPanel implements MouseListener {
 		// System.out.println("Mouse released (# of clicks: ");
 		System.out.println("x " + e.getX() + " y " + e.getY());
 		 frame = new Frame(array, e.getX(), e.getY());
-		 frame.floodFill(new Point(e.getX(), e.getY()));
+		 //frame.floodFill(new Point(e.getX(), e.getY()));
 		 frame.cicle1();
+		 frame.clean();
+		 
+		 System.out.println(frame.getMidPoint());
 		 repaint();
 	}
 
