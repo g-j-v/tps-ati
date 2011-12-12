@@ -45,6 +45,19 @@ public class ImagePanel extends JPanel implements MouseListener {
 		setLayout(null);
 
 	}
+	
+	public void setImage(Image img){
+		this.img = img;
+		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+		setPreferredSize(size);
+		setMinimumSize(size);
+		setMaximumSize(size);
+		setSize(size);
+		addMouseListener(this);
+		setLayout(null);
+		this.repaint();
+	}
+	
 
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
