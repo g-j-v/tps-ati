@@ -3,6 +3,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.BrokenBarrierException;
 
 /**
  * 
@@ -22,50 +23,51 @@ public class Frame {
 
 	public ArrayList<Point> Lin = new ArrayList<Point>();
 	public ArrayList<Point> Lout = new ArrayList<Point>();
+	public ArrayList<Point> region = new ArrayList<Point>();
+
 	public HashMap<Point, Boolean> process = new HashMap<Point, Boolean>();
 	public BufferedImage image;
 	HSVArray brightness;
 	public int color;
-	public int tolerance = 10;
+	public int tolerance = 20;
 	public boolean cambio = true;
 	public int ITERACIONES = 10;
-	
-	
+	public int MAXX, MAXY;
+
 	public Frame(HSVArray image, int x, int y) {
 		super();
 		this.brightness = image;
+		MAXX = brightness.width;
+		MAXY = brightness.height;
+
 		this.color = brightness.getColor(x, y);
-		Lin.add(new Point(x,y));
+		Lin.add(new Point(x, y));
 
-		Lout.add(new Point(x-1,y));
-		Lout.add(new Point(x+1,y));
-		Lout.add(new Point(x,y-1));
-		Lout.add(new Point(x,y+1));
+		Lout.add(new Point(x - 1, y));
+		Lout.add(new Point(x + 1, y));
+		Lout.add(new Point(x, y - 1));
+		Lout.add(new Point(x, y + 1));
 
-		
 	}
 
-	
-	public void cicle1(){
-		int counter =0 ;
+	public void cicle1() {
+		int counter = 0;
 		cambio = true;
-		while(counter < ITERACIONES && cambio)
-		{
+		while (counter < ITERACIONES && cambio) {
 			cambio = false;
 			counter++;
 			expand();
 			contract();
-					
+
 		}
 	}
-	
-	
+
 	/**
 	 * Algoritmo 2 Expandir el contorno en el pixel x ￼1: 2: 3: 4: 5: 6: 7:
 	 * eliminar x de Lout agregar x a Lin establecerφ(x)=−1
 	 * forally∈N4(x)/φ(y)=3do agregar y a Lout establecer φ (y) = 1 end for
 	 */
-	
+
 	public void expand() {
 		ArrayList<Point> loutCopy = new ArrayList<Point>();
 		for (Point obj : Lout)
@@ -77,33 +79,27 @@ public class Frame {
 				Lout.remove(point);
 				Lin.add(point);
 				Point aux = new Point(point.x - 1, point.y);
-				if (isBackground(aux))
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isBackground(aux))
 					Lout.add(aux);
 				aux = new Point(point.x + 1, point.y);
-				if (isBackground(aux))
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isBackground(aux))
 					Lout.add(aux);
-				aux = new Point(point.x, point.y);
-				if (isBackground(aux))
+				aux = new Point(point.x, point.y + 1);
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isBackground(aux))
 					Lout.add(aux);
-				aux = new Point(point.x - 1, point.y);
-				if (isBackground(aux))
+				aux = new Point(point.x, point.y -1);
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isBackground(aux))
 					Lout.add(aux);
 
 			}
 
 		}
+		/*
+		 * loutCopy = new ArrayList<Point>(); for (Point obj : Lin){
+		 * loutCopy.add((Point) obj.clone()); } for (Point point : loutCopy) {
+		 * if (! isLin(point)) { Lin.remove(point); } }
+		 */
 
-		loutCopy = new ArrayList<Point>();
-		for (Point obj : Lin){
-			loutCopy.add((Point) obj.clone());	
-		}
-		for (Point point : loutCopy) {
-			if (! isLin(point)) {
-				Lin.remove(point);
-			}
-		}
-		
-		
 	}
 
 	public void contract() {
@@ -114,37 +110,30 @@ public class Frame {
 		for (Point point : linCopy) {
 			if (isBackground(point)) {
 				cambio = true;
-				
+
 				Lin.remove(point);
 				Lout.add(point);
 				Point aux = new Point(point.x - 1, point.y);
-				if (isImage(aux))
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isImage(aux))
 					Lin.add(aux);
 				aux = new Point(point.x + 1, point.y);
-				if (isImage(aux))
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isImage(aux))
 					Lin.add(aux);
-				aux = new Point(point.x, point.y);
-				if (isImage(aux))
+				aux = new Point(point.x, point.y +1);
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isImage(aux))
 					Lin.add(aux);
-				aux = new Point(point.x - 1, point.y);
-				if (isImage(aux))
+				aux = new Point(point.x, point.y -1);
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isImage(aux))
 					Lin.add(aux);
 
 			}
 
 		}
-		
-		linCopy = new ArrayList<Point>();
-		for (Point obj : Lout){
-			linCopy.add((Point) obj.clone());	
-		}
-		for (Point point : linCopy) {
-			if (! isLout(point)) {
-				Lout.remove(point);
-			}
-		}
-
-
+		/*
+		 * linCopy = new ArrayList<Point>(); for (Point obj : Lout){
+		 * linCopy.add((Point) obj.clone()); } for (Point point : linCopy) { if
+		 * (! isLout(point)) { Lout.remove(point); } }
+		 */
 	}
 
 	/**
@@ -164,49 +153,87 @@ public class Frame {
 		return false;
 	}
 
-	
 	private boolean isLout(Point point) {
-		if(isImage(point))
+		if (isImage(point))
 			return false;
 		int count = 0;
 		Point aux = new Point(point.x - 1, point.y);
-		if (isImage(aux))
+		if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isImage(aux))
 			count++;
 		aux = new Point(point.x + 1, point.y);
-		if (isImage(aux))
+		if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isImage(aux))
 			count++;
-		aux = new Point(point.x, point.y);
-		if (isImage(aux))
+		aux = new Point(point.x, point.y-1);
+		if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isImage(aux))
 			count++;
-		aux = new Point(point.x - 1, point.y);
-		if (isImage(aux))
+		aux = new Point(point.x, point.y+1);
+		if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isImage(aux))
 			count++;
 
-		if(count == 0)
+		if (count == 0)
 			return false;
 		return true;
 	}
 
-	
 	private boolean isLin(Point point) {
-		if(isBackground(point))
+		if (isBackground(point))
 			return false;
 		int count = 0;
 		Point aux = new Point(point.x - 1, point.y);
-		if (isBackground(aux))
+		
+		if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isBackground(aux))
 			count++;
 		aux = new Point(point.x + 1, point.y);
-		if (isBackground(aux))
+		if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isBackground(aux))
 			count++;
-		aux = new Point(point.x, point.y);
-		if (isBackground(aux))
+		aux = new Point(point.x, point.y + 1);
+		if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isBackground(aux))
 			count++;
-		aux = new Point(point.x - 1, point.y);
-		if (isBackground(aux))
+		aux = new Point(point.x, point.y -1);
+		if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY && isBackground(aux))
 			count++;
 
-		if(count == 0)
+		if (count == 0)
 			return false;
 		return true;
+	}
+
+	public void floodFill(Point point) {
+		System.out.println("x " + point.x + " y " + point.y + " color " + brightness.getColor(point.x, point.y));
+		if (process.get(point) == null) {
+			process.put(point, true);
+			if (isImage(point)) {
+				region.add(point);
+				Point aux = new Point(point.x - 1, point.y);
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY)
+				{if(isBackground(aux))
+					Lin.add(point);
+					floodFill(aux);
+				}
+				aux = new Point(point.x + 1, point.y);
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY)
+				{if(isBackground(aux))
+					Lin.add(point);
+					floodFill(aux);
+				}
+				aux = new Point(point.x, point.y - 1);
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY)
+				{if(isBackground(aux))
+					Lin.add(point);
+					floodFill(aux);
+				}
+				aux = new Point(point.x, point.y + 1);
+				if (aux.x >= 0 && aux.y >= 0 && aux.x < MAXX && aux.y < MAXY)
+				{if(isBackground(aux))
+					Lin.add(point);
+					floodFill(aux);
+				}
+			}
+			else
+			{
+				Lout.add(point);
+			}
+		}
+
 	}
 }

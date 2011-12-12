@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -49,9 +50,23 @@ public class ImagePanel extends JPanel implements MouseListener {
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
 		if(frame != null)
-			for (Point p : frame.Lout) {
-				g.fillRect(p.x, p.y, 20, 20);				
+			g.setColor(Color.GREEN);
+			for (Point p : frame.region) {
+				g.fillRect(p.x, p.y, 1, 1);		
 			}
+			g.setColor(Color.BLUE);
+			for (Point p : frame.Lin) {
+				g.fillRect(p.x, p.y, 1, 1);		
+				System.out.println("Lin x " + p.x + " y " + p.y);
+			}
+			g.setColor(Color.RED);
+			for (Point p : frame.Lout) {
+				g.fillRect(p.x, p.y, 1, 1);		
+				System.out.println("Lout x " + p.x + " y " + p.y);
+			}
+			
+			;
+			
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -62,7 +77,9 @@ public class ImagePanel extends JPanel implements MouseListener {
 		// System.out.println("Mouse released (# of clicks: ");
 		System.out.println("x " + e.getX() + " y " + e.getY());
 		 frame = new Frame(array, e.getX(), e.getY());
-
+		 frame.floodFill(new Point(e.getX(), e.getY()));
+		 frame.cicle1();
+		 repaint();
 	}
 
 	public void mouseEntered(MouseEvent e) {
