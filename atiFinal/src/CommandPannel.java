@@ -1,16 +1,21 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+
+import util.HSVArray;
+
+import core.Background;
 
 import dirUtils.ImageLoader;
 
 public class CommandPannel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	
 	private JButton back;
 	private JButton forward;
 	private JButton play;
@@ -32,15 +37,16 @@ public class CommandPannel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				SwingUtilities.invokeLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-				// TODO Auto-generated method stub
+				
+				try {
+					Background b = Background.getBackground();
+					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
+					b.getInitialContour();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				Thread t = new Thread("t") {
 					@Override
 					public void run() {
@@ -49,13 +55,18 @@ public class CommandPannel extends JPanel {
 							BufferedImage imagen;
 							try {
 								imagen = imageLoader.getFrame(i);
+								
+									Background b = Background.getBackground();
+									b.setCurrent(new HSVArray(imagen));
+									b.getInitialContour();
+
 								try {
 									Thread.sleep(41);
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-								imagePanel.setImage(imagen);
+								imagePanel.setImage(imagen , i);
 								repaint();
 
 							} catch (IOException e) {
@@ -80,6 +91,16 @@ public class CommandPannel extends JPanel {
 				}
 				currentFrame--;
 
+				
+				try {
+					Background b = Background.getBackground();
+					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
+					b.getInitialContour();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				if (currentFrame == 0) {
 					back.setEnabled(false);
 					return;
@@ -87,7 +108,7 @@ public class CommandPannel extends JPanel {
 				try {
 					System.out.println("new frame" + currentFrame);
 					BufferedImage imagen = imageLoader.getFrame(currentFrame);
-					imagePanel.setImage(imagen);
+					imagePanel.setImage(imagen, currentFrame);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -103,6 +124,16 @@ public class CommandPannel extends JPanel {
 					back.setEnabled(true);
 				}
 				currentFrame++;
+				try {
+					Background b = Background.getBackground();
+					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
+					b.getInitialContour();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				
 				if (currentFrame == imageLoader.getMaxFrame()) {
 					forward.setEnabled(false);
 					return;
@@ -110,7 +141,7 @@ public class CommandPannel extends JPanel {
 				try {
 					System.out.println("new frame" + currentFrame);
 					BufferedImage imagen = imageLoader.getFrame(currentFrame);
-					imagePanel.setImage(imagen);
+					imagePanel.setImage(imagen, currentFrame);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

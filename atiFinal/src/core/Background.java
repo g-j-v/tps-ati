@@ -9,10 +9,14 @@ public class Background {
 	
 	HSVArray back;
 	HSVArray current;
-	static int TOLERANCE = 10;
+	static int THRESHOLD = 100;
+	static int COLORDIFF = 50;
+	
+	
+	static int COLOR = 0;
 	static int WIDTH = 10;
 	static int HEIGHT = 10;
-	
+	public Contour contour;
 	static Background background;
 	private Background(BufferedImage image) {
 	back = new HSVArray(image);
@@ -30,17 +34,17 @@ public class Background {
 	}
 	
 	private boolean isImage(int x, int y) {
-		return back.getColor(x, y) - current.getColor(x, y) > TOLERANCE;
+		return Math.abs(back.getColor(x, y) - current.getColor(x, y)) > THRESHOLD  /*&& Math.abs(current.getColor(x, y) - COLOR) < COLORDIFF*/;
 	}
 	
 	private boolean isBackground(int x, int y) {
-		return back.getColor(x, y) - current.getColor(x, y) < TOLERANCE; 
+		return Math.abs(back.getColor(x, y) - current.getColor(x, y)) < THRESHOLD  /*&& Math.abs(current.getColor(x, y) - COLOR) > COLORDIFF*/; 
 	}
 	
 	
 	public Contour getInitialContour()
 	{
-		Contour contour = new Contour();
+		contour = new Contour();
 		for (int i = 1; i < WIDTH -1; i++) {
 			for (int j = 1; j < HEIGHT-1; j++) {
 				if(isBackground(i, j))
@@ -71,6 +75,10 @@ public class Background {
 
 	public void setCurrent(HSVArray current) {
 		this.current = current;
+	}
+
+	public void setColor(int x, int y) {
+		COLOR = current.getColor(x, y);
 	}
 
 	

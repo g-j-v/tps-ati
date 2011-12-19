@@ -27,7 +27,9 @@ public class HSVArray {
 				float hue = hsb[0]; 
 				float saturation = hsb[1];
 				float brightness = hsb[2];
-				intensity[i][j] = (int)( (255.0 * hue) + (255.0 * saturation)+ (255.0 * brightness)  ) /3;
+//				intensity[i][j] = (int)( (255.0 * hue) + (255.0 * saturation)+ (255.0 * brightness)  ) /3;
+				intensity[i][j] = red + blue + green;
+				
 				//System.out.println(intensity[i][j]);
 			}
 		}
