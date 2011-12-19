@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import util.HSVArray;
+
 import dirUtils.ImageLoader;
 
 public class ImagePanel extends JPanel implements MouseListener {
