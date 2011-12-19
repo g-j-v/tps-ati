@@ -10,10 +10,13 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import util.HSVArray;
+
+import core.Background;
+
 public class ImageLoader {
 	
 	public static ImageLoader Loader;
-	private static String frameWord = "Frame";
 	private String path;
 	private String ext;
 	private int initialFrame;
@@ -65,6 +68,14 @@ public class ImageLoader {
 		});
 		this.maxFrame = images.size();
 		System.out.println(images);
+		try {
+			Background background = Background.getBackground(getFrame(1));
+			background.setCurrent(new HSVArray(getFrame(2)));
+			background.getInitialContour();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Loader = this;
 	}
 	
