@@ -69,8 +69,8 @@ public class ImageLoader {
 		this.maxFrame = images.size();
 		System.out.println(images);
 		try {
-			Background background = Background.getBackground(getFrame(1));
-			background.setCurrent(new HSVArray(getFrame(2)));
+			Background background = Background.getBackground(getFrame(0));
+			background.setCurrent(new HSVArray(getFrame(1)));
 			background.getInitialContour();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -83,11 +83,11 @@ public class ImageLoader {
 		return initialFrame;
 	}
 	public int getMaxFrame(){
-		return maxFrame;
+		return maxFrame - 1;
 	}
 	
 	public BufferedImage getFrame(int i) throws IOException{
-		System.out.println("path" +path + "/" + images.get(i - 1) );
-		return ImageIO.read(new File(path + "/" + images.get(i - 1)));
+		System.out.println("path" +path + "/" + images.get(i) );
+		return ImageIO.read(new File(path + "/" + images.get(i)));
 	}
 }

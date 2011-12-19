@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import core.Background;
+
 import util.HSVArray;
 
 import dirUtils.ImageLoader;
@@ -23,6 +25,7 @@ public class ImagePanel extends JPanel implements MouseListener {
 	public Image img;
 	public HSVArray array;
 	public Frame frame;
+	public Background background;
 
 	public ImagePanel(String img) {
 		this(new ImageIcon(img).getImage());
@@ -50,8 +53,9 @@ public class ImagePanel extends JPanel implements MouseListener {
 
 	}
 
-	public void setImage(BufferedImage img){
+	public void setImage(BufferedImage img , int frameNumber){
 		this.img = img;
+		background = Background.getBackground();
 		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
 		setPreferredSize(size);
 		setMinimumSize(size);
@@ -59,6 +63,9 @@ public class ImagePanel extends JPanel implements MouseListener {
 		setSize(size);
 		addMouseListener(this);
 		setLayout(null);
+		System.out.println(frameNumber);
+		if(frameNumber == 1)
+		
 		 if(frame != null)
 		 {
 			 Point aux = frame.getMidPoint();
@@ -76,18 +83,16 @@ public class ImagePanel extends JPanel implements MouseListener {
 
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
-		if (frame != null) {
+		if (background != null) {
 			g.setColor(Color.GREEN);
-			for (Point p : frame.region) {
-				g.fillRect(p.x, p.y, 1, 1);
-			}
-			g.setColor(Color.MAGENTA);
-			for (Point p : frame.Lin) {
+
+			g.setColor(Color.RED);
+			for (Point p : background.contour.Lin) {
 				g.fillRect(p.x, p.y, 1, 1);
 				//System.out.println("Lin x " + p.x + " y " + p.y);
 			}
-			g.setColor(Color.RED);
-			for (Point p : frame.Lout) {
+			g.setColor(Color.BLUE);
+			for (Point p : background.contour.Lout) {
 				g.fillRect(p.x, p.y, 1, 1);
 				//System.out.println("Lout x " + p.x + " y " + p.y);
 			}
@@ -101,13 +106,16 @@ public class ImagePanel extends JPanel implements MouseListener {
 
 	public void mouseReleased(MouseEvent e) {
 		// System.out.println("Mouse released (# of clicks: ");
+		if(background == null)
+			background = Background.getBackground();
+		background.setColor(e.getX(), e.getY() );
 		System.out.println("x " + e.getX() + " y " + e.getY());
 		frame = new Frame(array, e.getX(), e.getY(), array.getColor(e.getX(), e.getY()));
 		// frame.floodFill(new Point(e.getX(), e.getY()));
-		frame.cicle1();
-		frame.clean();
-		// ImageLoader.Loader.getFrame(i)
-		System.out.println(frame.getMidPoint());
+//		frame.cicle1();
+//		frame.clean();
+//		// ImageLoader.Loader.getFrame(i)
+//		System.out.println(frame.getMidPoint());
 		repaint();
 	}
 
