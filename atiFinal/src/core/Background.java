@@ -2,6 +2,7 @@ package core;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import util.HSVArray;
 
@@ -12,7 +13,8 @@ public class Background {
 	HSVArray last;
 	
 	static int THRESHOLD = 100;
-	static int COLORDIFF = 30;
+	static int COLORDIFF = 50;
+
 	
 	
 	static int COLOR = 0;
@@ -49,6 +51,12 @@ public class Background {
 	
 	public Contour getInitialContour()
 	{
+		int[][] aux = new int[WIDTH][HEIGHT];
+		for(int i = 0; i < WIDTH; i++){
+			for(int j = 0; j < HEIGHT; j++){
+				aux[i][j] = 0;
+			}
+		}
 		contour = new Contour(this);
 		for (int i = 1; i < WIDTH -1; i++) {
 			for (int j = 1; j < HEIGHT-1; j++) {
@@ -61,6 +69,7 @@ public class Background {
 				}
 				if(isImage(i, j))
 				{
+					aux[i][j] = 255;
 					if(isBackground(i + 1, j) || isBackground(i - 1, j) || isBackground(i, j + 1) || isBackground(i, j - 1))
 					{
 						contour.Lin.add(new Point(i, j));
@@ -70,10 +79,56 @@ public class Background {
 			}
 		}
 		
-		//contour.cicle1();
+		int intValues[][] = new int[WIDTH][HEIGHT];
+
+		for(int i=1; i < WIDTH - 1 ; i++ ){
+			for(int j=1; j < HEIGHT - 1; j++ ){
+				int[][] mask = new int[3][3];
+				for (int x = i -1, maskx = 0; x < i - 1 + mask.length; x++, maskx++) {
+					for (int y = j-1, masky = 0; y < j - 1 + mask[0].length; y++, masky++) {
+						//System.out.println("(" + x + "," + y +")");
+						mask[maskx][masky] = aux[x][y];
+					}
+				}
+				int value = calculateValue(mask);
+				intValues[i][j] = value;
+			}
+		}
+		
+
+		ArrayList<Point> linCopy = new ArrayList<Point>();
+		for (Point obj : contour.Lin) {
+			linCopy.add((Point) obj.clone());
+		}
+		for (Point point : linCopy) {
+			if ((intValues[point.x][point.y] < 50)) {
+				contour.Lin.remove(point);
+			}
+		}
+		
+		ArrayList<Point> loutCpy = new ArrayList<Point>();
+		for (Point obj : contour.Lout) {
+			loutCpy.add((Point) obj.clone());
+		}
+		for (Point point : loutCpy) {
+			if ((intValues[point.x][point.y] < 50)) {
+				contour.Lout.remove(point);
+			}
+		}
+
+
 		return contour;
 	}
 
+	protected static int calculateValue(int[][] mask) {
+			int ans = 0;
+			for (int i = 0; i < mask.length; i++) {
+				for (int j = 0; j < mask[i].length; j++) {
+					ans += mask[i][j];
+				}
+			}
+			return (int) Math.floor(ans * 1/9);
+	}
 	public HSVArray getCurrent() {
 		return current;
 	}
