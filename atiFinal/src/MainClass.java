@@ -21,7 +21,7 @@ public class MainClass {
 		ImageLoader loader = new ImageLoader(selFile);
 		JPanel panel = new CommandPannel(panel2,loader);
 		
-		panel.add(panel2);
+		
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);

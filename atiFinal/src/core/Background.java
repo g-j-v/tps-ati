@@ -12,8 +12,8 @@ public class Background {
 	HSVArray current;
 	HSVArray last;
 	
-	static int THRESHOLD = 100;
-	static int COLORDIFF = 50;
+	public static int THRESHOLD = 100;
+	public static int COLORDIFF = 30;
 
 	
 	
