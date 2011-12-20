@@ -109,8 +109,10 @@ public class ImagePanel extends JPanel implements MouseListener {
 		if(background == null)
 			background = Background.getBackground();
 		background.setColor(e.getX(), e.getY() );
+		background.getInitialContour();
+		
 		System.out.println("x " + e.getX() + " y " + e.getY());
-		frame = new Frame(array, e.getX(), e.getY(), array.getColor(e.getX(), e.getY()));
+		//frame = new Frame(array, e.getX(), e.getY(), array.getColor(e.getX(), e.getY()));
 		// frame.floodFill(new Point(e.getX(), e.getY()));
 //		frame.cicle1();
 //		frame.clean();
