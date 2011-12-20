@@ -91,7 +91,7 @@ public class ImagePanel extends JPanel implements MouseListener {
 				g.fillRect(p.x, p.y, 1, 1);
 				//System.out.println("Lin x " + p.x + " y " + p.y);
 			}
-			g.setColor(Color.BLUE);
+			g.setColor(Color.GREEN);
 			for (Point p : background.contour.Lout) {
 				g.fillRect(p.x, p.y, 1, 1);
 				//System.out.println("Lout x " + p.x + " y " + p.y);
