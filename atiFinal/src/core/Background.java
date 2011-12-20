@@ -12,7 +12,7 @@ public class Background {
 	HSVArray last;
 	
 	static int THRESHOLD = 100;
-	static int COLORDIFF = 50;
+	static int COLORDIFF = 5;
 	
 	
 	static int COLOR = 0;
@@ -39,11 +39,11 @@ public class Background {
 	}
 	
 	public boolean isImage(int x, int y) {
-		return Math.abs(back.getColor(x, y) - current.getColor(x, y)) > THRESHOLD  /*&& Math.abs(current.getColor(x, y) - COLOR) < COLORDIFF*/;
+		return Math.abs(back.getColor(x, y) - current.getColor(x, y)) > THRESHOLD  && Math.abs(current.getColor(x, y) - COLOR) < COLORDIFF;
 	}
 	
 	public boolean isBackground(int x, int y) {
-		return Math.abs(back.getColor(x, y) - current.getColor(x, y)) < THRESHOLD  /*&& Math.abs(current.getColor(x, y) - COLOR) > COLORDIFF*/; 
+		return Math.abs(back.getColor(x, y) - current.getColor(x, y)) < THRESHOLD  || Math.abs(current.getColor(x, y) - COLOR) > COLORDIFF; 
 	}
 	
 	

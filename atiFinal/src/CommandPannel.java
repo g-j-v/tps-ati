@@ -128,7 +128,8 @@ public class CommandPannel extends JPanel {
 				try {
 					Background b = Background.getBackground();
 					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
-					b.contour.cicle1();
+					//b.contour.cicle1();
+					b.getInitialContour();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
