@@ -12,7 +12,7 @@ public class Background {
 	HSVArray last;
 	
 	static int THRESHOLD = 100;
-	static int COLORDIFF = 5;
+	static int COLORDIFF = 30;
 	
 	
 	static int COLOR = 0;
