@@ -22,44 +22,47 @@ import dirUtils.ImageLoader;
 public class CommandPannel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JButton back;
 	private JButton forward;
 	private JButton play;
 	private JButton pause;
 	private JSlider colorSlider;
 	private JSlider errorSlider;
-	private JLabel colorLabel= new JLabel("Color Tolerance");;
+	private JLabel colorLabel = new JLabel("Color Tolerance");;
 	private JLabel errorLabel = new JLabel("Threshold");
 	@SuppressWarnings("unused")
 	private ImagePanel imagePanel;
 	private ImageLoader imageLoader;
 	private int currentFrame;
-	private JPanel sliders= new JPanel();
+	private JPanel sliders = new JPanel();
 	private JPanel buttons = new JPanel();
 	Thread t = new Thread();
+
 	public CommandPannel(final ImagePanel imagePanel, ImageLoader loader) {
 		setLayout(new GridBagLayout());
 		back = new JButton("<<");
 		play = new JButton("|>");
 		pause = new JButton("[]");
 		forward = new JButton(">>");
-		colorSlider = new JSlider(JSlider.HORIZONTAL, 0,255*3, Background.COLORDIFF);
+		colorSlider = new JSlider(JSlider.HORIZONTAL, 0, 255 * 3,
+				Background.COLORDIFF);
 		colorSlider.setMajorTickSpacing(10);
 		colorSlider.setMinorTickSpacing(5);
 		colorSlider.setPaintTicks(true);
-		//colorSlider.setPaintLabels(true);
+		// colorSlider.setPaintLabels(true);
 		colorSlider.setBackground(new Color(192, 204, 226));
-		//colorSlider.setPreferredSize(new Dimension(600, 100));
+		// colorSlider.setPreferredSize(new Dimension(600, 100));
 		GridBagConstraints c = new GridBagConstraints();
 
-		errorSlider = new JSlider(JSlider.HORIZONTAL, 0,255*3, Background.THRESHOLD); //THRESHOLD
+		errorSlider = new JSlider(JSlider.HORIZONTAL, 0, 255 * 3,
+				Background.THRESHOLD); // THRESHOLD
 		errorSlider.setMajorTickSpacing(10);
 		errorSlider.setMinorTickSpacing(5);
 		errorSlider.setPaintTicks(true);
-		//errorSlider.setPaintLabels(true);
+		// errorSlider.setPaintLabels(true);
 		errorSlider.setBackground(new Color(192, 204, 226));
-		//errorSlider.setPreferredSize(new Dimension(600, 100));
+		// errorSlider.setPreferredSize(new Dimension(600, 100));
 		colorSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -69,7 +72,7 @@ public class CommandPannel extends JPanel {
 				}
 			};
 		});
-		
+
 		errorSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -81,39 +84,36 @@ public class CommandPannel extends JPanel {
 		});
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 0;		
+		c.gridy = 0;
 		sliders.add(colorLabel);
 		sliders.add(colorSlider);
 
 		sliders.add(errorLabel);
-		sliders.add(errorSlider);		
+		sliders.add(errorSlider);
 
-		
 		add(sliders, c);
 		this.imagePanel = imagePanel;
 		this.imageLoader = loader;
 		this.currentFrame = loader.getInitFrame();
 
-		
-		
 		pause.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(t.isAlive())
+				if (t.isAlive())
 					t.interrupt();
-				
+
 				try {
 					Background b = Background.getBackground();
-					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
-					//b.contour.cicle1();
+					b.setCurrent(new HSVArray(imageLoader
+							.getFrame(currentFrame)));
+					// b.contour.cicle1();
 					b.getInitialContour();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
-				
 				if (currentFrame == imageLoader.getMaxFrame()) {
 					forward.setEnabled(false);
 					return;
@@ -136,9 +136,10 @@ public class CommandPannel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				Background b = Background.getBackground();
-				
+
 				try {
-					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
+					b.setCurrent(new HSVArray(imageLoader
+							.getFrame(currentFrame)));
 					b.getInitialContour();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -152,18 +153,26 @@ public class CommandPannel extends JPanel {
 						for (int i = currentFrame; i <= imageLoader
 								.getMaxFrame(); i++) {
 							BufferedImage imagen;
+							long startTime = System.currentTimeMillis();
 							try {
 								imagen = imageLoader.getFrame(i);
-								
-									b.setCurrent(new HSVArray(imagen));
-									//b.contour.cicle1();
-									b.getInitialContour();
-								try {
-									Thread.sleep(41);
-								} catch (InterruptedException e) {
-									break;
+
+								b.setCurrent(new HSVArray(imagen));
+								// b.contour.cicle1();
+								b.getInitialContour();
+								startTime = System.currentTimeMillis()
+										- startTime;
+								startTime = 41 - startTime;
+								System.out.println(startTime);
+
+								if (startTime > 0) {
+									try {
+										Thread.sleep(startTime);
+									} catch (InterruptedException e) {
+										break;
+									}
 								}
-								imagePanel.setImage(imagen , i);
+								imagePanel.setImage(imagen, i);
 								repaint();
 
 							} catch (IOException e) {
@@ -188,10 +197,10 @@ public class CommandPannel extends JPanel {
 				}
 				currentFrame--;
 
-				
 				try {
 					Background b = Background.getBackground();
-					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
+					b.setCurrent(new HSVArray(imageLoader
+							.getFrame(currentFrame)));
 					b.getInitialContour();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -223,15 +232,15 @@ public class CommandPannel extends JPanel {
 				currentFrame++;
 				try {
 					Background b = Background.getBackground();
-					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
-					//b.contour.cicle1();
+					b.setCurrent(new HSVArray(imageLoader
+							.getFrame(currentFrame)));
+					// b.contour.cicle1();
 					b.getInitialContour();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
-				
 				if (currentFrame == imageLoader.getMaxFrame()) {
 					forward.setEnabled(false);
 					return;
@@ -257,7 +266,7 @@ public class CommandPannel extends JPanel {
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
 		add(buttons, c);
-		
+
 		c.gridx = 2;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
