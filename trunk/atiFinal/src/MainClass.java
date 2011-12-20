@@ -13,6 +13,7 @@ public class MainClass {
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("This is my first JFrame");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(300, 200);
 		JFileChooser fc = new JFileChooser();
 		fc.showOpenDialog(frame);
