@@ -37,9 +37,9 @@ public class CommandPannel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
+				Background b = Background.getBackground();
 				
 				try {
-					Background b = Background.getBackground();
 					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
 					b.getInitialContour();
 				} catch (IOException e1) {
@@ -50,16 +50,17 @@ public class CommandPannel extends JPanel {
 				Thread t = new Thread("t") {
 					@Override
 					public void run() {
+						Background b = Background.getBackground();
+
 						for (int i = currentFrame; i <= imageLoader
 								.getMaxFrame(); i++) {
 							BufferedImage imagen;
 							try {
 								imagen = imageLoader.getFrame(i);
 								
-									Background b = Background.getBackground();
 									b.setCurrent(new HSVArray(imagen));
+									//b.contour.cicle1();
 									b.getInitialContour();
-
 								try {
 									Thread.sleep(41);
 								} catch (InterruptedException e) {
@@ -127,7 +128,7 @@ public class CommandPannel extends JPanel {
 				try {
 					Background b = Background.getBackground();
 					b.setCurrent(new HSVArray(imageLoader.getFrame(currentFrame)));
-					b.getInitialContour();
+					b.contour.cicle1();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
